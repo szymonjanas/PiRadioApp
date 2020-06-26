@@ -12,8 +12,13 @@ pkg_check_modules(GST REQUIRED gstreamer-1.0>=1.2)
 include_directories("${GST_INCLUDE_DIRS}")
 link_libraries(${GST_LIBRARIES})
 
+set (SOURCES
+    source/main.cpp
+    source/AudioEngine.cpp)
+include_directories(source)
 
-
+add_executable(${PROJECT_NAME} ${SOURCES})
+target_link_libraries(${PROJECT_NAME} ${GST_LIBRARIES})
 
 
 
