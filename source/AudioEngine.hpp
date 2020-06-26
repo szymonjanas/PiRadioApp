@@ -6,15 +6,16 @@
 class AudioEngine {
 
     GstBus *bus;
-    guint bus_watch_id;
     GstElement *pipeline;
 
-    static gboolean bus_call(   GstBus* bus, GstMessage* msg, gpointer data);
+    void setPipeline(std::string);
+    void deletePipeline();
 
 public:
 
     AudioEngine(std::string url);
     ~AudioEngine();
+    void setUrl(std::string url);
     void play();
     void pause();
     void stop();

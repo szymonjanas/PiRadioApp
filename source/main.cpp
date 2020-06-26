@@ -2,16 +2,24 @@
 #include <iostream>
 
 int main(){
-    std::cout << "Hello World!";
+    std::cout << "Hello World!" << std::endl;
 
     AudioEngine audio("https://stream.open.fm/127?type=.mp3");
-    char in;
+    std::string in;
     while (true){
         std::cin >> in;
-        switch (in){
-            case 'P': audio.pause(); break;
-            case 'p': audio.play(); break;
-            case 's': audio.stop();
+        if (in == "play") audio.play();
+        if (in == "pause") audio.pause();
+        if (in == "stop") audio.stop();
+        if (in == "url"){
+            std::string url;
+            std::cin >> url;
+            if (url != "exit")
+                audio.setUrl(url);
+        }
+        if (in == "exit"){
+            audio.~AudioEngine();
+            exit(0);
         }
     }
 }
