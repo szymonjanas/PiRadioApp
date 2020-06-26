@@ -16,7 +16,7 @@ public:
 
     enum AudioState {PLAY, PAUSE, STOP};
 
-    AudioEngine(const char* url);
+    AudioEngine(std::string url);
     bool setState(AudioState state);
 };
 

@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <memory>
 
-AudioEngine::AudioEngine(const char* url){
+AudioEngine::AudioEngine(std::string url){
     int Argc = 1;
     char** Argv = new char* ();
     Argv[0] = "foo";
@@ -10,8 +10,8 @@ AudioEngine::AudioEngine(const char* url){
 
     loop = g_main_loop_new(NULL, FALSE);
 
-    char* playbinText = "playbin uri=https://stream.open.fm/127?type=.mp3";
-    pipeline = gst_parse_launch("playbin uri=https://stream.open.fm/127?type=.mp3", NULL);
+    std::string playbinText = "playbin uri=" + url;
+    pipeline = gst_parse_launch(playbinText.c_str(), NULL);
 
     if (!pipeline){
         g_printerr("Pipeline could not be created. Exiting...\n");
@@ -58,7 +58,6 @@ bool AudioEngine::setState(AudioState state){
     case AudioState::PLAY:
         gst_element_set_state (pipeline, GST_STATE_PLAYING);
         g_print ("Running...\n");
-        g_main_loop_run(loop);
         break;
     case AudioState::PAUSE:
         gst_element_set_state (pipeline, GST_STATE_PAUSED);
@@ -67,7 +66,6 @@ bool AudioEngine::setState(AudioState state){
     case AudioState::STOP:
         g_print ("Returned, stopping playback\n");
         gst_element_set_state (pipeline, GST_STATE_NULL);
-        g_main_loop_quit (loop);
         break;
     }
 }
