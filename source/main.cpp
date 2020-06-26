@@ -9,9 +9,9 @@ int main(){
     while (true){
         std::cin >> in;
         switch (in){
-            case 'P': audio.setState(AudioEngine::AudioState::PAUSE); break;
-            case 'p': audio.setState(AudioEngine::AudioState::PLAY); break;
-            case 's': audio.setState(AudioEngine::AudioState::STOP);
+            case 'P': audio.pause(); break;
+            case 'p': audio.play(); break;
+            case 's': audio.stop();
         }
     }
 }

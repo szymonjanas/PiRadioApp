@@ -17,7 +17,7 @@ public:
     ~AudioEngine();
     void play();
     void pause();
-    void play();
+    void stop();
 };
 
 
