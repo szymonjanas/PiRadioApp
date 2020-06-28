@@ -20,23 +20,3 @@ public:
     void pause();
     void stop();
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
