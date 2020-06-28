@@ -5,8 +5,7 @@ AudioEngine::AudioEngine(std::string url){
     char** Argv = new char* ();
     Argv[0] = "fake";
     gst_init (&Argc, &Argv);
-//    delete Argv[0];
-//    delete Argv;
+    delete [] Argv;
 
     std::string playbinText = "playbin uri=" + url;
     pipeline = gst_parse_launch(playbinText.c_str(), NULL);
