@@ -3,7 +3,7 @@
 AudioEngine::AudioEngine(std::string url){
     int Argc = 1;
     char** Argv = new char* ();
-    Argv[0] = "fake";
+    Argv[0] = (char*) "fake";
     gst_init (&Argc, &Argv);
     delete [] Argv;
 
@@ -13,6 +13,48 @@ AudioEngine::AudioEngine(std::string url){
         g_printerr("Pipeline could not be created. Exiting...\n");
         throw "One element of AudioEngine could not be created!";
     }
+
+    bus = gst_pipeline_get_bus (GST_PIPELINE (pipeline));
+}
+
+void AudioEngine::debugMessage(){
+    msg = gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE, GST_MESSAGE_TAG);
+    if (msg != NULL)
+        switch (GST_MESSAGE_TYPE (msg)){
+            case GST_MESSAGE_TAG:
+                GstTagList *tags = NULL;
+                gst_message_parse_tag(msg, &tags);
+                GValue* value;
+                gchar* strTags = gst_tag_list_to_string(tags);
+                g_print("Tag list: %s \n", strTags);
+
+                gboolean size =
+                gst_tag_list_get_tag_size(tags, GST_TAG_TITLE);
+                g_print ("Got title tag with size %i\n", (int) size);
+                if (size){
+                    gchar* title;
+                    gst_tag_list_get_string (tags, GST_TAG_TITLE, &title);
+                    g_print("VALUE: %s \n", title);
+                }
+        }
+}
+
+std::string AudioEngine::getTitle(){
+    msg = gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE, GST_MESSAGE_TAG);
+    if (msg != NULL)
+        switch (GST_MESSAGE_TYPE (msg)){
+            case GST_MESSAGE_TAG: {
+                GstTagList *tags = NULL;
+                gst_message_parse_tag(msg, &tags);
+                gboolean size = gst_tag_list_get_tag_size(tags, GST_TAG_TITLE);
+                if (size){
+                    gchar* title;
+                    gst_tag_list_get_string (tags, GST_TAG_TITLE, &title);
+                    return std::string(title);
+                }
+            }
+        }
+    return "unknown";
 }
 
 AudioEngine::~AudioEngine(){
@@ -33,4 +75,23 @@ void AudioEngine::pause(){
 void AudioEngine::stop(){
     g_print ("Returned, stopping playback.\n");
     gst_element_set_state (pipeline, GST_STATE_NULL);
+}
+
+gboolean
+AudioEngine::my_bus_callback (GstBus * bus, GstMessage * message, gpointer data)
+{
+    std::cout << "HELLO!" << std::endl;
+    g_print("HELLLLLLOOOOO!!!");
+    //  g_print ("Got %s message\n", GST_MESSAGE_TYPE_NAME (message));
+//  switch (GST_MESSAGE_TYPE (msg)) {
+//    case GST_MESSAGE_TAG: {
+//      GstTagList *tags = NULL;
+
+//      gst_message_parse_tag (msg, &amp.tags);
+//      g_print ("Got tags from element %s\n", GST_OBJECT_NAME (msg->src));
+//      handle_tags (tags);
+//      gst_tag_list_unref (tags);
+//      break;
+//    }
+  return TRUE;
 }
