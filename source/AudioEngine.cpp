@@ -57,6 +57,11 @@ std::string AudioEngine::getTitle(){
     return "unknown";
 }
 
+void AudioEngine::setVolume(double volume){
+    GstElement* pulseSink = gst_bin_get_by_name(GST_BIN(pipeline), "pulsesink1");
+    g_object_set(G_OBJECT(pulseSink), "volume", volume);
+}
+
 AudioEngine::~AudioEngine(){
     gst_element_set_state(pipeline, GST_STATE_NULL);
     gst_object_unref(pipeline);

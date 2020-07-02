@@ -21,4 +21,5 @@ public:
     void stop();
     void debugMessage();
     std::string getTitle();
+    void setVolume(double volume);
 };

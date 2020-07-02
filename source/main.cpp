@@ -12,6 +12,11 @@ int main(){
         if (in == "pause") audio->pause();
         if (in == "stop") audio->stop();
         if (in == "title") std::cout << audio->getTitle() << std::endl;
+        if (in == "volume"){
+            double volume;
+            std::cin >> volume;
+            audio->setVolume(volume);
+        }
         if (in == "url"){
             std::string url;
             std::cin >> url;
