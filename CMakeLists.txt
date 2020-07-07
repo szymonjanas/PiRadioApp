@@ -14,9 +14,8 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 # WebToolKit
 SET (WT_CONNECTOR "wthttp" CACHE STRING "Connector used (wthttp or wtfcgi)")
-find_package( Wt REQUIRED COMPONENTS WApplication )
+find_package( Wt REQUIRED )
 include_directories(${Wt_INCLUDE_DIR})
-LINK_DIRECTORIES(/usr/local/lib)
 
 # Gstreamer
 set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
