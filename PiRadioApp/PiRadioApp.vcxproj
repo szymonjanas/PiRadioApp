@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)PiRadioApp\AudioEngine\;$(SolutionDir)PiRadioApp\WebEngine\;$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)PiRadioApp\AudioEngine\;$(SolutionDir)PiRadioApp\WebEngine\;$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
