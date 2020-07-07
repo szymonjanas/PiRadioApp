@@ -1,0 +1,14 @@
+prefix=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+exec_prefix=${prefix}
+libdir=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib
+includedir=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/include
+
+Name: libswresample
+Description: FFmpeg audio resampling library
+Version: 3.3.100
+Requires: 
+Requires.private: libavutil >= 56.22.100
+Conflicts:
+Libs: -L${libdir}  -lswresample 
+Libs.private: -lm
+Cflags: -I${includedir}

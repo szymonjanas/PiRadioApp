@@ -1,0 +1,14 @@
+prefix=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+exec_prefix=${prefix}
+libdir=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib
+includedir=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/include
+
+Name: libavcodec
+Description: FFmpeg codec library
+Version: 58.35.100
+Requires: 
+Requires.private: libswresample >= 3.3.100, libavutil >= 56.22.100
+Conflicts:
+Libs: -L${libdir}  -lavcodec 
+Libs.private: -pthread -lm -LC:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib -lz
+Cflags: -I${includedir}

@@ -1,0 +1,16 @@
+prefix=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+exec_prefix=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+libdir=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib
+includedir=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/include/orc-0.4
+toolsdir=${exec_prefix}/bin
+
+
+Name: orc-0.4
+Description: Library of Optimized Inner Loops Runtime Compiler
+Version: 0.4.29
+Libs: -L${libdir} -lorc-0.4
+Libs.private: -lm  
+Cflags: -I${includedir}
+
+orcc=${toolsdir}/orcc.exe
+

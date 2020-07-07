@@ -1,0 +1,10 @@
+prefix=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+exec_prefix=${prefix}
+libdir=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib
+includedir=${prefix}/include
+
+Name: libdca
+Description: A decoding library for DTS Coherent Acoustics streams.
+Version: 0.0.5
+Libs: -L${libdir} -ldca
+Cflags: -I${includedir}/libdca

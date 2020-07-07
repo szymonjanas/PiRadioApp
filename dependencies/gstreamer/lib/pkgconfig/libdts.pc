@@ -1,0 +1,11 @@
+prefix=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+exec_prefix=${prefix}
+libdir=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib
+includedir=${prefix}/include
+
+Name: libdts
+Description: Backward compatibility place-holder for libdca.
+Version: 0.0.5
+Requires: libdca = 0.0.5
+Libs: -L${libdir} -ldca
+Cflags: -I${includedir}/libdca

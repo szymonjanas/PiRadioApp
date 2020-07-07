@@ -1,0 +1,15 @@
+# This is the pkg-config file for libkate
+prefix=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+exec_prefix=${prefix}
+libdir=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib
+includedir=${prefix}/include
+
+Name: Kate
+Description: libkate is a codec library for the Kate bitstream format
+Version: 0.4.1
+URL: http://libkate.googlecode.com/
+Requires: 
+Conflicts: 
+Libs: -L${libdir} -lkate
+Libs.private: 
+Cflags: -I${includedir}

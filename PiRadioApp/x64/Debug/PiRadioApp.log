@@ -1,0 +1,5 @@
+﻿  AudioEngine.cpp
+D:\DevProjects\PiRadioApp-vs\PiRadioApp\PiRadioApp\AudioEngine\AudioEngine.cpp(27,25): warning C4101: 'value': unreferenced local variable
+  PiRadioApp.cpp
+  Generating Code...
+  PiRadioApp.vcxproj -> D:\DevProjects\PiRadioApp-vs\PiRadioApp\x64\Debug\PiRadioApp.exe

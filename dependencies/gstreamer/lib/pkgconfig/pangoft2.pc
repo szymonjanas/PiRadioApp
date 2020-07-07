@@ -1,0 +1,12 @@
+prefix=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+exec_prefix=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+libdir=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib
+includedir=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/include
+
+Name: Pango FT2 and Pango Fc
+Description: Freetype 2.0 and fontconfig font support for Pango
+Version: 1.42.3
+Requires: pango freetype2 fontconfig
+Requires.private: harfbuzz
+Libs: -L${libdir} -lpangoft2-1.0   
+Cflags: -I${includedir}/pango-1.0

@@ -1,0 +1,25 @@
+﻿  AudioEngine.cpp
+D:\DevProjects\PiRadioApp-vs\PiRadioApp\PiRadioApp\AudioEngine\AudioEngine.cpp(27,25): warning C4101: 'value': unreferenced local variable
+  PiRadioApp.cpp
+  Generating Code...
+AudioEngine.obj : error LNK2019: unresolved external symbol _g_print referenced in function "public: void __thiscall AudioEngine::debugMessage(void)" (?debugMessage@AudioEngine@@QAEXXZ)
+AudioEngine.obj : error LNK2019: unresolved external symbol _g_printerr referenced in function "public: __thiscall AudioEngine::AudioEngine(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0AudioEngine@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+AudioEngine.obj : error LNK2019: unresolved external symbol _g_type_check_instance_cast referenced in function "public: __thiscall AudioEngine::AudioEngine(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0AudioEngine@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+AudioEngine.obj : error LNK2019: unresolved external symbol _g_object_set referenced in function "public: void __thiscall AudioEngine::setVolume(double)" (?setVolume@AudioEngine@@QAEXN@Z)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_object_unref referenced in function "public: __thiscall AudioEngine::~AudioEngine(void)" (??1AudioEngine@@QAE@XZ)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_tag_list_to_string referenced in function "public: void __thiscall AudioEngine::debugMessage(void)" (?debugMessage@AudioEngine@@QAEXXZ)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_tag_list_get_tag_size referenced in function "public: void __thiscall AudioEngine::debugMessage(void)" (?debugMessage@AudioEngine@@QAEXXZ)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_tag_list_get_string referenced in function "public: void __thiscall AudioEngine::debugMessage(void)" (?debugMessage@AudioEngine@@QAEXXZ)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_message_parse_tag referenced in function "public: void __thiscall AudioEngine::debugMessage(void)" (?debugMessage@AudioEngine@@QAEXXZ)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_bus_timed_pop_filtered referenced in function "public: void __thiscall AudioEngine::debugMessage(void)" (?debugMessage@AudioEngine@@QAEXXZ)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_element_set_state referenced in function "public: __thiscall AudioEngine::~AudioEngine(void)" (??1AudioEngine@@QAE@XZ)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_bin_get_type referenced in function "public: void __thiscall AudioEngine::setVolume(double)" (?setVolume@AudioEngine@@QAEXN@Z)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_bin_get_by_name referenced in function "public: void __thiscall AudioEngine::setVolume(double)" (?setVolume@AudioEngine@@QAEXN@Z)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_pipeline_get_type referenced in function "public: __thiscall AudioEngine::AudioEngine(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0AudioEngine@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_pipeline_get_bus referenced in function "public: __thiscall AudioEngine::AudioEngine(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0AudioEngine@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_parse_launch referenced in function "public: __thiscall AudioEngine::AudioEngine(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0AudioEngine@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+AudioEngine.obj : error LNK2019: unresolved external symbol __imp__gst_init referenced in function "public: __thiscall AudioEngine::AudioEngine(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0AudioEngine@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+D:\DevProjects\PiRadioApp-vs\PiRadioApp\dependencies\gstreamer\lib\gobject-2.0.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+D:\DevProjects\PiRadioApp-vs\PiRadioApp\dependencies\gstreamer\lib\glib-2.0.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+D:\DevProjects\PiRadioApp-vs\PiRadioApp\dependencies\gstreamer\lib\gstreamer-1.0.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+D:\DevProjects\PiRadioApp-vs\PiRadioApp\Debug\PiRadioApp.exe : fatal error LNK1120: 17 unresolved externals

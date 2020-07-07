@@ -1,0 +1,14 @@
+# theoraenc installed pkg-config file
+
+prefix=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+exec_prefix=${prefix}
+libdir=/C/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib
+includedir=${prefix}/include
+
+Name: theora
+Description: Theora video codec (encoder)
+Version: 1.1.1
+Requires: theoradec, ogg >= 1.1
+Conflicts:
+Libs: -L${libdir} -ltheoraenc
+Cflags: -I${includedir}

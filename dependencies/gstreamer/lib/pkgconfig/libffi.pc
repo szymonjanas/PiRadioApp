@@ -1,0 +1,9 @@
+prefix=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: ffi
+Description: Library supporting Foreign Function Interfaces
+Version: 3.2.9999
+Libs: -L${libdir} -lffi
+Cflags: -I${includedir}

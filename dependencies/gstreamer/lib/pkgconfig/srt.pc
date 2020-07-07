@@ -1,0 +1,12 @@
+prefix=C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: srt
+Description: SRT library set
+Version: 1.3.1
+Libs: -L${libdir} -lsrt   
+Libs.private:  gnutls nettle z C:/MinGW/msys/1.0/home/cerbero/cerbero-1.16/build/dist/windows_x86_64/lib/libpthread.dll.a
+Cflags: -I${includedir} -I${includedir}/srt
+Requires.private: gnutls nettle zlib
