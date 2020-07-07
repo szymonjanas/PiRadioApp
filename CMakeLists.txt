@@ -13,8 +13,10 @@ find_package(Boost 1.71.0 COMPONENTS system)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # WebToolKit
-find_package( Wt REQUIRED )
-include_directories( ${Wt_INCLUDE_DIR} )
+SET (WT_CONNECTOR "wthttp" CACHE STRING "Connector used (wthttp or wtfcgi)")
+find_package( Wt REQUIRED COMPONENTS WApplication )
+include_directories(${Wt_INCLUDE_DIR})
+LINK_DIRECTORIES(/usr/local/lib)
 
 # Gstreamer
 set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
@@ -25,19 +27,9 @@ include_directories( ${GST_INCLUDE_DIRS})
 set (SOURCES
     source/main.cpp
     source/AudioEngine.cpp
+    source/WebEngine.cpp
     )
 include_directories(source)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${GST_LIBRARIES} ${Boost_LIBRARIES} ${Wt_INCLUDE_DIR} )
-
-
-
-
-
-
-
-
-
-
-
+target_link_libraries(${PROJECT_NAME} ${GST_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${Wt_LIBRARIES} ${WT_CONNECTOR})

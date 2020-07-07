@@ -1,7 +1,17 @@
 #include "AudioEngine.hpp"
-#include <iostream>
+#include "WebEngine.hpp"
 
-int main(){
+#include <iostream>
+#include <memory>
+#include <Wt/WApplication.h>
+
+int main(int argc, char **argv){
+
+    return Wt::WRun(argc, argv, [](const Wt::WEnvironment& enviroment){
+        return std::make_unique<WebEngine>(enviroment);
+    });
+
+
     std::cout << "Hello World!" << std::endl;
     std::cout << "Avaliable command: \n play \n pause \n stop \n title \n exit \n--------" << std::endl;
     AudioEngine* audio = new AudioEngine("https://stream.open.fm/127?type=.mp3");
