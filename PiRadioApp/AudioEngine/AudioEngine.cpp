@@ -62,6 +62,11 @@ void AudioEngine::setVolume(double volume){
     g_object_set(G_OBJECT(pulseSink), "volume", (gdouble) volume, NULL);
 }
 
+STATE AudioEngine::getState()
+{
+    return state;
+}
+
 AudioEngine::~AudioEngine(){
     gst_element_set_state(pipeline, GST_STATE_NULL);
     gst_object_unref(pipeline);
@@ -70,16 +75,19 @@ AudioEngine::~AudioEngine(){
 void AudioEngine::play(){
     gst_element_set_state (pipeline, GST_STATE_PLAYING);
     g_print ("Running...\n");
+    state = STATE::PLAY;
 }
 
 void AudioEngine::pause(){
     gst_element_set_state (pipeline, GST_STATE_PAUSED);
     g_print ("Paused.\n");
+    state = STATE::PAUSE;
 }
 
 void AudioEngine::stop(){
     g_print ("Returned, stopping playback.\n");
     gst_element_set_state (pipeline, GST_STATE_NULL);
+    state = STATE::STOP;
 }
 
 gboolean
