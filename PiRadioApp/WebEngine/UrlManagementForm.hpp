@@ -12,19 +12,17 @@
 
 class UrlManagementForm : public Wt::WContainerWidget
 {
-    Wt::WLabel *label;
-    Wt::WPushButton *playBtn;
-    Wt::WPushButton *pauseBtn;
-    Wt::WPushButton *stopBtn;
-
-    std::string url;
+    Wt::WLabel *nameLabel, *urlLabel;
+    Wt::WLineEdit *nameInput, *urlInput;
+    Wt::WPushButton *confirm;
+    Wt::WText *feedback;
+    
+    std::string newURL;
 
 public:
 	UrlManagementForm();
     ~UrlManagementForm();
 
-    void play();
-    void pause();
-    void stop();
+    void saveURL();
 
 };

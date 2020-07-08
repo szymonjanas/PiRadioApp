@@ -3,25 +3,21 @@
 UrlManagementForm::UrlManagementForm() : 
     Wt::WContainerWidget()
 {
-    url = "https://stream.open.fm/127?type=.mp3";
-    label   = new Wt::WLabel(url);
-    playBtn = new Wt::WPushButton("Play");
-    pauseBtn = new Wt::WPushButton("Pause");
-    stopBtn = new Wt::WPushButton("Stop");
+    nameLabel   = new Wt::WLabel("Name: ");
+    urlLabel    = new Wt::WLabel("URL: ");
+    confirm     = new Wt::WPushButton("Confirm");
+    nameInput   = new Wt::WLineEdit();
+    urlInput    = new Wt::WLineEdit();
+    feedback    = new Wt::WText();
 
-    playBtn->setCheckable(true);
-    playBtn->clicked().connect(this, &UrlManagementForm::play);
+    confirm->clicked().connect(this, &UrlManagementForm::saveURL);
 
-    pauseBtn->setCheckable(true);
-    pauseBtn->clicked().connect(this, &UrlManagementForm::pause);
-
-    stopBtn->setCheckable(true);
-    stopBtn->clicked().connect(this, &UrlManagementForm::stop);
-
-    addWidget(std::unique_ptr<Wt::WWidget>(label));
-    addWidget(std::unique_ptr<Wt::WWidget>(playBtn));
-    addWidget(std::unique_ptr<Wt::WWidget>(pauseBtn));
-    addWidget(std::unique_ptr<Wt::WWidget>(stopBtn));
+    addWidget(std::unique_ptr<Wt::WWidget>(nameLabel));
+    addWidget(std::unique_ptr<Wt::WWidget>(nameInput));
+    addWidget(std::unique_ptr<Wt::WWidget>(urlLabel));
+    addWidget(std::unique_ptr<Wt::WWidget>(urlInput));
+    addWidget(std::unique_ptr<Wt::WWidget>(confirm));
+    addWidget(std::unique_ptr<Wt::WWidget>(feedback));
 
 }
 
@@ -29,17 +25,7 @@ UrlManagementForm::~UrlManagementForm() {
 
 }
 
-void UrlManagementForm::play()
+void UrlManagementForm::saveURL()
 {
-    AudioEngineManager::play(url);
-}
-
-void UrlManagementForm::pause()
-{
-    AudioEngineManager::pause();
-}
-
-void UrlManagementForm::stop()
-{
-    AudioEngineManager::stop();
+    feedback->setText(nameInput->text() + ": " + urlInput->text());
 }
