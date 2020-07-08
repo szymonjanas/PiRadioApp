@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)PiRadioApp\AudioEngine\;$(SolutionDir)PiRadioApp\WebEngine\;$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)PiRadioApp\DatabaseEngine\;$(SolutionDir)PiRadioApp\AudioEngine\;$(SolutionDir)PiRadioApp\WebEngine\;$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -141,7 +141,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)PiRadioApp\AudioEngine\;$(SolutionDir)PiRadioApp\WebEngine\;$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)PiRadioApp\DatabaseEngine\;$(SolutionDir)PiRadioApp\AudioEngine\;$(SolutionDir)PiRadioApp\WebEngine\;$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -157,13 +157,19 @@
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
     <ClCompile Include="AudioEngine\AudioEngineManager.cpp" />
+    <ClCompile Include="DatabaseEngine\DatabaseEngine.cpp" />
     <ClCompile Include="PiRadioApp.cpp" />
+    <ClCompile Include="WebEngine\PlayingManagementForm.cpp" />
+    <ClCompile Include="WebEngine\StationsManagementForm.cpp" />
     <ClCompile Include="WebEngine\UrlManagementForm.cpp" />
     <ClCompile Include="WebEngine\WebEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine\AudioEngine.hpp" />
     <ClInclude Include="AudioEngine\AudioEngineManager.hpp" />
+    <ClInclude Include="DatabaseEngine\DatabaseEngine.hpp" />
+    <ClInclude Include="WebEngine\PlayingManagementForm.hpp" />
+    <ClInclude Include="WebEngine\StationsManagementForm.hpp" />
     <ClInclude Include="WebEngine\UrlManagementForm.hpp" />
     <ClInclude Include="WebEngine\WebEngine.hpp" />
   </ItemGroup>
