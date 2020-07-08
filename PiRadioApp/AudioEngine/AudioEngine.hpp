@@ -2,7 +2,6 @@
 
 #include <gst/gst.h>
 #include <string>
-#include <iostream>
 
 enum class STATE {
     PLAY,
@@ -21,6 +20,7 @@ class AudioEngine {
 
 public:
 
+    AudioEngine();
     AudioEngine(std::string url);
     ~AudioEngine();
     void play();
@@ -30,4 +30,5 @@ public:
     std::string getTitle();
     void setVolume(double volume);
     STATE getState();
+
 };

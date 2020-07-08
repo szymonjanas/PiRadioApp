@@ -1,11 +1,14 @@
 #include "AudioEngine.hpp"
 
-AudioEngine::AudioEngine(std::string url){
+AudioEngine::AudioEngine() {
     int Argc = 1;
     char** Argv = new char* ();
-    Argv[0] = (char*) "fake";
-    gst_init (&Argc, &Argv);
-    delete [] Argv;
+    Argv[0] = (char*)"fake";
+    gst_init(&Argc, &Argv);
+    delete[] Argv;
+}
+
+AudioEngine::AudioEngine(std::string url) : AudioEngine() {
 
     std::string playbinText = "playbin uri=" + url;
     pipeline = gst_parse_launch(playbinText.c_str(), NULL);
@@ -88,23 +91,4 @@ void AudioEngine::stop(){
     g_print ("Returned, stopping playback.\n");
     gst_element_set_state (pipeline, GST_STATE_NULL);
     state = STATE::STOP;
-}
-
-gboolean
-AudioEngine::my_bus_callback (GstBus * bus, GstMessage * message, gpointer data)
-{
-    std::cout << "HELLO!" << std::endl;
-    g_print("HELLLLLLOOOOO!!!");
-    //  g_print ("Got %s message\n", GST_MESSAGE_TYPE_NAME (message));
-//  switch (GST_MESSAGE_TYPE (msg)) {
-//    case GST_MESSAGE_TAG: {
-//      GstTagList *tags = NULL;
-
-//      gst_message_parse_tag (msg, &amp.tags);
-//      g_print ("Got tags from element %s\n", GST_OBJECT_NAME (msg->src));
-//      handle_tags (tags);
-//      gst_tag_list_unref (tags);
-//      break;
-//    }
-  return TRUE;
 }
