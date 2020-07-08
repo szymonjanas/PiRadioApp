@@ -21,7 +21,13 @@
     <ClCompile Include="AudioEngine\AudioEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WebEngine.cpp">
+    <ClCompile Include="WebEngine\UrlManagementForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEngine\AudioEngineManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebEngine\WebEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +35,13 @@
     <ClInclude Include="AudioEngine\AudioEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WebEngine.hpp">
+    <ClInclude Include="WebEngine\UrlManagementForm.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEngine\AudioEngineManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebEngine\WebEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

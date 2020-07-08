@@ -123,12 +123,14 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)PiRadioApp\AudioEngine\;$(SolutionDir)PiRadioApp\WebEngine\;$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\boost\lib;$(SolutionDir)dependencies\webtoolkit\lib;$(SolutionDir)dependencies\gstreamer\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wthttp.lib; wthttpd.lib; wt.lib; wtd.lib; gobject-2.0.lib;glib-2.0.lib;gstreamer-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>wthttpd.lib;wtd.lib;wtdbod.lib;wtisapid.lib;libboost_system-vc142-mt-x64-1_73.lib;gobject-2.0.lib;glib-2.0.lib;gstreamer-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -140,6 +142,8 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)PiRadioApp\AudioEngine\;$(SolutionDir)PiRadioApp\WebEngine\;$(SolutionDir)dependencies\webtoolkit\include\;$(SolutionDir)dependencies\boost\;$(SolutionDir)dependencies\gstreamer\lib\glib-2.0\include;$(SolutionDir)dependencies\gstreamer\include\gstreamer-1.0;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\;$(SolutionDir)dependencies\gstreamer\include\glib-2.0\glib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,17 +151,21 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\boost\lib;$(SolutionDir)dependencies\webtoolkit\lib;$(SolutionDir)dependencies\gstreamer\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wthttp.lib; wthttpd.lib; wt.lib; wtd.lib; gobject-2.0.lib;glib-2.0.lib;gstreamer-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>wthttpd.lib;wtd.lib;wtdbod.lib;wtisapid.lib;libboost_system-vc142-mt-x64-1_73.lib;gobject-2.0.lib;glib-2.0.lib;gstreamer-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
+    <ClCompile Include="AudioEngine\AudioEngineManager.cpp" />
     <ClCompile Include="PiRadioApp.cpp" />
-    <ClCompile Include="WebEngine.cpp" />
+    <ClCompile Include="WebEngine\UrlManagementForm.cpp" />
+    <ClCompile Include="WebEngine\WebEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine\AudioEngine.hpp" />
-    <ClInclude Include="WebEngine.hpp" />
+    <ClInclude Include="AudioEngine\AudioEngineManager.hpp" />
+    <ClInclude Include="WebEngine\UrlManagementForm.hpp" />
+    <ClInclude Include="WebEngine\WebEngine.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
