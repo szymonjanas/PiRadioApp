@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.2.0)
+cmake_minimum_required(VERSION 3.7.0)
 
 project(PiRadioApp VERSION 0.3.0)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
 find_package(PkgConfig REQUIRED)
@@ -24,7 +24,6 @@ include_directories(
     sources/AudioEngine
     sources/Communication
 )
-
 
 set(SOURCES
     sources/PiRadioApp.cpp

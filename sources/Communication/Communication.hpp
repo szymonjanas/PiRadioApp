@@ -15,15 +15,15 @@ class Communication {
 
     std::unique_ptr<zmq::context_t> context;
     std::unique_ptr<zmq::socket_t> socket;
-    std::string address;
-    int TIMEOUT_ms = 1000;
 
     std::string readyMsg = "ready";
     std::vector<std::string> getSplitArgFromReplay(std::string);
 
+    void send(std::string message);
+
 public:
-    Communication(std::string address);
+    Communication();
     ~Communication();
-    void connect();
-    void run();
+    void bind(std::string address);
+    void run(StationsDatabaseInterface* db);
 };

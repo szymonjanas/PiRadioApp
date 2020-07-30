@@ -1,8 +1,7 @@
 #include "Communication.hpp"
 
-Communication::Communication(std::string address) 
+Communication::Communication() 
 {
-    this->address = address;
     context = std::make_unique<zmq::context_t>(1);
     socket = std::make_unique<zmq::socket_t> (*context, ZMQ_PAIR);
 }
@@ -13,6 +12,11 @@ Communication::~Communication()
     zmq_ctx_destroy(static_cast<void *>(context.release()));
     socket.reset();
     context.reset();
+}
+
+void Communication::bind(std::string address) 
+{
+    socket->bind(address.c_str());
 }
 
 std::vector<std::string> Communication::getSplitArgFromReplay(std::string replay) 
@@ -35,54 +39,79 @@ std::vector<std::string> Communication::getSplitArgFromReplay(std::string replay
     return args;
 }
 
-void Communication::connect() 
+void Communication::send(std::string message) 
 {
-    socket->connect(address.c_str());
+    zmq::message_t messageData (message.size());
+    memcpy (messageData.data (), static_cast<const void *>(message.c_str()), message.size());
+    socket->send (messageData);
 }
 
-void Communication::run() 
+
+void Communication::run(StationsDatabaseInterface* db) 
 {
-    std::string name = "Anty-Radio";
-    std::string url = "http://redir.atmcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5";
-
-    Station station(name, url);
-
     AudioEngineManager* manager = &AudioEngineManager::getManager();
-    manager->setStation(&station);
-    // StationsDatabaseTxt db;
-    // db.load("stations.txt");
 
-        std::cout << "FLAG 1" << std::endl;
-        zmq::message_t zmqreadyMsg (readyMsg.size());
-        memcpy (zmqreadyMsg.data (), static_cast<const void *>(readyMsg.c_str()), readyMsg.size());
-        socket->send (zmqreadyMsg);
 
-        // zmq::pollitem_t element = {static_cast<void *>(*socket), 0, ZMQ_POLLIN, 0};
-        // zmq::poll(&element, 1, TIMEOUT_ms);
-        std::cout << "FLAG 2" << std::endl;
-        zmq::message_t reply;
-        std::string replyData;
-        // if (element.revents != 0 and ZMQ_POLLIN) {
-            socket->recv (&reply);
-            unsigned long size = reply.size();
-            replyData = std::string(static_cast<char*>(reply.data()), size);
-        // }
-        // else if (element.revents == 0 and ZMQ_POLLIN) {
-            // socket->close();
-            // socket.reset();
-        // }
-        std::cout << "FLAG 3" << replyData << std::endl;
-        std::vector<std::string> args = getSplitArgFromReplay(replyData);
-        if (args.size() >= 3)
-            if (args[0] == "set"){
-                if (args[1] == "state"){
-                    std::cout << "FLAG 4" << std::endl;
-                    manager->setState(args[2]);
-                }
-            }
-
-        
     while (true){
+  
+        // zmq::message_t request;
+        // std::string requestData;
+        // socket->recv (&request);
+        // requestData = std::string(static_cast<char*>(request.data()), request.size());
+
+        std::string requestData;
+        std::getline (std::cin, requestData);
+        std::cout << "COMMAND: " << requestData << std::endl;
+
+        std::vector<std::string> args = getSplitArgFromReplay(requestData);
+
+        std::string reply = "error";
+
+        if (args[0] == "set"){
+
+            if (args[1] == "state"){
+                manager->setState(args[2]);
+                reply = manager->getState();
+            } 
+            
+            else if (args[1] == "station") {
+                manager->setStation(db->getByName(args[2]));
+                reply = Station::getString(manager->getStation());
+            }
+        }
+
+        else if (args[0] == "get"){
+
+            if (args[1] == "station"){
+
+                if (args[2] == "all"){
+                    try {
+                        db->load();
+                        reply = db->getNamesInString();
+                    } catch (std::string str){
+                         replay = "error " + str;
+                    }
+                }
+                else if (args[2] == "current")
+                    reply = Station::getString(manager->getStation());
+                else
+                    reply = Station::getString(db->getByName(args[2]));
+
+            } 
+
+            else if (args[1] == "state"){
+                reply = manager->getState();
+            } 
+
+            else if (args[1] == "details") {
+                reply = manager->getDetails(args[2]);
+            } 
+
+        }
+
+        std::cout << reply << std::endl;
+        
     }
+    delete db;
 }
 

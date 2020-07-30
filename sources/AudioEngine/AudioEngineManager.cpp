@@ -1,5 +1,8 @@
 ﻿#include "AudioEngineManager.hpp"
 
+AudioEngineManager::AudioEngineManager() 
+{}
+
 AudioEngineManager& AudioEngineManager::getManager() 
 {
 	static AudioEngineManager instance;
@@ -10,7 +13,7 @@ void AudioEngineManager::play()
 {
 	if (station != nullptr)
 		if (engine.getState() == STATE::STOP)
-			engine.play(station->getUrl());
+			engine.play(station->getUri());
 		else
 			engine.play();
 }
@@ -37,10 +40,10 @@ std::string AudioEngineManager::getDetails(std::string type)
 		}
 	} else if (type == "title") {
 		return engine.getTitle();
-	} else if (type == "url") {
-		return station->getUrl();
+	} else if (type == "uri") {
+		return Station::getUri(station);
 	} else if (type == "name") {
-		return station->getName();
+		return Station::getName(station);
 	} else {
 		return "error! wrong command!";
 	}
@@ -67,7 +70,13 @@ Station* AudioEngineManager::getStation()
 	return station;
 }
 
-AudioEngineManager::AudioEngineManager() 
+std::string AudioEngineManager::getState() 
 {
-	
+	STATE state = engine.getState();
+	switch (state)
+	{
+		case STATE::PLAY: return "play";
+		case STATE::PAUSE: return "pause";
+		case STATE::STOP: return "stop";
+	}
 }

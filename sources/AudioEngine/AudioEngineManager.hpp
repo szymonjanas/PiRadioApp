@@ -9,7 +9,7 @@ class AudioEngineManager {
 
 	AudioEngine engine;
 	Station* station = nullptr;
-	
+
 	AudioEngineManager();
 
 	void play();
