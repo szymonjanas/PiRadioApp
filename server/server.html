@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="server.css">
+
+		<title>PiRadio</title>
+	</head>
+	<body>
+		<table>
+			<tr> <td class="playingLabel">  Currently playing...    </td></tr>
+			<tr> <td class="playingStation">{{.PlayingData.Station}}</td></tr>
+			<tr> <td class="playingTitle">  {{.PlayingData.Title}}  </td></tr>
+
+			<tr> 
+				<td>
+					<form action="/radio/stop" method="post">
+						<input type="submit" name="stopRadio" value="Stop">
+					</form>
+				</td>
+				<td>
+					<form action="/radio/play" method="post">
+						<input type="submit" name="playRadio" value="Play">
+					</form>
+				</td>
+			</tr>
+			<tr> <td>
+				<form action="/radio/set" method="post">
+					<label for="Stations">Stations:</label> <br>
+					<select id="Stations" name ="Stations" size="10" onchange="this.form.submit()">
+						{{range .StationsData.Stations}}
+							<option value={{.Name}}>{{.Name}}</option>
+						{{end}}
+					</select>
+				</form>
+			</td></tr>
+		<table>
+	</body>
+</html>
