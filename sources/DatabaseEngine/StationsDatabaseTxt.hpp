@@ -14,6 +14,7 @@ public:
 
     StationsDatabaseTxt(std::string filePath);
 
+    bool isLoad();
     virtual void load();
     virtual void save();
 

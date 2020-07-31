@@ -4,6 +4,11 @@ StationsDatabaseTxt::StationsDatabaseTxt(std::string filePath) :
     filePath(filePath)
 {}
 
+bool StationsDatabaseTxt::isLoad() 
+{
+    return (bool) database.size();
+}
+
 void StationsDatabaseTxt::load() 
 {
     std::fstream dbFile(filePath, std::ios::in);

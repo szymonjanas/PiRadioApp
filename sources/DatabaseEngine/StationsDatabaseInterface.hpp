@@ -9,6 +9,7 @@ class StationsDatabaseInterface {
 public:
     virtual ~StationsDatabaseInterface(){}
 
+    virtual bool isLoad() = 0;
     virtual void load() = 0;
     virtual void save() = 0;
 

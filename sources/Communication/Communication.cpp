@@ -54,18 +54,20 @@ void Communication::run(StationsDatabaseInterface* db)
 
     while (true){
   
-        // zmq::message_t request;
-        // std::string requestData;
-        // socket->recv (&request);
-        // requestData = std::string(static_cast<char*>(request.data()), request.size());
-
+        zmq::message_t request;
         std::string requestData;
-        std::getline (std::cin, requestData);
-        std::cout << "COMMAND: " << requestData << std::endl;
+        socket->recv (&request);
+        requestData = std::string(static_cast<char*>(request.data()), request.size());
 
+        // std::string requestData;
+        // std::getline (std::cin, requestData);
+        // std::cout << "COMMAND: " << requestData << std::endl;
+        std::cout << "REQUEST: " << requestData << std::endl;
+        if (requestData != "0"){
         std::vector<std::string> args = getSplitArgFromReplay(requestData);
 
         std::string reply = "error";
+
 
         if (args[0] == "set"){
 
@@ -86,10 +88,11 @@ void Communication::run(StationsDatabaseInterface* db)
 
                 if (args[2] == "all"){
                     try {
-                        db->load();
+                        if (!db->isLoad())
+                            db->load();
                         reply = db->getNamesInString();
                     } catch (std::string str){
-                         replay = "error " + str;
+                        reply = "error " + str;
                     }
                 }
                 else if (args[2] == "current")
@@ -109,8 +112,9 @@ void Communication::run(StationsDatabaseInterface* db)
 
         }
 
-        std::cout << reply << std::endl;
-        
+        std::cout << "SEND REPLAY:" << reply << std::endl;
+        send(reply);     
+        }   
     }
     delete db;
 }

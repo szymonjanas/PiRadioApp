@@ -62,6 +62,8 @@ void AudioEngineManager::setState(std::string state)
 
 void AudioEngineManager::setStation(Station* station) 
 {
+	if (engine.getState() != STATE::STOP)
+		engine.stop();
 	this->station = station;
 }
 
