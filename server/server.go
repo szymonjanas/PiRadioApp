@@ -39,8 +39,9 @@ func getStations() []StationsName {
 }
 
 func viewHandler (w http.ResponseWriter, r *http.Request){
-    tmpl, err := template.ParseFiles("server.html")
+    tmpl, err := template.ParseFiles("../server/server.html")
     if err != nil {
+        fmt.Println("Error occure", err)
         w.WriteHeader(http.StatusInternalServerError)
         return
     }
@@ -112,8 +113,9 @@ func main() {
     socket, _ := zmq.NewSocket(zmq.PAIR)
     client = socket
     (*client).Connect("tcp://localhost:5555")
-    fmt.Println("Connected")
+    fmt.Println("Connected to server")
     
+    http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("../server/"))))
     http.HandleFunc("/radio/play", playHandler)
     http.HandleFunc("/radio/stop", stopHandler)
     http.HandleFunc("/radio/set", setHandler)

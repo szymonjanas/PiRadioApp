@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="server.css">
-
+		<link rel="stylesheet" href="/css/server.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>PiRadio</title>
 	</head>
 	<body>
@@ -13,13 +13,11 @@
 
 			<tr> 
 				<td>
-					<form action="/radio/stop" method="post">
-						<input type="submit" name="stopRadio" value="Stop">
-					</form>
-				</td>
-				<td>
 					<form action="/radio/play" method="post">
-						<input type="submit" name="playRadio" value="Play">
+						<input class="mediaControlBtn" type="submit" name="playRadio" value="Play">
+					</form>
+					<form action="/radio/stop" method="post">
+						<input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
 					</form>
 				</td>
 			</tr>
