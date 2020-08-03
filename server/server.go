@@ -3,7 +3,6 @@ package main
 import (
     "html/template"
     "net/http"
-    "log"
     "fmt"
     zmq "github.com/pebbe/zmq4"
 )
@@ -48,7 +47,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request){
     debugMsg("main page")
     tmpl, err := template.ParseFiles("../server/server.html")
     if err != nil {
-        debugMsg("Error occure: " + err)
+        debugMsg("Error occure: " + err.Error())
         w.WriteHeader(http.StatusInternalServerError)
         return
     }
@@ -120,7 +119,7 @@ func sendRequest(request string) []string {
     debugMsg("send request: " + request)
     msg, err := (*client).RecvMessage(0)
     if err != nil {
-        debugMsg("send error: " + err)
+        debugMsg("send error: " + err.Error())
     }
     reply := msg[0]
     debugMsg("recive replay: " + reply)
@@ -153,11 +152,11 @@ func debugMsg(message string){
 func main() {
     socket, errSocket := zmq.NewSocket(zmq.PAIR)
     client = socket
-    engineUri = "tcp://localhost:5555"
-    serveUri = ":8080"
+    engineUri := "tcp://localhost:5555"
+    serveUri := ":8080"
     (*client).Connect(engineUri)
-    if errServe != nil {
-        debugMsg("error socket: " + errSocket)
+    if errSocket != nil {
+        debugMsg("error socket: " + errSocket.Error())
     } else {
         debugMsg("connected to server: " + engineUri)
     }
@@ -169,11 +168,11 @@ func main() {
     http.HandleFunc("/radio/submit", submitHandler)
     http.HandleFunc("/radio/delete", deleteHandler)
     http.HandleFunc("/radio/add", addHandler)
-    http.HandleFunc("/radio", viewHandler)
+    http.HandleFunc("/radio/", viewHandler)
 
     debugMsg("serve uri: " + serveUri)
-    errServe := http.ListenAndServe(serveUri, nil))
+    errServe := http.ListenAndServe(serveUri, nil)
     if errServe != nil {
-        debugMsg("error serve: " + err) 
+        debugMsg("error serve: " + errServe.Error()) 
     }
 }

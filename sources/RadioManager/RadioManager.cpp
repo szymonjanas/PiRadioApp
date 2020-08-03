@@ -46,7 +46,7 @@ std::string RadioManager::execute(std::vector<std::string> args)
             } else if (args[2] == "current"){
                 reply = manager->toString();
             } 
-        } else if (args[1] == "delete"){
+        } else if (args[1] == "remove"){
             database->remove(database->getByName(args[2]));
         } else if (args[1] == "set"){
             manager->setStation(database->getByName(args[2]));

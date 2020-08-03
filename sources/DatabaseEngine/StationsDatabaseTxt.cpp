@@ -73,9 +73,11 @@ void* StationsDatabaseTxt::getDatabase()
 void StationsDatabaseTxt::remove(Station* station) 
 {
     if (station == nullptr) return;
-    for (auto iter = database.begin(); iter != database.end(); ++iter)
+    for (auto iter = database.begin(); iter != database.end(); )
         if ((*iter)->getName() == station->getName())
             database.erase(iter);
+        else 
+            ++iter;
     this->save();
 }
 
