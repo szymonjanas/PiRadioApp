@@ -30,6 +30,21 @@
 						{{end}}
 					</select>
 				</form>
+				<form action="/radio/submit" method="post">
+					<input type="submit" name="submitAndPlay" value="Submit">
+				</form>
+				<form action="/radio/delete" method="post">
+					<input type="submit" name="deleteStation" value="Delete">
+				</form>
+			</td></tr>
+			<tr><td>
+				<form action="/radio/add" method="post">
+					<label>Station name:</label><br />
+					<input type="text" name="stationName"><br />
+					<label>Station uri:</label><br />
+					<input type="text" name="stationUri"><br />
+					<input type="submit" name="addNewStation" value="ADD">
+				</form>
 			</td></tr>
 		<table>
 	</body>
