@@ -5,11 +5,8 @@
 #include <vector>
 #include <iostream>
 
-#include "AudioEngineManager.hpp"
-#include "StationsDatabaseTxt.hpp"
-#include "Station.hpp"
-
 #include <zmq.hpp>
+
 
 class Communication {
 
@@ -17,13 +14,13 @@ class Communication {
     std::unique_ptr<zmq::socket_t> socket;
 
     std::string readyMsg = "ready";
-    std::vector<std::string> getSplitArgFromReplay(std::string);
 
-    void send(std::string message);
+    bool debug = false;
 
 public:
-    Communication();
+    Communication(bool debug, std::string address);
     ~Communication();
-    void bind(std::string address);
-    void run(StationsDatabaseInterface* db);
+    std::string recive();
+    void send(std::string message);
+    std::vector<std::string> convertStringsToArgs(std::string);
 };

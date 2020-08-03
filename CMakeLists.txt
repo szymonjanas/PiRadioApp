@@ -23,6 +23,7 @@ include_directories(
     sources/DatabaseEngine
     sources/AudioEngine
     sources/Communication
+    sources/RadioManager
 )
 
 set(SOURCES
@@ -32,6 +33,7 @@ set(SOURCES
     sources/DatabaseEngine/Station.cpp
     sources/DatabaseEngine/StationsDatabaseTxt.cpp
     sources/Communication/Communication.cpp
+    sources/RadioManager/RadioManager.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

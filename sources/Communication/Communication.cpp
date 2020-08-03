@@ -1,9 +1,10 @@
 #include "Communication.hpp"
 
-Communication::Communication() 
+Communication::Communication(bool debug, std::string address) : debug(debug)
 {
     context = std::make_unique<zmq::context_t>(1);
     socket = std::make_unique<zmq::socket_t> (*context, ZMQ_PAIR);
+    socket->bind(address.c_str());
 }
 
 Communication::~Communication() 
@@ -14,12 +15,7 @@ Communication::~Communication()
     context.reset();
 }
 
-void Communication::bind(std::string address) 
-{
-    socket->bind(address.c_str());
-}
-
-std::vector<std::string> Communication::getSplitArgFromReplay(std::string replay) 
+std::vector<std::string> Communication::convertStringsToArgs(std::string replay) 
 {
     std::vector<std::string> args;
     short iter = -1;
@@ -41,81 +37,30 @@ std::vector<std::string> Communication::getSplitArgFromReplay(std::string replay
 
 void Communication::send(std::string message) 
 {
-    zmq::message_t messageData (message.size());
-    memcpy (messageData.data (), static_cast<const void *>(message.c_str()), message.size());
-    socket->send (messageData);
-}
-
-
-void Communication::run(StationsDatabaseInterface* db) 
-{
-    AudioEngineManager* manager = &AudioEngineManager::getManager();
-
-
-    while (true){
-  
-        zmq::message_t request;
-        std::string requestData;
-        socket->recv (&request);
-        requestData = std::string(static_cast<char*>(request.data()), request.size());
-
-        // std::string requestData;
-        // std::getline (std::cin, requestData);
-        // std::cout << "COMMAND: " << requestData << std::endl;
-        std::cout << "REQUEST: " << requestData << std::endl;
-        if (requestData != "0"){
-        std::vector<std::string> args = getSplitArgFromReplay(requestData);
-
-        std::string reply = "error";
-
-
-        if (args[0] == "set"){
-
-            if (args[1] == "state"){
-                manager->setState(args[2]);
-                reply = manager->getState();
-            } 
-            
-            else if (args[1] == "station") {
-                manager->setStation(db->getByName(args[2]));
-                reply = Station::getString(manager->getStation());
-            }
-        }
-
-        else if (args[0] == "get"){
-
-            if (args[1] == "station"){
-
-                if (args[2] == "all"){
-                    try {
-                        if (!db->isLoad())
-                            db->load();
-                        reply = db->getNamesInString();
-                    } catch (std::string str){
-                        reply = "error " + str;
-                    }
-                }
-                else if (args[2] == "current")
-                    reply = Station::getString(manager->getStation());
-                else
-                    reply = Station::getString(db->getByName(args[2]));
-
-            } 
-
-            else if (args[1] == "state"){
-                reply = manager->getState();
-            } 
-
-            else if (args[1] == "details") {
-                reply = manager->getDetails(args[2]);
-            } 
-
-        }
-
-        std::cout << "SEND REPLAY:" << reply << std::endl;
-        send(reply);     
-        }   
+    if (debug)
+        std::cout << "SEND: " << message << std::endl;
+    else {
+        zmq::message_t messageData (message.size());
+        memcpy (messageData.data (), static_cast<const void *>(message.c_str()), message.size());
+        socket->send (messageData);
     }
-    delete db;
 }
 
+std::string Communication::recive() 
+{
+    std::string requestData;
+    while(requestData.size() == 0){
+        if (debug){
+            std::getline (std::cin, requestData);
+            std::cout << "COMMAND: " << requestData << std::endl;
+        } else {
+            zmq::message_t request;
+            socket->recv (&request);
+            requestData = std::string(static_cast<char*>(request.data()), request.size());
+            std::cout << "RECV: " << requestData << std::endl;
+        }
+
+        if (requestData == "0") requestData = "";
+    }
+    return requestData;
+}

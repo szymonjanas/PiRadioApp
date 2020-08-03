@@ -4,9 +4,9 @@
 #include <fstream>
 #include <string>
 
-#include "StationsDatabaseInterface.hpp"
+#include "DatabaseEngine.hpp"
 
-class StationsDatabaseTxt : public StationsDatabaseInterface {
+class StationsDatabaseTxt : public DatabaseEngine {
 
     std::vector<Station*> database;
     std::string filePath;

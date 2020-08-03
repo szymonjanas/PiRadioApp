@@ -39,6 +39,7 @@ func getStations() []StationsName {
 }
 
 func viewHandler (w http.ResponseWriter, r *http.Request){
+    fmt.Println("view")
     tmpl, err := template.ParseFiles("../server/server.html")
     if err != nil {
         fmt.Println("Error occure", err)

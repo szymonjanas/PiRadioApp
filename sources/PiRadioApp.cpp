@@ -1,13 +1,23 @@
 #include <iostream>
 #include <string>
-#include "Communication.hpp"
+#include "RadioManager.hpp"
 
 int main(int argc, char ** argv)
 {
-    Communication comm;
-    comm.bind("tcp://*:5555");
 
-    system("go run ../server/server.go &");
+    RadioManager *manager;
 
-    comm.run(new StationsDatabaseTxt("../database.txt"));
+    bool debug = false;
+    manager = new RadioManager(
+        new StationsDatabaseTxt("../database.txt"),
+        &AudioEngineManager::getManager(),
+        new Communication(debug, "tcp://*:5555")
+        );
+
+    // if (!debug)
+    //     system("go run ../server/server.go &");
+
+    manager->start();
+
+    delete manager;
 }
