@@ -93,9 +93,9 @@ func submitHandler(w http.ResponseWriter, r *http.Request){
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
-func deleteHandler(w http.ResponseWriter, r *http.Request){
+func removeHandler(w http.ResponseWriter, r *http.Request){
     sendRequest("station remove " + checkedStation)
-    debugMsg("delete " + checkedStation)
+    debugMsg("remove " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
@@ -166,7 +166,7 @@ func main() {
     http.HandleFunc("/radio/stop", stopHandler)
     http.HandleFunc("/radio/set", setHandler)
     http.HandleFunc("/radio/submit", submitHandler)
-    http.HandleFunc("/radio/delete", deleteHandler)
+    http.HandleFunc("/radio/remove", removeHandler)
     http.HandleFunc("/radio/add", addHandler)
     http.HandleFunc("/radio/", viewHandler)
 

@@ -33,7 +33,7 @@ void StationsDatabaseTxt::load()
 
 void StationsDatabaseTxt::save() 
 {
-    std::fstream dbFile("database.txt", std::ios::out);
+    std::fstream dbFile(filePath, std::ios::out);
 	if (!dbFile.good()) throw std::string("Cannot save to file!");
 	for (auto iter : database) {
         dbFile << iter->getName() + "\n";

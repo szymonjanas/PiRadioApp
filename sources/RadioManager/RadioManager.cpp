@@ -75,7 +75,7 @@ void RadioManager::start()
             communication->convertStringsToArgs(
                 communication->recive()
                 );
-        std::cout << "reciv" << std::endl;
+        std::cout << "recivied" << std::endl;
 
         std::string reply = execute(args);
 
