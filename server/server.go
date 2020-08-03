@@ -94,7 +94,7 @@ func submitHandler(w http.ResponseWriter, r *http.Request){
 } 
 
 func deleteHandler(w http.ResponseWriter, r *http.Request){
-    sendRequest("station delete " + checkedStation)
+    sendRequest("station remove " + checkedStation)
     debugMsg("delete " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 

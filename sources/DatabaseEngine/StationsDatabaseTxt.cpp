@@ -61,7 +61,8 @@ void StationsDatabaseTxt::put(Station* station)
     if (station == nullptr) return;
     if (getByName(station->getName()) != nullptr)
         getByName(station->getName())->setUri(station->getUri());
-    database.push_back(station);
+    else 
+        database.push_back(station);
     this->save();
 }
 
