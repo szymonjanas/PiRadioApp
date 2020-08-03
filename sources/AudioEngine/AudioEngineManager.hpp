@@ -30,4 +30,6 @@ public:
 	std::string getDetails(std::string type);
 
 	void setState(std::string state);
+
+	std::string toString();
 };

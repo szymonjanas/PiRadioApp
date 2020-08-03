@@ -60,6 +60,21 @@ void AudioEngineManager::setState(std::string state)
 	}
 }
 
+std::string AudioEngineManager::toString() 
+{
+	std::string str;
+	if (station != nullptr){
+		str += station->getName() + " ";
+		str += engine.getTitle()  + " ";
+		str += station->getUri();
+	} else {
+		str += "unknown ";
+		str += "unknown ";
+		str += "unknown";
+	}
+	return str;
+}
+
 void AudioEngineManager::setStation(Station* station) 
 {
 	if (engine.getState() != STATE::STOP)

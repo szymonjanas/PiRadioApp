@@ -46,7 +46,6 @@ Station* StationsDatabaseTxt::getByName(std::string name)
 {
     for (auto iter : database)
         if (iter->getName() == name) return iter;
-    
     return nullptr;
 }
 
@@ -59,6 +58,7 @@ Station* StationsDatabaseTxt::getByUri(std::string uri)
 
 void StationsDatabaseTxt::put(Station* station)
 {
+    if (station == nullptr) return;
     if (getByName(station->getName()) != nullptr)
         getByName(station->getName())->setUri(station->getUri());
     database.push_back(station);
@@ -70,10 +70,11 @@ void* StationsDatabaseTxt::getDatabase()
     return reinterpret_cast<void*>(&database);
 }
 
-void StationsDatabaseTxt::remove(Station station) 
+void StationsDatabaseTxt::remove(Station* station) 
 {
+    if (station == nullptr) return;
     for (auto iter = database.begin(); iter != database.end(); ++iter)
-        if ((*iter)->getName() == station.getName())
+        if ((*iter)->getName() == station->getName())
             database.erase(iter);
     this->save();
 }

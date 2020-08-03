@@ -33,23 +33,8 @@ std::string RadioManager::execute(std::vector<std::string> args)
 {
     std::string reply = "error command not found";
 
-    if (args[0] == "set"){
-
-        if (args[1] == "state"){
-            manager->setState(args[2]);
-            reply = manager->getState();
-        } 
-        
-        else if (args[1] == "station") {
-            manager->setStation(database->getByName(args[2]));
-            reply = Station::getString(manager->getStation());
-        }
-    }
-
-    else if (args[0] == "get"){
-
-        if (args[1] == "station"){
-
+    if (args[0] == "station"){
+        if (args[1] == "get"){
             if (args[2] == "all"){
                 try {
                     if (!database->isLoad())
@@ -58,21 +43,25 @@ std::string RadioManager::execute(std::vector<std::string> args)
                 } catch (std::string str){
                     reply = "error " + str;
                 }
+            } else if (args[2] == "current"){
+                reply = manager->toString();
+            } 
+        } else if (args[1] == "delete"){
+            database->remove(database->getByName(args[2]));
+        } else if (args[1] == "set"){
+            manager->setStation(database->getByName(args[2]));
+            reply = Station::getString(manager->getStation());
+        } else if (args[1] == "new"){
+            database->put(new Station(args[2], args[3]));
+        }
+    } else if (args[0] == "engine"){
+        if (args[1] == "state"){
+            if (args[2] == "set"){
+                manager->setState(args[3]);
+            } else if (args[2] == "get"){
+                reply = manager->getState();
             }
-            else if (args[2] == "current")
-                reply = Station::getString(manager->getStation());
-            else
-                reply = Station::getString(database->getByName(args[2]));
-
-        } 
-
-        else if (args[1] == "state"){
-            reply = manager->getState();
-        } 
-
-        else if (args[1] == "details") {
-            reply = manager->getDetails(args[2]);
-        } 
+        }
     }
 
     return reply;

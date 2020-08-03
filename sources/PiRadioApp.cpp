@@ -14,8 +14,8 @@ int main(int argc, char ** argv)
         new Communication(debug, "tcp://*:5555")
         );
 
-    // if (!debug)
-    //     system("go run ../server/server.go &");
+    if (!debug)
+        system("go run ../server/server.go &");
 
     manager->start();
 

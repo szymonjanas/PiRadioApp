@@ -17,6 +17,6 @@ public:
     virtual Station* getByUri(std::string uri) = 0;
     virtual void put(Station* station) = 0;
     virtual void* getDatabase() = 0;
-    virtual void remove(Station station) = 0;
+    virtual void remove(Station* station) = 0;
     virtual std::string getNamesInString() = 0;
 };
