@@ -6,46 +6,44 @@
 		<title>PiRadio</title>
 	</head>
 	<body>
-		<table>
-			<tr> <td class="playingLabel">  Currently playing...    </td></tr>
-			<tr> <td class="playingStation">{{.PlayingData.Station}}</td></tr>
-			<tr> <td class="playingTitle">  {{.PlayingData.Title}}  </td></tr>
 
-			<tr> 
-				<td>
-					<form action="/radio/play" method="post">
-						<input class="mediaControlBtn" type="submit" name="playRadio" value="Play">
-					</form>
-					<form action="/radio/stop" method="post">
-						<input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
-					</form>
-				</td>
-			</tr>
-			<tr> <td>
-				<form action="/radio/set" method="post">
-					<label for="Stations">Stations:</label> <br>
-					<select id="Stations" name ="Stations" size="10" onchange="this.form.submit()">
-						{{range .StationsData.Stations}}
-							<option value={{.Name}}>{{.Name}}</option>
-						{{end}}
-					</select>
-				</form>
-				<form action="/radio/submit" method="post">
-					<input type="submit" name="submitAndPlay" value="Submit">
-				</form>
-				<form action="/radio/remove" method="post">
-					<input type="submit" name="removeStation" value="Remove">
-				</form>
-			</td></tr>
-			<tr><td>
-				<form action="/radio/add" method="post">
-					<label>Station name:</label><br />
-					<input type="text" name="stationName"><br />
-					<label>Station uri:</label><br />
-					<input type="text" name="stationUri"><br />
-					<input type="submit" name="addNewStation" value="ADD">
-				</form>
-			</td></tr>
-		<table>
+		{{if .Msg.Type}}
+			<label style="color: green;">  Message: {{.Msg.Message}}   </label> <br>
+		{{else}}
+			<label style="color: red;">  Message: {{.Msg.Message}}   </label> <br>
+		{{end}}
+		<label>  Currently playing...   </label> <br>
+		<label>{{.PlayingData.Station}} </label> <br>
+		<label>  {{.PlayingData.Title}} </label> <br>
+
+		<form action="/radio/play" method="post">
+			<input class="mediaControlBtn" type="submit" name="playRadio" value="Play">
+		</form>
+		<form action="/radio/stop" method="post">
+			<input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
+		</form>
+
+		<form action="/radio/set" method="post">
+			<label for="Stations">Stations:</label> <br>
+			<select id="Stations" name ="Stations" size="10" onchange="this.form.submit()">
+				{{range .StationsData.Stations}}
+					<option value={{.Name}}>{{.Name}}</option>
+				{{end}}
+			</select>
+		</form>
+		<form action="/radio/submit" method="post">
+			<input type="submit" name="submitAndPlay" value="Submit">
+		</form>
+		<form action="/radio/remove" method="post">
+			<input type="submit" name="removeStation" value="Remove">
+		</form>
+
+		<form action="/radio/add" method="post">
+			<label>Station name:</label><br />
+			<input type="text" name="stationName"><br />
+			<label>Station uri:</label><br />
+			<input type="text" name="stationUri"><br />
+			<input type="submit" name="addNewStation" value="ADD">
+		</form>
 	</body>
 </html>

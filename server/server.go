@@ -4,12 +4,20 @@ import (
     "html/template"
     "net/http"
     "fmt"
+    "strings"
     zmq "github.com/pebbe/zmq4"
 )
 
 var client *zmq.Socket
 var checkedStation string = "none"
 var DEBUG bool = true
+
+type Message struct {
+    Message string
+    Type bool
+}
+
+var informMessage Message 
 
 type StationsName struct {
     Name string
@@ -28,6 +36,7 @@ type PlayingDetails struct {
 type ViewPageData struct {
     StationsData StationsPageData
     PlayingData PlayingDetails
+    Msg Message
 }
 
 func getStations() []StationsName {
@@ -62,6 +71,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request){
             Title: current[1],
             Url: current[2],
         },
+        Msg: informMessage,
     }
 
     tmpl.Execute(w, details)
@@ -139,7 +149,16 @@ func sendRequest(request string) []string {
 		} else {
 			words[iter] = words[iter] + string(reply[i])
 		}
-	}
+    }
+    if words[0] == "msg" || words[0] == "err" {
+        if words[0] == "msg"{
+            informMessage.Type = true
+        } else {
+            informMessage.Type = false
+        }
+        informMessage.Message = strings.Join(words[1:len(words)], " ")
+        fmt.Println("MSG: ", informMessage.Type, informMessage)
+    }
     return words 
 }
 
