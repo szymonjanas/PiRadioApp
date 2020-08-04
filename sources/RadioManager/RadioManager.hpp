@@ -4,15 +4,13 @@
 #include "StationsDatabaseTxt.hpp"
 #include "Communication.hpp"
 #include "AudioEngineManager.hpp"
-
-#include <iostream>
+#include "DebugMsg.hpp"
 
 class RadioManager {
 
     DatabaseEngine* database;
     AudioEngineManager* manager;
     Communication* communication;
-
     
 public:
     RadioManager(   DatabaseEngine* database,

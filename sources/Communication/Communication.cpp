@@ -38,7 +38,7 @@ std::vector<std::string> Communication::convertStringsToArgs(std::string replay)
 void Communication::send(std::string message) 
 {
     if (debug)
-        std::cout << "SEND: " << message << std::endl;
+        debug::info("send: " + message);
     else {
         zmq::message_t messageData (message.size());
         memcpy (messageData.data (), static_cast<const void *>(message.c_str()), message.size());
@@ -52,12 +52,12 @@ std::string Communication::recive()
     while(requestData.size() == 0){
         if (debug){
             std::getline (std::cin, requestData);
-            std::cout << "COMMAND: " << requestData << std::endl;
+            debug::info("command: " + requestData);
         } else {
             zmq::message_t request;
             socket->recv (&request);
             requestData = std::string(static_cast<char*>(request.data()), request.size());
-            std::cout << "RECV: " << requestData << std::endl;
+            debug::info("recv: " + requestData);
         }
 
         if (requestData == "0") requestData = "";

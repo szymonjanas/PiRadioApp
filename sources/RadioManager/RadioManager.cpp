@@ -41,23 +41,44 @@ std::string RadioManager::execute(std::vector<std::string> args)
                         database->load();
                     reply = database->getNamesInString();
                 } catch (std::string str){
-                    reply = "error " + str;
+                    reply = "err Error, Cannot load database: " + str;
+                    debug::err("Cannot load database: " + str);
                 }
-            } else if (args[2] == "current"){
-                reply = manager->toString();
-            } 
+            } else if (args[2] == "current")
+                reply = manager->toString(); 
+            
         } else if (args[1] == "remove"){
-            database->remove(database->getByName(args[2]));
+            if (database->getByName(args[2]) != nullptr){
+                database->remove(database->getByName(args[2]));
+                reply = "msg Station removed: " + args[2];
+            } else {
+                reply = "err Station does not exist: " + args[2];
+                debug::err(reply);
+            }
         } else if (args[1] == "set"){
-            manager->setStation(database->getByName(args[2]));
-            reply = Station::getString(manager->getStation());
+            if (database->getByName(args[2]) != nullptr){
+                manager->setStation(database->getByName(args[2]));
+                reply = "msg Station setted: " + manager->getStation()->getName();
+            } else {
+                reply = "err Station does not exist: " + args[2];
+                debug::err(reply);
+            }
         } else if (args[1] == "new"){
-            database->put(new Station(args[2], args[3]));
+            try {
+                database->put(new Station(args[2], args[3]));
+            } catch (...) {
+                reply = "err Somethink went wrong!";
+                debug::err(reply);
+            }
         }
     } else if (args[0] == "engine"){
         if (args[1] == "state"){
             if (args[2] == "set"){
-                manager->setState(args[3]);
+                if (manager->canSetState(args[3])){
+                    manager->setState(args[3]);
+                    reply = "msg Audio is: " + manager->getState();
+                } else 
+                    reply = "err Cannot set given state: " + args[3];
             } else if (args[2] == "get"){
                 reply = manager->getState();
             }
@@ -70,12 +91,12 @@ std::string RadioManager::execute(std::vector<std::string> args)
 void RadioManager::start() 
 {
     while (true) {
-        std::cout << "starting" << std::endl;
+        debug::debug("starting");
         std::vector<std::string> args = 
             communication->convertStringsToArgs(
                 communication->recive()
                 );
-        std::cout << "recivied" << std::endl;
+        debug::debug("recivied");
 
         std::string reply = execute(args);
 

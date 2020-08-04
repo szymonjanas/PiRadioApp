@@ -60,6 +60,14 @@ void AudioEngineManager::setState(std::string state)
 	}
 }
 
+bool AudioEngineManager::canSetState(std::string state) 
+{
+	if (getState() == state) return false;
+	else if (getState() == "stop" && state == "play" && station != nullptr) return true;
+	else if (getState() == "play" && state == "stop") return true; 
+	return false;
+}
+
 std::string AudioEngineManager::toString() 
 {
 	std::string str;
