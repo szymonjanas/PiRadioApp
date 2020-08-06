@@ -20,22 +20,22 @@ include_directories("${GST_INCLUDE_DIRS}")
 link_libraries(${GST_LIBRARIES})
 
 include_directories(
-    sources/DatabaseEngine
-    sources/AudioEngine
-    sources/Communication
-    sources/RadioManager
-    sources/DebugMsg
+    engine/DatabaseEngine
+    engine/AudioEngine
+    engine/Communication
+    engine/RadioManager
+    engine/DebugMsg
 )
 
 set(SOURCES
-    sources/PiRadioApp.cpp
-    sources/AudioEngine/AudioEngine.cpp
-    sources/AudioEngine/AudioEngineManager.cpp
-    sources/DatabaseEngine/Station.cpp
-    sources/DatabaseEngine/StationsDatabaseTxt.cpp
-    sources/Communication/Communication.cpp
-    sources/RadioManager/RadioManager.cpp
-    sources/DebugMsg/DebugMsg.cpp
+    engine/PiRadioApp.cpp
+    engine/AudioEngine/AudioEngine.cpp
+    engine/AudioEngine/AudioEngineManager.cpp
+    engine/DatabaseEngine/Station.cpp
+    engine/DatabaseEngine/StationsDatabaseTxt.cpp
+    engine/Communication/Communication.cpp
+    engine/RadioManager/RadioManager.cpp
+    engine/DebugMsg/DebugMsg.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
