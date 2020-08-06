@@ -83,6 +83,15 @@ std::string RadioManager::execute(std::vector<std::string> args)
                 reply = manager->getState();
             }
         }
+    } else if (args[0] == "help"){
+        reply = "Avaliable instructions: \n";
+        reply += "  station get all \n";
+        reply += "  station get currnet \n";
+        reply += "  station remove [name] \n";
+        reply += "  station set [name] \n";
+        reply += "  station new [name] [uri] \n";
+        reply += "  engine state set [state: play, stop] \n";
+        reply += "  engine state get \n \n \n";
     }
 
     return reply;
