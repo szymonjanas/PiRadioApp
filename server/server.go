@@ -54,7 +54,7 @@ func getStations() []StationsName {
 
 func viewHandler(w http.ResponseWriter, r *http.Request){
     debugMsg("main page")
-    tmpl, err := template.ParseFiles("../server/server.html")
+    tmpl, err := template.ParseFiles("../server/resources/server.html")
     if err != nil {
         debugMsg("Error occure: " + err.Error())
         w.WriteHeader(http.StatusInternalServerError)
@@ -180,13 +180,13 @@ func main() {
         debugMsg("connected to server: " + engineUri)
     }
     
-    http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("../server/"))))
-    http.HandleFunc("/radio/play", playHandler)
-    http.HandleFunc("/radio/stop", stopHandler)
-    http.HandleFunc("/radio/set", setHandler)
-    http.HandleFunc("/radio/submit", submitHandler)
-    http.HandleFunc("/radio/remove", removeHandler)
-    http.HandleFunc("/radio/add", addHandler)
+    http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("../server/resources/"))))
+    http.HandleFunc("/api/radio/play", playHandler)
+    http.HandleFunc("/api/radio/stop", stopHandler)
+    http.HandleFunc("/api/radio/set", setHandler)
+    http.HandleFunc("/api/radio/submit", submitHandler)
+    http.HandleFunc("/api/radio/remove", removeHandler)
+    http.HandleFunc("/api/radio/add", addHandler)
     http.HandleFunc("/radio/", viewHandler)
 
     debugMsg("serve uri: " + serveUri)

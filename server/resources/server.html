@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="/css/server.css" />
+		<link rel="stylesheet" href="/static/server.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>PiRadio</title>
 	</head>
@@ -16,14 +16,14 @@
 		<label>{{.PlayingData.Station}} </label> <br>
 		<label>  {{.PlayingData.Title}} </label> <br>
 
-		<form action="/radio/play" method="post">
+		<form action="/api/radio/play" method="post">
 			<input class="mediaControlBtn" type="submit" name="playRadio" value="Play">
 		</form>
-		<form action="/radio/stop" method="post">
+		<form action="/api/radio/stop" method="post">
 			<input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
 		</form>
 
-		<form action="/radio/set" method="post">
+		<form action="/api/radio/set" method="post">
 			<label for="Stations">Stations:</label> <br>
 			<select id="Stations" name ="Stations" size="10" onchange="this.form.submit()">
 				{{range .StationsData.Stations}}
@@ -31,14 +31,14 @@
 				{{end}}
 			</select>
 		</form>
-		<form action="/radio/submit" method="post">
+		<form action="/api/radio/submit" method="post">
 			<input type="submit" name="submitAndPlay" value="Submit">
 		</form>
-		<form action="/radio/remove" method="post">
+		<form action="/api/radio/remove" method="post">
 			<input type="submit" name="removeStation" value="Remove">
 		</form>
 
-		<form action="/radio/add" method="post">
+		<form action="/api/radio/add" method="post">
 			<label>Station name:</label><br />
 			<input type="text" name="stationName"><br />
 			<label>Station uri:</label><br />
