@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     bool onlyFlag = false;
     bool consoleFlag = false;
 
+
     std::string siteAddress = "";
     std::string internalCommunicationAddress = "tcp://";
 
