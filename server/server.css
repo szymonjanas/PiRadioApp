@@ -1,3 +1,74 @@
-body {
-    background-color: lightgrey;
+body{margin: 0;padding: 0;}
+.playing{padding: .4rem 1.3rem; text-align: center;}
+
+.bottom_wave {
+    display: flex;
+    justify-content: end;
+    padding-top: 3rem;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    border-top-left-radius: 30%;
+    border-top-right-radius: 80%;
 }
+.wave{
+     /* background: linear-gradient(270deg, rgb(35, 196, 179), rgb(148, 40, 180)); */
+     background-color: rgb(8, 173, 132);
+padding-top: 1rem;
+color: white;
+font-family: 'Montserrat', sans-serif;}
+/* select{border-radius: 20%;} */
+#stations_list{text-align: end;display: flex;justify-content: end;padding-bottom: 1rem;}
+#arrow{margin: 0 .5rem;cursor: pointer;}
+input{margin-left: 1rem;}
+#back{font-variant: small-caps;
+    font-weight: 500;
+
+    /* background-color: rgb(240, 236, 236); */
+color: rgb(0, 0, 0);
+border-bottom-left-radius: 30%;
+border-bottom-right-radius: 80%;
+}
+#jpg{ 
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+}
+#circle{
+    display: flex;
+    justify-content: center;
+    width: 200px;
+height: 200px;
+border-radius: 100px;
+box-shadow: 2px 2px 10px grey;}
+
+#station{color: rgb(114, 109, 109);font-size: .8rem;}
+#tittle{font-size: 1rem;z-index: 2;
+    position: sticky;
+}
+#radio_set{display: flex;justify-content: end;}
+#wrap_radio_set{display: none;position: absolute;top: 3rem;}
+#second_wave {
+    position: sticky;
+    z-index: 1;
+    margin-top: -1rem;
+    padding-top: 3rem;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    border-bottom-left-radius: 80%;
+    border-bottom-right-radius: 30%;
+}
+#play_stop{
+    display: flex;
+    justify-content: space-around;
+    /* background: linear-gradient(90deg,  rgb(148, 40, 180),rgb(35, 196, 179))  ; */
+    background-color: rgb(8, 173, 132);
+    padding: 6rem 0 3rem 0;margin-top: -3rem;}
+
+       
+       #play_pause{background-color: rgb(236, 233, 233);padding: .5rem 1rem; border: 0;cursor: pointer;color: rgb(134, 130, 130);font-weight: 900;font-variant: small-caps;font-size: 1rem;}
+       #play_pause:hover{background-color: rgb(250, 246, 246);}
+
+ 
