@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
 
 <head>
     <meta charset="utf-8">
@@ -171,6 +172,54 @@ function switchState() {
 
 </body>
 
+=======
+	<head>
+		<link rel="stylesheet" href="/res/css/server.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>PiRadio</title>
+	</head>
+	<body>
+
+		{{if .Msg.Type}}
+			<label style="color: green;">  Message: {{.Msg.Message}}   </label> <br>
+		{{else}}
+			<label style="color: red;">  Message: {{.Msg.Message}}   </label> <br>
+		{{end}}
+		<label>  Currently playing...   </label> <br>
+		<label>{{.PlayingData.Station}} </label> <br>
+		<label>  {{.PlayingData.Title}} </label> <br>
+
+		<form action="/radio/play" method="post">
+			<input class="mediaControlBtn" type="submit" name="playRadio" value="Play">
+		</form>
+		<form action="/radio/stop" method="post">
+			<input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
+		</form>
+
+		<form action="/radio/set" method="post">
+			<label for="Stations">Stations:</label> <br>
+			<select id="Stations" name ="Stations" size="10" onchange="this.form.submit()">
+				{{range .StationsData.Stations}}
+					<option value={{.Name}}>{{.Name}}</option>
+				{{end}}
+			</select>
+		</form>
+		<form action="/radio/submit" method="post">
+			<input type="submit" name="submitAndPlay" value="Submit">
+		</form>
+		<form action="/radio/remove" method="post">
+			<input type="submit" name="removeStation" value="Remove">
+		</form>
+
+		<form action="/radio/add" method="post">
+			<label>Station name:</label><br />
+			<input type="text" name="stationName"><br />
+			<label>Station uri:</label><br />
+			<input type="text" name="stationUri"><br />
+			<input type="submit" name="addNewStation" value="ADD">
+		</form>
+	</body>
+>>>>>>> d487dfb691ee2cfc96ed4677513cec5c297f296f
 </html>
     <!-- <input type="submit" name="submit" value="Send" id="submit" /> -->
 
