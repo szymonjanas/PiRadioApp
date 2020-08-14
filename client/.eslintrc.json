@@ -1,0 +1,29 @@
+{
+  "rules": {
+    "no-console": ["error", {"allow":["error", "warn", "info"]}],
+    "no-multiple-empty-lines": ["warn", {"max": 1}],
+    "no-undef": 2,
+    "quotes": ["error", "single"],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/no-render-return-value": 0,
+    "react/no-unescaped-entities": 0,
+    "react/prop-types": 0
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": "eslint:recommended",
+  "plugins": [
+    "react"
+  ]
+}

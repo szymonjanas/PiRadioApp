@@ -1,0 +1,63 @@
+{
+  "name": "piradioapp-react-client",
+  "version": "0.1.0",
+  "description": "PiRadioApp",
+  "main": "src/index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "start": "npm run dev",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --config client/config/webpack.config.dev.babel.js",
+    "build": "npm run clean && cross-env NODE_ENV=production webpack --mode production --config client/config/webpack.config.prod.babel.js",
+    "eslint:check": "./node_modules/.bin/eslint --format friendly --ignore-path .gitignore --ext .js --ext .jsx src/",
+    "eslint:fix": "./node_modules/.bin/eslint --fix --ext .js --ext .jsx --format friendly src/",
+    "stylelint:check": "./node_modules/.bin/stylelint src/styles/**/*.scss",
+    "stylelint:fix": "./node_modules/.bin/stylelint src/styles/**/*.scss --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PiRadioApp/PiRadioApp.git"
+  },
+  "keywords": [],
+  "author": "Piotr Lewandowski <contact@piotrlewandowski.info> (piotrlewandowski.info)",
+  "bugs": {
+    "url": "https://github.com/PiRadioApp/PiRadioApp.git/issues"
+  },
+  "homepage": "https://github.com/PiRadioApp/PiRadioApp.git#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.11.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-react": "^7.10.1",
+    "@babel/register": "^7.10.5",
+    "autoprefixer": "^9.8.4",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "css-loader": "^4.1.1",
+    "eslint": "^7.5.0",
+    "eslint-formatter-friendly": "^7.0.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-react": "^7.20.5",
+    "extract-css-chunks-webpack-plugin": "^4.7.5",
+    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-template": "^6.2.0",
+    "node-sass": "^4.14.1",
+    "postcss-loader": "^3.0.0",
+    "react-hot-loader": "^4.12.21",
+    "rimraf": "^3.0.2",
+    "sass-loader": "^9.0.2",
+    "stylelint": "^13.6.1",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-webpack-plugin": "^2.1.0",
+    "terser-webpack-plugin": "^3.0.8",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.0.9",
+    "webpack-notifier": "^1.8.0"
+  }
+}
