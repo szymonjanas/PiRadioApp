@@ -1,4 +1,4 @@
-let listStation = document.querySelector('#wrap_radio_set');
+﻿let listStation = document.querySelector('#wrap_radio_set');
 let listStationButton = document.querySelector('#arrow');
 listStationButton.addEventListener('click', function () {
     if (listStation.style.display === 'none') { listStation.style.display = 'block'; } else { listStation.style.display = 'none'; }
@@ -12,7 +12,7 @@ playPause.addEventListener('click', switchState);
 
 function switchState() {
 
-    if (audio.paused) { audio.play(); playPause.textContent = 'stop'; } else {
+    if (playPause.textContent='stop') { audio.play(); playPause.textContent = 'stop'; } else {
         audio.pause(); playPause.textContent = 'play';
     }
 

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<<<<<<< HEAD
+
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiRadio</title>
+    <link rel="stylesheet" type="text/css" href="server.css">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+
+
+</head>
+<style>body{margin: 0;padding: 0;}
+	.playing{padding: .4rem 1.3rem; text-align: center;}
+	
+	.bottom_wave {
+		display: flex;
+		justify-content: end;
+		padding-top: 3rem;
+		background-color: white;
+		height: 100%;
+		width: 100%;
+		border-top-left-radius: 30%;
+		border-top-right-radius: 80%;
+	}
+	.wave{
+		 /* background: linear-gradient(270deg, rgb(35, 196, 179), rgb(148, 40, 180)); */
+		 background-color: rgb(8, 173, 132);
+	padding-top: 1rem;
+	color: white;
+	font-family: 'Montserrat', sans-serif;}
+	/* select{border-radius: 20%;} */
+	#stations_list{text-align: end;display: flex;justify-content: end;padding-bottom: 1rem;}
+	#arrow{margin: 0 .5rem;cursor: pointer;}
+	input{margin-left: 1rem;}
+	#back{font-variant: small-caps;
+		font-weight: 500;
+	
+		/* background-color: rgb(240, 236, 236); */
+	color: rgb(0, 0, 0);
+	border-bottom-left-radius: 30%;
+	border-bottom-right-radius: 80%;
+	}
+	#jpg{ 
+		display: flex;
+		justify-content: center;
+		margin-bottom: 1rem;
+	
+	}
+	#circle{
+		display: flex;
+		justify-content: center;
+		width: 200px;
+	height: 200px;
+	border-radius: 100px;
+	box-shadow: 2px 2px 10px grey;}
+	
+	#station{color: rgb(114, 109, 109);font-size: .8rem;}
+	#tittle{font-size: 1rem;z-index: 2;
+		position: sticky;
+	}
+	#radio_set{display: flex;justify-content: end;}
+	#wrap_radio_set{display: none;position: absolute;top: 3rem;}
+	#second_wave {
+		position: sticky;
+		z-index: 1;
+		margin-top: -1rem;
+		padding-top: 3rem;
+		background-color: white;
+		height: 100%;
+		width: 100%;
+		border-bottom-left-radius: 80%;
+		border-bottom-right-radius: 30%;
+	}
+	#play_stop{
+		display: flex;
+		justify-content: space-around;
+		/* background: linear-gradient(90deg,  rgb(148, 40, 180),rgb(35, 196, 179))  ; */
+		background-color: rgb(8, 173, 132);
+		padding: 6rem 0 3rem 0;margin-top: -3rem;}
+	
+		   
+		   #play_pause{background-color: rgb(236, 233, 233);padding: .5rem 1rem; border: 0;cursor: pointer;color: rgb(134, 130, 130);font-weight: 900;font-variant: small-caps;font-size: 1rem;}
+		   #play_pause:hover{background-color: rgb(250, 246, 246);}
+	
+	 </style>
+<body>
+    <div class="wave">
+        <div id="stations_list">
+            <div id="stations">Stations</div>
+            <div id="arrow"><img src="downArrowMint.png"></div>
+
+        </div>
+
+
+        <!-- <input type="image" src="whiteArrow.png" alt="back"> -->
+        <div class="bottom_wave">
+            <div id="wrap_radio_set">
+                <div id="radio_set">
+                    <form action="/radio/set" method="post">
+                        <!-- <label for="Stations">Stations</label> <img src="downArrow.png"> -->
+                        <select id="Stations" name="Stations" size="10" onchange="this.form.submit()">
+                            {{range .StationsData.Stations}}
+                            <option value={{.Name}}>{{.Name}}</option>
+                            {{end}}
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="back">
+
+
+        <!-- <div class="player"></div> -->
+
+
+        <div id="jpg"><img id="circle" src="queen.jpg"></div>
+
+        <!-- <div class="playing"> Currently playing... </div> -->
+        <div class="playing" id="station">{{.PlayingData.Station}}</div>
+
+
+        <div class="playing" id="tittle"> {{.PlayingData.Title}} </div>
+    </div>
+    <div id="second_wave"></div>
+
+    <div id="play_stop">
+        <audio src="Queen – Bohemian Rhapsody (Official Video Remastered).mp3"></audio>
+        <button type="button" id="play_pause" accesskey="P">play</button>
+        <!-- <form action="/radio/play" method="post">
+            <input class="mediaControlBtn" type="submit" name="playRadio"
+            value="Play">
+
+        </form>
+        <form action="/radio/stop" method="post">
+            <input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
+        </form> -->
+
+    </div>
+
+	<script> 
+
+let listStation = document.querySelector('#wrap_radio_set');
+let listStationButton = document.querySelector('#arrow');
+listStationButton.addEventListener('click', function () {
+    if (listStation.style.display === 'none') { listStation.style.display = 'block'; } else { listStation.style.display = 'none'; }
+    console.log('kk');
+}
+);
+let audio = document.querySelector('audio');
+let playPause = document.querySelector('#play_pause');
+
+playPause.addEventListener('click', switchState);
+
+function switchState() {
+
+    if (audio.paused) { audio.play(); playPause.textContent = 'stop'; } else {
+        audio.pause(); playPause.textContent = 'play';
+    }
+
+}
+
+
+
+
+    </script>
+
+</body>
+
+=======
+	<head>
+		<link rel="stylesheet" href="/res/css/server.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>PiRadio</title>
+	</head>
+	<body>
+
+		{{if .Msg.Type}}
+			<label style="color: green;">  Message: {{.Msg.Message}}   </label> <br>
+		{{else}}
+			<label style="color: red;">  Message: {{.Msg.Message}}   </label> <br>
+		{{end}}
+		<label>  Currently playing...   </label> <br>
+		<label>{{.PlayingData.Station}} </label> <br>
+		<label>  {{.PlayingData.Title}} </label> <br>
+
+		<form action="/radio/play" method="post">
+			<input class="mediaControlBtn" type="submit" name="playRadio" value="Play">
+		</form>
+		<form action="/radio/stop" method="post">
+			<input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
+		</form>
+
+		<form action="/radio/set" method="post">
+			<label for="Stations">Stations:</label> <br>
+			<select id="Stations" name ="Stations" size="10" onchange="this.form.submit()">
+				{{range .StationsData.Stations}}
+					<option value={{.Name}}>{{.Name}}</option>
+				{{end}}
+			</select>
+		</form>
+		<form action="/radio/submit" method="post">
+			<input type="submit" name="submitAndPlay" value="Submit">
+		</form>
+		<form action="/radio/remove" method="post">
+			<input type="submit" name="removeStation" value="Remove">
+		</form>
+
+		<form action="/radio/add" method="post">
+			<label>Station name:</label><br />
+			<input type="text" name="stationName"><br />
+			<label>Station uri:</label><br />
+			<input type="text" name="stationUri"><br />
+			<input type="submit" name="addNewStation" value="ADD">
+		</form>
+	</body>
+>>>>>>> d487dfb691ee2cfc96ed4677513cec5c297f296f
+</html>
+    <!-- <input type="submit" name="submit" value="Send" id="submit" /> -->
+
+	<!-- <script src="server.js" type="application/javascript"></script>
+
+
+		
+   
