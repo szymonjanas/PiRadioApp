@@ -12,7 +12,7 @@ playPause.addEventListener('click', switchState);
 
 function switchState() {
 
-    if (playPause.textContent='stop') { audio.play(); playPause.textContent = 'stop'; } else {
+    if (audio.paused) { audio.play(); playPause.textContent = 'stop'; } else {
         audio.pause(); playPause.textContent = 'play';
     }
 
