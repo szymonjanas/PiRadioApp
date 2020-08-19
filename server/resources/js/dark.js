@@ -1,12 +1,10 @@
+
+let play = document.querySelector('.play');
+let arounPlay = document.querySelector('.around_play');
 let audio = document.querySelector('audio');
-let aroundPlay = document.querySelector('.around_play');
 
-aroundPlay.addEventListener('click', switchState);
+arounPlay.addEventListener('click', function () {
 
-function switchState() {
+    if (play.className === 'play') { play.className = 'play playing'; audio.play(); } else { play.className = 'play'; audio.pause(); }
 
-    if (audio.paused) { audio.play(); aroundPlay.textContent = 'stop'; } else {
-        audio.pause(); aroundPlay.textContent = 'play';
-    }
-
-}
+});
