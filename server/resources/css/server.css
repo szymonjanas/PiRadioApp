@@ -5,7 +5,7 @@ body{margin: 0;padding: 0;}
     display: flex;
     justify-content: end;
     padding-top: 3rem;
-    background-color: rgb(175, 159, 159);
+    background-color: rgb(255, 255, 255);
     height: 100%;
     width: 100%;
     border-top-left-radius: 30%;
