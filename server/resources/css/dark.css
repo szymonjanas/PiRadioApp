@@ -1,0 +1,160 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url(/res/img/night_mobile.png);
+    font-size: 24px;
+    color: #fefefe;
+    font-family: sans-serif;
+  }
+  
+  .controls {
+    box-shadow: 0 -25px 25px 0 #040005, inset 0 2px 5px rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 12px 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .around_play {
+    background-color: rgba(255, 255, 255, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 10px 0 rgba(73, 72, 71, 0.6), inset 0 2px rgba(255, 255, 255, 0.7);
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .around_play:active {
+    scale: 0.8;
+  }
+  .around_play::before {
+    box-shadow: 0 -5px 10px 0 rgba(221, 188, 145, 0.6);
+  }
+  .around_play:after {
+    box-shadow: 0 5px 10px 0 rgba(221, 188, 145, 0.6);
+  }
+  .around_play:hover > .play {
+    transform: scale(0.8);
+  }
+  
+  .play {
+    opacity: 0.9;
+    transition: all 0.2s;
+    display: inline-block;
+    width: 4px;
+    height: 1em;
+    border-right: calc(0.5em - 2px) solid #434343;
+    border-left: calc(0.5em - 2px) solid #434343;
+    border-top: 0;
+    border-bottom: 0;
+    background-color: transparent;
+  }
+  .play.playing {
+    margin-left: 4px;
+    width: 0;
+    height: 0;
+    border-right: 0;
+    border-left: 1em solid #434343;
+    border-top: 0.5em solid transparent;
+    border-bottom: 0.5em solid transparent;
+  }
+  
+  .setup_and_data {
+    padding: 1.5rem 1rem;
+    box-shadow: 0 5px 10px 0 rgba(83, 75, 65, 0.6), inset 0 -2px 5px rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .setup_and_data:active > .data > .arrow {
+    transform: scale(0.8);
+  }
+  
+  .data {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  p {
+    margin: 0;
+  }
+  
+  .bgn_stations {
+    display: flex;
+    border-radius: 20px;
+    opacity: 0.7;
+    padding: 0.6rem 1rem 0.6rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 10px 0 rgba(73, 72, 71, 0.6), inset 0 1px 2px white;
+  }
+  .bgn_stations:active {
+    transform: scale(0.9);
+  }
+  .bgn_stations:hover > .backward {
+    transform: scale(0.8);
+  }
+  .bgn_stations:hover {
+    cursor: pointer;
+  }
+  
+  .station {
+    padding-top: 0.3rem;
+  }
+  
+  .bgn_backward {
+    border-radius: 20px;
+    padding: 0.6rem 1.3rem 0.6rem 1rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 10px 0 rgba(73, 72, 71, 0.6), inset 0 1px 2px white;
+  }
+  .bgn_backward:active {
+    transform: scale(0.9);
+  }
+  .bgn_backward:hover > .backward {
+    transform: scale(0.8);
+  }
+  .bgn_backward:hover {
+    cursor: pointer;
+  }
+  
+  .backward {
+    width: 0;
+    height: 0;
+    border-right: 1rem solid #acacac;
+    border-top: 0.6rem solid transparent;
+    border-bottom: 0.6rem solid transparent;
+  }
+  
+  .words {
+    font-weight: 600;
+    color: #dddddd;
+  }
+  
+  .arrow {
+    display: table;
+  }
+  .arrow > i {
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 0.3rem solid #dddddd;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 1px;
+    transform: rotate(135deg);
+  }
+  
+  .music {
+    display: flex;
+    margin-top: 75%;
+  }
+  
+  .tittle {
+    font-size: 1rem;
+    padding: 0 0 0.5rem 0.8rem;
+  }
+  
+  /*# sourceMappingURL=dark.css.map */
+  

@@ -6,72 +6,53 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PiRadio</title>
-    <link rel="stylesheet" type="text/css" href="/res/css/server.css">
+    <link rel="stylesheet" type="text/css" href="/res/css/dark.css">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 
 </head>
 
 <body>
-    <div class="wave">
-        <div id="stations_list">
-			<div id="dropdown">
-            <div id="stations">Stations</div>
-            <div id="arrow"><img src="/res/img/downArrowMint.png"></div>
-		</div>
+    
+
+
+        
+        <audio src="/res/mp3/Queen – Bohemian Rhapsody (Official Video Remastered).mp3"></audio>
+        <div class="setup_and_data">
+
+            <div class="data">
+                <p class="station words">PlayingData.Station</p>
+                <div class="arrow"><i></i></div>
+            </div>
+    
+                
+               
         </div>
-
-
-        <!-- <input type="image" src="whiteArrow.png" alt="back"> -->
-        <div class="bottom_wave">
-            <div id="wrap_radio_set">
-                <div id="radio_set">
-                    <form action="/radio/set" method="post">
-                        <!-- <label for="Stations">Stations</label> <img src="downArrow.png"> -->
-                        <select id="Stations" name="Stations" size="10" onchange="this.form.submit()">
-                            {{range .StationsData.Stations}}
-                            <option value={{.Name}}>{{.Name}}</option>
-                            {{end}}
-                        </select>
-                    </form>
+        <div class="music">
+            <i class="fa fa-music" style="color: rgb(238, 238, 238); margin-left: .7rem; font-size: 1rem;"></i>
+            <p class="tittle words">PlayingData.Tittle</p>
+        </div>
+        </div>
+    
+        </div>
+    
+    
+        </div>
+    
+    
+    
+        <div>
+            <div class="controls">
+                <div class="around_play">
+    
+                    <div class="play"></div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>		
 
-    <div id="back">
-
-
-        <!-- <div class="player"></div> -->
-
-
-        <div id="jpg"><img id="circle" src="/res/img/queen.jpg"></div>
-
-        <!-- <div class="playing"> Currently playing... </div> -->
-        <div class="playing" id="station">{{.PlayingData.Station}}</div>
-
-
-        <div class="playing" id="tittle"> {{.PlayingData.Title}} </div>
-    </div>
-    <div id="second_wave"></div>
-
-    <div id="play_stop">
-        <audio src="/res/mp3/Queen – Bohemian Rhapsody (Official Video Remastered).mp3"></audio>
-        <button type="button" id="play_pause" accesskey="P">play</button>
-        <!-- <form action="/radio/play" method="post">
-            <input class="mediaControlBtn" type="submit" name="playRadio"
-            value="Play">
-
-        </form>
-        <form action="/radio/stop" method="post">
-            <input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
-        </form> -->
-
-    </div>
-
-
-<script src="/res/js/server.js"></script>
+<script src="/res/js/dark.js"></script>
 </body>
 
 </html>
