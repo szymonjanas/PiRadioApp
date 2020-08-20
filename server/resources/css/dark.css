@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url(/res/img/night_mobile.png);
+    background-image: url(/res/img/lights_mobile.jpg);
     font-size: 24px;
     color: #fefefe;
     font-family: sans-serif;
@@ -97,7 +97,8 @@ body {
   
   .words {
     font-weight: 600;
-    color: #dddddd;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px black;
   }
   
   .arrow {
@@ -107,17 +108,23 @@ body {
     display: inline-block;
     width: 0.6rem;
     height: 0.6rem;
-    border: 0.3rem solid #dddddd;
+    border: 0.3rem solid #ffffff;
     border-bottom: 0;
     border-left: 0;
     border-radius: 1px;
     transform: rotate(135deg);
-  }
+    box-shadow: 2px -2px 2px black;
+}
+
   
   .music {
     display: flex;
     margin-top: 75%;
   }
+  .music i{
+    padding-top: 5px;  
+  }
+
   
   .tittle {
     font-size: 1rem;
