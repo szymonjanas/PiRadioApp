@@ -11,19 +11,19 @@ import ExtractCssChunks from 'extract-css-chunks-webpack-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
 
 // Import package.json
-import PKG from '../../package';
+import PKG from './package.json';
 
 const DEVELOPMENT = process.env.NODE_ENV === 'development' ? true : false;
 
 export default {
   // The base directory for resolving `entry` (must be absolute path)
-  context: path.resolve(__dirname, '..', '..'),
+  context: path.resolve(__dirname, 'src'),
 
-  entry: './client/src/index.js',
+  entry: './index.js',
 
   output: {
     // The bundling output directory (must be absolute path)
-    path: path.resolve(__dirname, '..', '..', 'dist'),
+    path: path.resolve(__dirname, 'dist'),
 
     // The output filename of the entry chunk, relative to `path`
     // [name] - Will be set per each key name in `entry`
@@ -47,7 +47,7 @@ export default {
         options: {
           formatter: require('eslint-formatter-friendly'),
           cache: DEVELOPMENT,
-          configFile: path.resolve(__dirname, '..', '.eslintrc.json'),
+          configFile: path.resolve(__dirname, '.eslintrc.json'),
         },
       },
 
