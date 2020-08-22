@@ -1,7 +1,7 @@
 #include "RadioManager.hpp"
 
-RadioManager::RadioManager(DatabaseEngine* database,
-                    AudioEngineManager* audioEngineManager,
+RadioManager::RadioManager(Database* database,
+                    Audio::Manager* audioEngineManager,
                     Communication* communication) :
     database(database), 
     manager(audioEngineManager), 
@@ -14,12 +14,12 @@ RadioManager::~RadioManager()
     delete communication;
 }
 
-void RadioManager::setDatabase(DatabaseEngine* database) 
+void RadioManager::setDatabase(Database* database) 
 {
     this->database = database;
 }
 
-void RadioManager::setAudio(AudioEngineManager* audioEngineManager) 
+void RadioManager::setAudio(Audio::Manager* audioEngineManager) 
 {
     this->manager = audioEngineManager;
 }

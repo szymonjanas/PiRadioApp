@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include "RadioManager.hpp"
+#include "dbStationTxt.hpp"
+#include "Audio.hpp"
+#include "Logs.hpp"
 
 int main(int argc, char ** argv)
 {
@@ -9,8 +12,8 @@ int main(int argc, char ** argv)
 
     bool debug = false;
     manager = new RadioManager(
-        new StationsDatabaseTxt("../database.txt"),
-        &AudioEngineManager::getManager(),
+        new db::StationsTxt("../database.txt"),
+        &Audio::Manager::getManager(),
         new Communication(debug, "tcp://*:5555")
         );
 
@@ -20,4 +23,6 @@ int main(int argc, char ** argv)
     manager->start();
 
     delete manager;
+    
+    return 0;
 }

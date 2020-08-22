@@ -181,12 +181,12 @@ func main() {
     }
     
     http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("../server/"))))
-    http.HandleFunc("/radio/play", playHandler)
-    http.HandleFunc("/radio/stop", stopHandler)
-    http.HandleFunc("/radio/set", setHandler)
-    http.HandleFunc("/radio/submit", submitHandler)
-    http.HandleFunc("/radio/remove", removeHandler)
-    http.HandleFunc("/radio/add", addHandler)
+    http.HandleFunc("/radio/api/play", playHandler)
+    http.HandleFunc("/radio/api/stop", stopHandler)
+    http.HandleFunc("/radio/api/set", setHandler)
+    http.HandleFunc("/radio/api/submit", submitHandler)
+    http.HandleFunc("/radio/api/remove", removeHandler)
+    http.HandleFunc("/radio/api/add", addHandler)
     http.HandleFunc("/radio/", viewHandler)
 
     debugMsg("serve uri: " + serveUri)

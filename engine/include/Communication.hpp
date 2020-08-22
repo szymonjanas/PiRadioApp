@@ -6,7 +6,6 @@
 #include "DebugMsg.hpp"
 #include <zmq.hpp>
 
-
 class Communication {
 
     std::unique_ptr<zmq::context_t> context;

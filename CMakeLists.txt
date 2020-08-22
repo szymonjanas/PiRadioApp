@@ -19,23 +19,20 @@ set(ENV{PKG_CONFIG_PATH})
 include_directories("${GST_INCLUDE_DIRS}")
 link_libraries(${GST_LIBRARIES})
 
-include_directories(
-    sources/DatabaseEngine
-    sources/AudioEngine
-    sources/Communication
-    sources/RadioManager
-    sources/DebugMsg
-)
+set (enginePath engine)
+include_directories(${enginePath}/include)
 
+set (engineSrc ${enginePath}/source)
 set(SOURCES
-    sources/PiRadioApp.cpp
-    sources/AudioEngine/AudioEngine.cpp
-    sources/AudioEngine/AudioEngineManager.cpp
-    sources/DatabaseEngine/Station.cpp
-    sources/DatabaseEngine/StationsDatabaseTxt.cpp
-    sources/Communication/Communication.cpp
-    sources/RadioManager/RadioManager.cpp
-    sources/DebugMsg/DebugMsg.cpp
+    ${enginePath}/PiRadioApp.cpp
+    ${engineSrc}/AudioEngine.cpp
+    ${engineSrc}/AudioManager.cpp
+    ${engineSrc}/Station.cpp
+    ${engineSrc}/dbStationTxt.cpp
+    ${engineSrc}/Communication.cpp
+    ${engineSrc}/RadioManager.cpp
+    ${engineSrc}/DebugMsg.cpp
+    ${engineSrc}/Logs.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

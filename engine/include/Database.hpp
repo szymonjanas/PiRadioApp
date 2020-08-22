@@ -4,10 +4,10 @@
 
 #include "Station.hpp"
 
-class DatabaseEngine {
+class Database {
 
 public:
-    virtual ~DatabaseEngine(){}
+    virtual ~Database(){}
 
     virtual bool isLoad() = 0;
     virtual void load() = 0;
