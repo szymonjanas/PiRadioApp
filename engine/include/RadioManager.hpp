@@ -9,17 +9,17 @@
 class RadioManager {
 
     Database* database;
-    Audio::Manager* manager;
+    audio::Manager* manager;
     Communication* communication;
     
 public:
     RadioManager(   Database* database,
-                    Audio::Manager* audioEngineManager,
+                    audio::Manager* audioEngineManager,
                     Communication* communication);
     ~RadioManager();
 
     void setDatabase(Database* database);
-    void setAudio(Audio::Manager* audioEngineManager);
+    void setAudio(audio::Manager* audioEngineManager);
     void setCommunication(Communication* communication);
     std::string execute(std::vector<std::string> command);
     void start();

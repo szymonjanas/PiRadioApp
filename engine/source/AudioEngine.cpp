@@ -1,6 +1,6 @@
 #include "Audio.hpp"
 
-namespace Audio
+namespace audio
 {
 
     Engine::Engine()

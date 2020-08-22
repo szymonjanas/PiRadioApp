@@ -4,7 +4,7 @@
 #include <string>
 #include "Station.hpp"
 
-namespace Audio
+namespace audio
 {
     enum class STATE
     {
@@ -68,4 +68,4 @@ namespace Audio
         std::string toString();
     };
 
-} // namespace Audio
+} // namespace audio

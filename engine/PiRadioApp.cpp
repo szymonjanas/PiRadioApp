@@ -13,7 +13,7 @@ int main(int argc, char ** argv)
     bool debug = false;
     manager = new RadioManager(
         new db::StationsTxt("../database.txt"),
-        &Audio::Manager::getManager(),
+        &audio::Manager::getManager(),
         new Communication(debug, "tcp://*:5555")
         );
 
