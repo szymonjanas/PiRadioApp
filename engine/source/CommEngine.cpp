@@ -1,9 +1,8 @@
 #include "Communication.hpp"
 
-namespace communication
+namespace comm
 {
-
-    Engine::Engine(bool debug, std::string address) : debug(debug)
+    Engine::Engine(std::string address, bool debug) : debug(debug)
     {
         context = std::make_unique<zmq::context_t>(1);
         socket = std::make_unique<zmq::socket_t>(*context, ZMQ_PAIR);
@@ -45,7 +44,7 @@ namespace communication
     void Engine::send(std::string message)
     {
         if (debug)
-            debug::info("send: " + message);
+            log::info("send: " + message);
         else
         {
             zmq::message_t messageData(message.size());
@@ -62,14 +61,14 @@ namespace communication
             if (debug)
             {
                 std::getline(std::cin, requestData);
-                debug::info("command: " + requestData);
+                log::info("command: " + requestData);
             }
             else
             {
                 zmq::message_t request;
                 socket->recv(&request);
                 requestData = std::string(static_cast<char *>(request.data()), request.size());
-                debug::info("recv: " + requestData);
+                log::info("recv: " + requestData);
             }
 
             if (requestData == "0")

@@ -6,7 +6,7 @@
 #include <queue>
 #include <thread>
 #include <mutex>
-#include "DebugMsg.hpp"
+#include "Logs.hpp"
 #include <zmq.hpp>
 
 namespace comm
@@ -96,5 +96,5 @@ namespace comm
         /*
             add message for sending queue - replies
         */
-    }
+    };
 } // namespace comm

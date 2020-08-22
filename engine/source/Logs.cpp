@@ -24,9 +24,11 @@ static bool fileStatus = false;
 
 static bool debugStatus = true;
 
+static const std::string ID = "server";
+
 namespace
 {
-    std::string color(std::string color, std::string &message)
+    std::string color(std::string color, std::string message)
     {
         std::string out = c_esc + color + message + c_esc + c_reset;
         return out;
@@ -40,7 +42,8 @@ namespace
 
         while(std::find(strTime.begin(), strTime.end(), '\n') != strTime.end())
             strTime.erase(std::find(strTime.begin(), strTime.end(), '\n'));
-        message = strTime + "  " + message;
+
+        message = (colorStatus ? color(c_magenta_light, ID) : ID) + ": " + strTime + "  " + message;
     }
 } // namespace
 

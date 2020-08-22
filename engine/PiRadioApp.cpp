@@ -11,10 +11,13 @@ int main(int argc, char ** argv)
     RadioManager *manager;
 
     bool debug = false;
+    
+    log::switches::color(true);
+
     manager = new RadioManager(
         new db::StationsTxt("../database.txt"),
         &audio::Manager::getManager(),
-        new Engine(debug, "tcp://*:5555")
+        new comm::Engine("tcp://*:5555", debug)
         );
 
     if (!debug)

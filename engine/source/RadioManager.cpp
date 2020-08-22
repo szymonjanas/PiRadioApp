@@ -2,7 +2,7 @@
 
 RadioManager::RadioManager(Database* database,
                     audio::Manager* audioEngineManager,
-                    Engine* communication) :
+                    comm::Engine* communication) :
     database(database), 
     manager(audioEngineManager), 
     communication(communication)
@@ -24,7 +24,7 @@ void RadioManager::setAudio(audio::Manager* audioEngineManager)
     this->manager = audioEngineManager;
 }
 
-void RadioManager::setCommunication(Engine* communication) 
+void RadioManager::setCommunication(comm::Engine* communication) 
 {
     this->communication = communication;
 }
@@ -42,7 +42,7 @@ std::string RadioManager::execute(std::vector<std::string> args)
                     reply = database->getNamesInString();
                 } catch (std::string str){
                     reply = "err Error, Cannot load database: " + str;
-                    debug::err("Cannot load database: " + str);
+                    log::err("Cannot load database: " + str);
                 }
             } else if (args[2] == "current")
                 reply = manager->toString(); 
@@ -53,7 +53,7 @@ std::string RadioManager::execute(std::vector<std::string> args)
                 reply = "msg Station removed: " + args[2];
             } else {
                 reply = "err Station does not exist: " + args[2];
-                debug::err(reply);
+                log::err(reply);
             }
         } else if (args[1] == "set"){
             if (database->getByName(args[2]) != nullptr){
@@ -61,14 +61,14 @@ std::string RadioManager::execute(std::vector<std::string> args)
                 reply = "msg Station setted: " + manager->getStation()->getName();
             } else {
                 reply = "err Station does not exist: " + args[2];
-                debug::err(reply);
+                log::err(reply);
             }
         } else if (args[1] == "new"){
             try {
                 database->put(new Station(args[2], args[3]));
             } catch (...) {
                 reply = "err Somethink went wrong!";
-                debug::err(reply);
+                log::err(reply);
             }
         }
     } else if (args[0] == "engine"){
@@ -91,12 +91,12 @@ std::string RadioManager::execute(std::vector<std::string> args)
 void RadioManager::start() 
 {
     while (true) {
-        debug::debug("starting");
+        log::info("starting");
         std::vector<std::string> args = 
             communication->convertStringsToArgs(
                 communication->recive()
                 );
-        debug::debug("recivied");
+        log::info("recivied");
 
         std::string reply = execute(args);
 

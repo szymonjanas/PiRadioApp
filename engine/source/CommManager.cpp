@@ -15,9 +15,9 @@ namespace comm
 
     void Manager::start()
     {
-        th_req = new std::thread(comm::Manager::run_request, this);
+        th_req = new std::thread(&comm::Manager::run_request, this);
         th_req->detach();
-        th_rep = new std::thread(comm::Manager::run_replay, this);
+        th_rep = new std::thread(&comm::Manager::run_replay, this);
         th_rep->detach();
     }
 
@@ -61,7 +61,7 @@ namespace comm
     {
         while(true){
             std::string message = engine->recive();
-            requests(message);
+            request(message);
         }
     }
 

@@ -32,7 +32,6 @@ set(SOURCES
     ${engineSrc}/CommEngine.cpp
     ${engineSrc}/CommManager.cpp
     ${engineSrc}/RadioManager.cpp
-    ${engineSrc}/DebugMsg.cpp
     ${engineSrc}/Logs.cpp
 )
 
@@ -41,4 +40,5 @@ target_link_libraries(
     ${PROJECT_NAME} 
     ${GST_LIBRARIES}
     zmq
+    pthread
 )

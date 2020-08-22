@@ -4,23 +4,23 @@
 #include "dbStationTxt.hpp"
 #include "Communication.hpp"
 #include "Audio.hpp"
-#include "DebugMsg.hpp"
+#include "Logs.hpp"
 
 class RadioManager {
 
     Database* database;
     audio::Manager* manager;
-    Engine* communication;
+    comm::Engine* communication;
     
 public:
     RadioManager(   Database* database,
                     audio::Manager* audioEngineManager,
-                    Engine* communication);
+                    comm::Engine* communication);
     ~RadioManager();
 
     void setDatabase(Database* database);
     void setAudio(audio::Manager* audioEngineManager);
-    void setCommunication(Engine* communication);
+    void setCommunication(comm::Engine* communication);
     std::string execute(std::vector<std::string> command);
     void start();
 
