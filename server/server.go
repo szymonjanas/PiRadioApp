@@ -180,7 +180,7 @@ func main() {
         debugMsg("connected to server: " + engineUri)
     }
     
-    http.Handle("/res/", http.StripPrefix("/res/", http.FileServer(http.Dir("../server/resources/"))))
+    http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir("../server/resources/"))))
     http.HandleFunc("/radio/api/play", playHandler)
     http.HandleFunc("/radio/api/stop", stopHandler)
     http.HandleFunc("/radio/api/set", setHandler)
