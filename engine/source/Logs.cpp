@@ -24,7 +24,7 @@ static bool fileStatus = false;
 
 static bool debugStatus = true;
 
-static const std::string ID = "server";
+static const std::string ID = "server: ";
 
 namespace
 {
@@ -43,7 +43,7 @@ namespace
         while(std::find(strTime.begin(), strTime.end(), '\n') != strTime.end())
             strTime.erase(std::find(strTime.begin(), strTime.end(), '\n'));
 
-        message = (colorStatus ? color(c_magenta_light, ID) : ID) + ": " + strTime + "  " + message;
+        message = strTime + "  " + message;
     }
 } // namespace
 
@@ -75,9 +75,9 @@ namespace log
         addTime(str);
         if (consoleStatus)
             if (colorStatus)
-                std::cout << color(c_cyan_light, str) << std::endl;
+                std::cout << color(c_magenta_light, ID) + color(c_cyan_light, str) << std::endl;
             else
-                std::cout << str << std::endl;
+                std::cout << ID + str << std::endl;
         if (fileStatus && filePath.size() > 0)
             append(str);
     }
@@ -88,9 +88,9 @@ namespace log
         addTime(str);
         if (consoleStatus)
             if (colorStatus)
-                std::cout << color(c_blue_light, str) << std::endl;
+                std::cout << color(c_magenta_light, ID) + color(c_blue_light, str) << std::endl;
             else
-                std::cout << str << std::endl;
+                std::cout << ID + str << std::endl;
         if (fileStatus && filePath.size() > 0)
             append(str);
     }
@@ -100,7 +100,7 @@ namespace log
         std::string str = message;
         addTime(str);
         if (consoleStatus)
-            std::cout << str << std::endl;
+            std::cout << ID + str << std::endl;
         if (fileStatus && filePath.size() > 0)
             append(str);
     }
@@ -111,9 +111,9 @@ namespace log
         addTime(str);
         if (consoleStatus)
             if (colorStatus)
-                std::cout << color(c_yellow_light, str) << std::endl;
+                std::cout << color(c_magenta_light, ID) + color(c_yellow_light, str) << std::endl;
             else
-                std::cout << str << std::endl;
+                std::cout << ID + str << std::endl;
         if (fileStatus && filePath.size() > 0)
             append(str);
     }
@@ -124,9 +124,9 @@ namespace log
         addTime(str);
         if (consoleStatus)
             if (colorStatus)
-                std::cout << color(c_red, str) << std::endl;
+                std::cout << color(c_magenta_light, ID) + color(c_red, str) << std::endl;
             else
-                std::cout << str << std::endl;
+                std::cout << ID + str << std::endl;
         if (fileStatus && filePath.size() > 0)
             append(str);
     }

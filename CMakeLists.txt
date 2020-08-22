@@ -30,7 +30,6 @@ set(SOURCES
     ${engineSrc}/Station.cpp
     ${engineSrc}/dbStationTxt.cpp
     ${engineSrc}/CommEngine.cpp
-    ${engineSrc}/CommManager.cpp
     ${engineSrc}/RadioManager.cpp
     ${engineSrc}/Logs.cpp
 )

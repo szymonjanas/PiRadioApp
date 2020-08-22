@@ -2,22 +2,7 @@
 
 namespace comm
 {
-    Engine::Engine(std::string address, bool debug) : debug(debug)
-    {
-        context = std::make_unique<zmq::context_t>(1);
-        socket = std::make_unique<zmq::socket_t>(*context, ZMQ_PAIR);
-        socket->bind(address.c_str());
-    }
-
-    Engine::~Engine()
-    {
-        socket->close();
-        zmq_ctx_destroy(static_cast<void *>(context.release()));
-        socket.reset();
-        context.reset();
-    }
-
-    std::vector<std::string> Engine::convertStringsToArgs(std::string message)
+    std::vector<std::string> convertStringsToArgs(std::string message)
     {
         std::vector<std::string> args;
         short iter = -1;
@@ -40,6 +25,22 @@ namespace comm
         args.shrink_to_fit();
         return args;
     }
+
+    Engine::Engine(std::string address, bool debug) : debug(debug)
+    {
+        context = std::make_unique<zmq::context_t>(1);
+        socket = std::make_unique<zmq::socket_t>(*context, ZMQ_PAIR);
+        socket->bind(address.c_str());
+    }
+
+    Engine::~Engine()
+    {
+        socket->close();
+        zmq_ctx_destroy(static_cast<void *>(context.release()));
+        socket.reset();
+        context.reset();
+    }
+
 
     void Engine::send(std::string message)
     {
