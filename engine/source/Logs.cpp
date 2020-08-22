@@ -24,7 +24,7 @@ static bool fileStatus = false;
 
 static bool debugStatus = true;
 
-static const std::string ID = "server: ";
+static const std::string ID = "engine: ";
 
 namespace
 {
