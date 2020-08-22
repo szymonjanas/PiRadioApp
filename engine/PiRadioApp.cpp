@@ -13,7 +13,6 @@ int main(int argc, char **argv)
     bool helpFlag = false;
     bool onlyFlag = false;
     bool consoleFlag = false;
-    bool cmdColorsFlag = false;
 
     std::string siteAddress = "";
     std::string internalCommunicationAddress = "tcp://";
@@ -61,7 +60,7 @@ int main(int argc, char **argv)
         }
         else if (args[i] == "--only-with-console")
         {
-            log::info("Mode: Only with console. Internal communication turned off. Type \"help\" for instructions.");
+            log::warn("Mode: Only with console. Internal communication turned off. Type \"help\" for instructions.");
             onlyFlag = true;
             consoleFlag = true;
         }
@@ -72,7 +71,7 @@ int main(int argc, char **argv)
         else if (args[i] == "--cmd-colors" or args[i] == "-col")
         {
             serverArgs += args[i] + " "; 
-            cmdColorsFlag = true;
+            log::switches::color(true);
         }
     }
 
@@ -80,8 +79,6 @@ int main(int argc, char **argv)
     {
 
         RadioManager *manager;
-
-        log::switches::color(cmdColorsFlag);
 
         comm::Engine *engine = new comm::Engine("tcp://*:5555", consoleFlag);
 
