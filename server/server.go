@@ -103,6 +103,16 @@ func submitHandler(w http.ResponseWriter, r *http.Request){
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
+func setsubmitHandler(w http.ResponseWriter, r *http.Request){
+    body := r.FormValue("Stations")
+    checkedStation = body
+    debugMsg("checked " + checkedStation)
+    sendRequest("station set " + checkedStation)
+    sendRequest("engine state set play")
+    debugMsg("submit " + checkedStation)
+    http.Redirect(w, r, "/radio/", http.StatusFound)
+} 
+
 func removeHandler(w http.ResponseWriter, r *http.Request){
     sendRequest("station remove " + checkedStation)
     debugMsg("remove " + checkedStation)
@@ -185,6 +195,7 @@ func main() {
     http.HandleFunc("/radio/api/stop", stopHandler)
     http.HandleFunc("/radio/api/set", setHandler)
     http.HandleFunc("/radio/api/submit", submitHandler)
+    http.HandleFunc("/radio/api/setsubmit", setsubmitHandler)
     http.HandleFunc("/radio/api/remove", removeHandler)
     http.HandleFunc("/radio/api/add", addHandler)
     http.HandleFunc("/radio/", viewHandler)
