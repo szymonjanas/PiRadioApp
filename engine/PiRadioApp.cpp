@@ -14,7 +14,7 @@ int main(int argc, char ** argv)
     manager = new RadioManager(
         new db::StationsTxt("../database.txt"),
         &audio::Manager::getManager(),
-        new Communication(debug, "tcp://*:5555")
+        new Engine(debug, "tcp://*:5555")
         );
 
     if (!debug)

@@ -2,7 +2,7 @@
 
 RadioManager::RadioManager(Database* database,
                     audio::Manager* audioEngineManager,
-                    Communication* communication) :
+                    Engine* communication) :
     database(database), 
     manager(audioEngineManager), 
     communication(communication)
@@ -24,7 +24,7 @@ void RadioManager::setAudio(audio::Manager* audioEngineManager)
     this->manager = audioEngineManager;
 }
 
-void RadioManager::setCommunication(Communication* communication) 
+void RadioManager::setCommunication(Engine* communication) 
 {
     this->communication = communication;
 }

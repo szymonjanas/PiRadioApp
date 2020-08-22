@@ -29,7 +29,8 @@ set(SOURCES
     ${engineSrc}/AudioManager.cpp
     ${engineSrc}/Station.cpp
     ${engineSrc}/dbStationTxt.cpp
-    ${engineSrc}/Communication.cpp
+    ${engineSrc}/CommEngine.cpp
+    ${engineSrc}/CommManager.cpp
     ${engineSrc}/RadioManager.cpp
     ${engineSrc}/DebugMsg.cpp
     ${engineSrc}/Logs.cpp
