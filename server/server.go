@@ -3,10 +3,70 @@ package main
 import (
     "html/template"
     "net/http"
+    "os"
     "fmt"
+    "time"
     "strings"
     zmq "github.com/pebbe/zmq4"
 )
+
+var ID string =  "\033" + "[1;32m" + "server: " + "\033" + "[0m"
+var colorStatus bool = true
+var logFilePath string = "client.txt"
+func log_time(message string) string {
+    t := time.Now()
+    str := t.Format("2006-01-02 15:04:05")
+    return str + "  " + message
+}
+func log_file(message string){
+    f, _ := os.OpenFile(logFilePath, os.O_APPEND|os.O_WRONLY, 0644) 
+    f.WriteString(message) 
+    f.Close()
+}
+func log_debug(message string){
+    var str string
+    message = log_time("DEBUG: " + message)
+    log_file(ID + message + "\n")
+    if colorStatus {
+        str = ID + "\033" + "[1;36m" + message + "\033" + "[0m" + "\n"
+    } else {
+        str = ID + message + "\n"
+    }
+    fmt.Print(str)
+}
+func log_err(message string){
+    var str string
+    message = log_time("ERROR: "+ message)
+    log_file(ID + message + "\n")
+    if colorStatus {
+        str = ID + "\033" + "[0;31m" + message + "\033" + "[0m" + "\n"
+    } else {
+        str = ID + message + "\n"
+    }
+    fmt.Print(str) 
+}
+func log_warn(message string){
+    var str string
+    message = log_time("WARN: " + message)
+    log_file(ID + message + "\n")
+    if colorStatus {
+        str = ID + "\033" + "[1;33m" + message + "\033" + "[0m" + "\n"
+    } else {
+        str = ID + message + "\n"
+    }
+    fmt.Print(str)  
+}
+func log_info(message string){
+    var str string
+    message = log_time("INFO:" + message)
+    log_file(ID + message + "\n")
+    if colorStatus {
+        str = ID + "\033" + "[0;34m" + message + "\033" + "[0m" + "\n"
+    } else {
+        str = ID + message + "\n"
+    }
+    fmt.Print(str)
+}
 
 var client *zmq.Socket
 var checkedStation string = "none"
@@ -53,10 +113,10 @@ func getStations() []StationsName {
 */
 
 func viewHandler(w http.ResponseWriter, r *http.Request){
-    debugMsg("main page")
+    log_debug("main page")
     tmpl, err := template.ParseFiles("../server/resources/server.html")
     if err != nil {
-        debugMsg("Error occure: " + err.Error())
+        log_err("Error occure: " + err.Error())
         w.WriteHeader(http.StatusInternalServerError)
         return
     }
@@ -79,43 +139,42 @@ func viewHandler(w http.ResponseWriter, r *http.Request){
 
 func playHandler(w http.ResponseWriter, r *http.Request){
     sendRequest("engine state set play")
-    debugMsg("play ")
+    log_info("play ")
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func stopHandler(w http.ResponseWriter, r *http.Request){
     sendRequest("engine state set stop")
-    debugMsg("stop")
+    log_info("stop")
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func setHandler(w http.ResponseWriter, r *http.Request){
     body := r.FormValue("Stations")
     checkedStation = body
-    debugMsg("checked " + checkedStation)
+    log_info("checked " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func submitHandler(w http.ResponseWriter, r *http.Request){
     sendRequest("station set " + checkedStation)
     sendRequest("engine state set play")
-    debugMsg("submit " + checkedStation)
+    log_info("submit " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func setsubmitHandler(w http.ResponseWriter, r *http.Request){
     body := r.FormValue("Stations")
     checkedStation = body
-    debugMsg("checked " + checkedStation)
     sendRequest("station set " + checkedStation)
     sendRequest("engine state set play")
-    debugMsg("submit " + checkedStation)
+    log_info("checked and submit " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func removeHandler(w http.ResponseWriter, r *http.Request){
     sendRequest("station remove " + checkedStation)
-    debugMsg("remove " + checkedStation)
+    log_info("remove " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
@@ -123,7 +182,7 @@ func addHandler(w http.ResponseWriter, r *http.Request){
     name := r.FormValue("stationName")
     uri := r.FormValue("stationUri")
     sendRequest("station new " + name + " " + uri)
-    debugMsg("add new " + name + " " + uri)
+    log_info("add new " + name + " " + uri)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
@@ -136,13 +195,13 @@ func sendRequest(request string) []string {
         send request; recive, decode and return reply
     */
     (*client).SendMessage(request, 0)
-    debugMsg("send request: " + request)
+    log_info("send request: " + request)
     msg, err := (*client).RecvMessage(0)
     if err != nil {
-        debugMsg("send error: " + err.Error())
+        log_err("send error: " + err.Error())
     }
     reply := msg[0]
-    debugMsg("recive replay: " + reply)
+    log_info("recive replay: " + reply)
     var words []string
 	word := ""
 	flag := true
@@ -167,15 +226,9 @@ func sendRequest(request string) []string {
             informMessage.Type = false
         }
         informMessage.Message = strings.Join(words[1:len(words)], " ")
-        fmt.Println("MSG: ", informMessage.Type, informMessage)
+        log_info("MSG: " + informMessage.Message)
     }
     return words 
-}
-
-func debugMsg(message string){
-    if DEBUG {
-        fmt.Println(message)
-    }
 }
 
 func main() {
@@ -185,9 +238,9 @@ func main() {
     serveUri := ":8080"
     (*client).Connect(engineUri)
     if errSocket != nil {
-        debugMsg("error socket: " + errSocket.Error())
+        log_err("error socket: " + errSocket.Error())
     } else {
-        debugMsg("connected to server: " + engineUri)
+        log_info("connected to server: " + engineUri)
     }
     
     http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir("../server/resources/"))))
@@ -200,9 +253,9 @@ func main() {
     http.HandleFunc("/radio/api/add", addHandler)
     http.HandleFunc("/radio/", viewHandler)
 
-    debugMsg("serve uri: " + serveUri)
+    log_info("serve uri: " + serveUri)
     errServe := http.ListenAndServe(serveUri, nil)
     if errServe != nil {
-        debugMsg("error serve: " + errServe.Error()) 
+        log_err("error serve: " + errServe.Error()) 
     }
 }

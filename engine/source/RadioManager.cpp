@@ -125,7 +125,6 @@ void RadioManager::start()
         std::vector<std::string> args =
             comm::convertStringsToArgs(
                 communication->recive());
-        log::info("recivied");
         std::string reply = execute(args);
         communication->send(reply);
     }

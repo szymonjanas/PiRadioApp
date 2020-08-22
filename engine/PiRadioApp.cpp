@@ -83,7 +83,7 @@ int main(int argc, char **argv)
 
         log::switches::color(cmdColorsFlag);
 
-        comm::Engine *engine = new comm::Engine("tcp://*:5555", !consoleFlag);
+        comm::Engine *engine = new comm::Engine("tcp://*:5555", consoleFlag);
 
         manager = new RadioManager(
             new db::StationsTxt(databasePath),

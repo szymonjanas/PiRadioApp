@@ -41,7 +41,6 @@ namespace comm
         context.reset();
     }
 
-
     void Engine::send(std::string message)
     {
         if (debug)
@@ -60,21 +59,19 @@ namespace comm
         while (requestData.size() == 0)
         {
             if (debug)
-            {
                 std::getline(std::cin, requestData);
-                log::info("command: " + requestData);
-            }
             else
             {
                 zmq::message_t request;
                 socket->recv(&request);
                 requestData = std::string(static_cast<char *>(request.data()), request.size());
-                log::info("recv: " + requestData);
             }
 
             if (requestData == "0")
                 requestData = "";
+            else
+                log::info("recived: " + requestData);
         }
         return requestData;
     }
-} // namespace communication
+} // namespace comm
