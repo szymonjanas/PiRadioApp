@@ -10,7 +10,8 @@ import (
     zmq "github.com/pebbe/zmq4"
 )
 
-var ID string =  "\033" + "[1;32m" + "server: " + "\033" + "[0m"
+var ID string = "server: "
+var coloredID string =  "\033" + "[1;32m" + ID + "\033" + "[0m"
 var colorStatus bool = true
 var logFilePath string = "client.txt"
 func log_time(message string) string {
@@ -28,7 +29,7 @@ func log_debug(message string){
     message = log_time("DEBUG: " + message)
     log_file(ID + message + "\n")
     if colorStatus {
-        str = ID + "\033" + "[1;36m" + message + "\033" + "[0m" + "\n"
+        str = coloredID + "\033" + "[1;36m" + message + "\033" + "[0m" + "\n"
     } else {
         str = ID + message + "\n"
     }
@@ -39,7 +40,7 @@ func log_err(message string){
     message = log_time("ERROR: "+ message)
     log_file(ID + message + "\n")
     if colorStatus {
-        str = ID + "\033" + "[0;31m" + message + "\033" + "[0m" + "\n"
+        str = coloredID + "\033" + "[0;31m" + message + "\033" + "[0m" + "\n"
     } else {
         str = ID + message + "\n"
     }
@@ -50,7 +51,7 @@ func log_warn(message string){
     message = log_time("WARN: " + message)
     log_file(ID + message + "\n")
     if colorStatus {
-        str = ID + "\033" + "[1;33m" + message + "\033" + "[0m" + "\n"
+        str = coloredID + "\033" + "[1;33m" + message + "\033" + "[0m" + "\n"
     } else {
         str = ID + message + "\n"
     }
@@ -58,10 +59,10 @@ func log_warn(message string){
 }
 func log_info(message string){
     var str string
-    message = log_time("INFO:" + message)
+    message = log_time("INFO: " + message)
     log_file(ID + message + "\n")
     if colorStatus {
-        str = ID + "\033" + "[0;34m" + message + "\033" + "[0m" + "\n"
+        str = coloredID + "\033" + "[0;34m" + message + "\033" + "[0m" + "\n"
     } else {
         str = ID + message + "\n"
     }
