@@ -54,7 +54,7 @@ func getStations() []StationsName {
 
 func viewHandler(w http.ResponseWriter, r *http.Request){
     debugMsg("main page")
-    tmpl, err := template.ParseFiles("../server/server.html")
+    tmpl, err := template.ParseFiles("../server/resources/server.html")
     if err != nil {
         debugMsg("Error occure: " + err.Error())
         w.WriteHeader(http.StatusInternalServerError)
