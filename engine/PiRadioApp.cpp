@@ -70,7 +70,7 @@ int main(int argc, char **argv)
         }
         else if (args[i] == "--cmd-colors" or args[i] == "-col")
         {
-            serverArgs += args[i] + " "; 
+            serverArgs += args[i] + " ";
             log::switches::color(true);
         }
     }
@@ -83,9 +83,9 @@ int main(int argc, char **argv)
         comm::Engine *engine = new comm::Engine("tcp://*:5555", consoleFlag);
 
         manager = new RadioManager(
-            new db::StationsTxt(databasePath),
-            &audio::Manager::getManager(),
-            engine);
+                    new db::StationsTxt(databasePath),
+                    &audio::Manager::getManager(),
+                    engine);
 
         if (!onlyFlag)
             system("go run ../server/server.go &");
@@ -101,33 +101,33 @@ int main(int argc, char **argv)
 std::string help() 
 {
     std::string helpStr = "";
-        helpStr += "PiRadio help sheet\n";
-        helpStr += "\n";
-        helpStr += " --icomm-address [ip:port]  Internal (server <-> engine) tcp communication address. \n";
-        helpStr += "    -ic [ip:port]               Default: localhost:5555\n";
-        helpStr += " --icomm-port [port]        Internal (server <-> engine) tcp communication port. \n";
-        helpStr += "    -icp [port]                 Default: 5555 \n";
-        helpStr += "\n";
-        helpStr += " --host-address [ip:port]   Host site address.  \n";
-        helpStr += "    -h [ip:port]                Default: localhost:8080\n";
-        helpStr += " --host-port [port]         Host site port.  \n";
-        helpStr += "    -hp [port]                  Default: 8080\n";
-        helpStr += "\n";
-        helpStr += " --resource [path]          Resource path.  \n";
-        helpStr += "    -res [path]                 Default: ../server/resources/\n";
-        helpStr += "\n";
-        helpStr += " --debug                    Debug mode \n";
-        helpStr += "    -d \n";
-        helpStr += "\n";
-        helpStr += " --only                     Run only engine app \n";
-        helpStr += " --only-with-console        Run only engine app with cmd control instead of internal communication tcp  \n";
-        helpStr += "                                Mode for testing purpose \n";
-        helpStr += "\n";
-        helpStr += " --database [path]          Set database path \n";
-        helpStr += "    -db [path] \n";
-        helpStr += "\n";
-        helpStr += " --cmd-colors               Enable colors of console message \n";
-        helpStr += "       -col \n";
-        helpStr += "\n \n";
+    helpStr += "PiRadio help sheet\n";
+    helpStr += "\n";
+    helpStr += " --icomm-address [ip:port]  Internal (server <-> engine) tcp communication address. \n";
+    helpStr += "    -ic [ip:port]               Default: localhost:5555\n";
+    helpStr += " --icomm-port [port]        Internal (server <-> engine) tcp communication port. \n";
+    helpStr += "    -icp [port]                 Default: 5555 \n";
+    helpStr += "\n";
+    helpStr += " --host-address [ip:port]   Host site address.  \n";
+    helpStr += "    -h [ip:port]                Default: localhost:8080\n";
+    helpStr += " --host-port [port]         Host site port.  \n";
+    helpStr += "    -hp [port]                  Default: 8080\n";
+    helpStr += "\n";
+    helpStr += " --resource [path]          Resource path.  \n";
+    helpStr += "    -res [path]                 Default: ../server/resources/\n";
+    helpStr += "\n";
+    helpStr += " --debug                    Debug mode \n";
+    helpStr += "    -d \n";
+    helpStr += "\n";
+    helpStr += " --only                     Run only engine app \n";
+    helpStr += " --only-with-console        Run only engine app with cmd control instead of internal communication tcp  \n";
+    helpStr += "                                Mode for testing purpose \n";
+    helpStr += "\n";
+    helpStr += " --database [path]          Set database path \n";
+    helpStr += "    -db [path] \n";
+    helpStr += "\n";
+    helpStr += " --cmd-colors               Enable colors of console message \n";
+    helpStr += "       -col \n";
+    helpStr += "\n \n";
     return helpStr;
 }

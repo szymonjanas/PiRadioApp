@@ -13,7 +13,7 @@ namespace comm
 {
     std::vector<std::string> convertStringsToArgs(std::string message);
     /*
-        convert message to vector with single args 
+        convert message to vector with single args
     */
 
     class Engine

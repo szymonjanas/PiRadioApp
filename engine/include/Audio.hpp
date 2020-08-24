@@ -15,7 +15,6 @@ namespace audio
 
     class Engine
     {
-
         GstElement *pipeline;
         GstBus *bus;
         GstMessage *msg;

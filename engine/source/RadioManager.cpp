@@ -1,10 +1,10 @@
 #include "RadioManager.hpp"
 
-RadioManager::RadioManager(Database *database,
+RadioManager::RadioManager(db::Database *database,
                            audio::Manager *audioEngineManager,
                            comm::Engine *communication) : database(database),
-                                                          manager(audioEngineManager),
-                                                          communication(communication)
+    manager(audioEngineManager),
+    communication(communication)
 {
 }
 
@@ -14,7 +14,7 @@ RadioManager::~RadioManager()
     delete communication;
 }
 
-void RadioManager::setDatabase(Database *database)
+void RadioManager::setDatabase(db::Database *database)
 {
     this->database = database;
 }
@@ -123,8 +123,8 @@ void RadioManager::start()
     while (true)
     {
         std::vector<std::string> args =
-            comm::convertStringsToArgs(
-                communication->recive());
+                comm::convertStringsToArgs(
+                    communication->recive());
         std::string reply = execute(args);
         communication->send(reply);
     }

@@ -9,7 +9,6 @@
 
 namespace log
 {
-
     void debug(std::string message);
     /*
         message debug start with: "DEBUG: "
@@ -17,25 +16,25 @@ namespace log
     */
 
     void info(std::string message);
-    /* 
+    /*
         message info start with: "INFO: "
         color: light blue
     */
 
     void msg(std::string message);
-    /* 
+    /*
         message msg has no label
         color: default
     */
 
     void warn(std::string message);
-    /* 
+    /*
         message warn start with: "WARN: "
         color: light yellow
     */
 
     void err(std::string message);
-    /* 
+    /*
         message err start with "ERROR: "
         color: red
     */
@@ -45,13 +44,13 @@ namespace log
         void console(bool status);
         bool isConsole();
         /*
-            enable/disable printing message in console  
+            enable/disable printing message in console
         */
 
         void file(bool status);
         bool isFile();
         /*
-            enable/disable saving message to file  
+            enable/disable saving message to file
         */
 
         void color(bool status);

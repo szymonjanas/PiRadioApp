@@ -1,5 +1,7 @@
 #include "Logs.hpp"
 
+using namespace log;
+
 static const std::string c_red = "[0;31m";
 static const std::string c_red_light = "[1;31m";
 static const std::string c_green = "[0;32m";
@@ -40,7 +42,7 @@ namespace
         std::time_t end_time = std::chrono::system_clock::to_time_t(end);
         std::string strTime = std::ctime(&end_time);
 
-        while(std::find(strTime.begin(), strTime.end(), '\n') != strTime.end())
+        while (std::find(strTime.begin(), strTime.end(), '\n') != strTime.end())
             strTime.erase(std::find(strTime.begin(), strTime.end(), '\n'));
 
         message = strTime + "  " + message;
@@ -50,14 +52,18 @@ namespace
 namespace
 {
     void append(std::string message)
-    {   
-        if (fileStatus && filePath.size() > 0){
+    {
+        if (fileStatus && filePath.size() > 0)
+        {
             std::ofstream out;
             out.open(filePath, std::ios::out | std::ios::app);
-            if (out.fail() || !out.good()){
+            if (out.fail() || !out.good())
+            {
                 fileStatus = false;
                 log::err("Cannot save log to file!");
-            } else {
+            }
+            else
+            {
                 out << message + '\n';
                 out.close();
             }
@@ -65,119 +71,116 @@ namespace
     }
 } // namespace
 
-namespace log
+void debug(std::string message)
 {
-
-    void debug(std::string message)
-    {
-        if (!debugStatus) return;
-        std::string str = "DEBUG: " + message;
-        addTime(str);
-        if (consoleStatus)
-            if (colorStatus)
-                std::cout << color(c_magenta_light, ID) + color(c_cyan_light, str) << std::endl;
-            else
-                std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
-    }
-
-    void info(std::string message)
-    {
-        std::string str = "INFO: " + message;
-        addTime(str);
-        if (consoleStatus)
-            if (colorStatus)
-                std::cout << color(c_magenta_light, ID) + color(c_blue_light, str) << std::endl;
-            else
-                std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
-    }
-
-    void msg(std::string message)
-    {
-        std::string str = message;
-        addTime(str);
-        if (consoleStatus)
+    if (!debugStatus)
+        return;
+    std::string str = "DEBUG: " + message;
+    addTime(str);
+    if (consoleStatus)
+        if (colorStatus)
+            std::cout << color(c_magenta_light, ID) + color(c_cyan_light, str) << std::endl;
+        else
             std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
+    if (fileStatus && filePath.size() > 0)
+        append(str);
+}
+
+void info(std::string message)
+{
+    std::string str = "INFO: " + message;
+    addTime(str);
+    if (consoleStatus)
+        if (colorStatus)
+            std::cout << color(c_magenta_light, ID) + color(c_blue_light, str) << std::endl;
+        else
+            std::cout << ID + str << std::endl;
+    if (fileStatus && filePath.size() > 0)
+        append(str);
+}
+
+void msg(std::string message)
+{
+    std::string str = message;
+    addTime(str);
+    if (consoleStatus)
+        std::cout << ID + str << std::endl;
+    if (fileStatus && filePath.size() > 0)
+        append(str);
+}
+
+void warn(std::string message)
+{
+    std::string str = "WARN: " + message;
+    addTime(str);
+    if (consoleStatus)
+        if (colorStatus)
+            std::cout << color(c_magenta_light, ID) + color(c_yellow_light, str) << std::endl;
+        else
+            std::cout << ID + str << std::endl;
+    if (fileStatus && filePath.size() > 0)
+        append(str);
+}
+
+void err(std::string message)
+{
+    std::string str = "(!) ERROR: " + message;
+    addTime(str);
+    if (consoleStatus)
+        if (colorStatus)
+            std::cout << color(c_magenta_light, ID) + color(c_red, str) << std::endl;
+        else
+            std::cout << ID + str << std::endl;
+    if (fileStatus && filePath.size() > 0)
+        append(str);
+}
+
+namespace switches
+{
+    bool isConsole()
+    {
+        return consoleStatus;
+    }
+    void console(bool status)
+    {
+        consoleStatus = status;
     }
 
-    void warn(std::string message)
+    bool isFile()
     {
-        std::string str = "WARN: " + message;
-        addTime(str);
-        if (consoleStatus)
-            if (colorStatus)
-                std::cout << color(c_magenta_light, ID) + color(c_yellow_light, str) << std::endl;
-            else
-                std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
+        return filePath.size() && fileStatus;
+    }
+    void file(bool status)
+    {
+        fileStatus = status;
     }
 
-    void err(std::string message)
+    bool isColor()
     {
-        std::string str = "(!) ERROR: " + message;
-        addTime(str);
-        if (consoleStatus)
-            if (colorStatus)
-                std::cout << color(c_magenta_light, ID) + color(c_red, str) << std::endl;
-            else
-                std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
+        return colorStatus;
+    }
+    void color(bool status)
+    {
+        colorStatus = status;
     }
 
-    namespace switches
+    bool isFilePath()
     {
-        bool isConsole()
-        {
-            return consoleStatus;
-        }
-        void console(bool status)
-        {
-            consoleStatus = status;
-        }
+        return filePath.size();
+    }
+    void setFile(std::string path)
+    {
+        filePath = path;
+        fileStatus = true;
+    }
 
-        bool isFile()
-        {
-            return filePath.size() && fileStatus;
-        }
-        void file(bool status)
-        {
-            fileStatus = status;
-        }
+    bool isDebug()
+    {
+        return debugStatus;
+    }
+    void debug(bool status)
+    {
+        debugStatus = status;
+    }
 
-        bool isColor()
-        {
-            return colorStatus;
-        }
-        void color(bool status)
-        {
-            colorStatus = status;
-        }
-
-        bool isFilePath()
-        {
-            return filePath.size();
-        }
-        void setFile(std::string path)
-        {
-            filePath = path;
-            fileStatus = true;
-        }
-
-        bool isDebug()
-        {
-            return debugStatus;
-        }
-        void debug(bool status)
-        {
-            debugStatus = status;
-        }
-
-    } // namespace switches
-} // namespace log
+} // namespace switches
