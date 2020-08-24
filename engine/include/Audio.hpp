@@ -3,6 +3,7 @@
 #include <gst/gst.h>
 #include <string>
 #include "Station.hpp"
+#include "Logs.hpp"
 
 namespace audio
 {

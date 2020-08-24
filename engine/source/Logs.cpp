@@ -34,7 +34,7 @@ namespace
         return out;
     }
 
-    void addTime(std::string &message)
+    std::string getTime()
     {
         auto end = std::chrono::system_clock::now();
         std::time_t end_time = std::chrono::system_clock::to_time_t(end);
@@ -43,11 +43,13 @@ namespace
         while (std::find(strTime.begin(), strTime.end(), '\n') != strTime.end())
             strTime.erase(std::find(strTime.begin(), strTime.end(), '\n'));
 
-        message = strTime + "  " + message;
+        return strTime;
     }
 } // namespace
 
-namespace
+const std::string col_ID = color(c_magenta_light, ID);
+
+namespace logSave
 {
     void append(std::string message)
     {
@@ -67,72 +69,105 @@ namespace
             }
         }
     }
-} // namespace
+
+    struct Log {
+        std::string logTime;
+        std::string type;
+        std::string type_col;
+        std::string message;
+
+        std::string toStringClr(){
+            return ID + logTime + " " + message;
+        }
+
+        std::string toString(){
+            return ID + logTime + " " + type + ": " + message;
+        }
+
+        std::string toStringColored(){
+            return col_ID + logTime + " " + color(type_col, type + ": ") + message;
+        }
+    };
+
+    void saveLog(std::string log){
+        if (!debugStatus)
+            return;
+        if (fileStatus && filePath.size() > 0)
+            append(log);
+    }
+
+    void printLog(Log &log){
+        if (consoleStatus)
+            if (colorStatus)
+                std::cout << log.toStringColored() << std::endl;
+            else
+                std::cout << log.toString() << std::endl;
+       saveLog(log.toString());
+    }
+
+    void printClrLog(Log &log){
+        if (consoleStatus)
+            std::cout << log.toStringClr() << std::endl;
+        saveLog(log.toStringClr());
+    }
+
+} // namespace logSave
 
 namespace log {
 
     void debug(std::string message)
     {
-        if (!debugStatus)
-            return;
-        std::string str = "DEBUG: " + message;
-        addTime(str);
-        if (consoleStatus)
-            if (colorStatus)
-                std::cout << color(c_magenta_light, ID) + color(c_cyan_light, str) << std::endl;
-            else
-                std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
+        logSave::Log log = {
+            getTime(),
+            "DEBUG",
+            c_cyan_light,
+            message
+        };
+        logSave::printLog(log);
     }
 
     void info(std::string message)
     {
-        std::string str = "INFO: " + message;
-        addTime(str);
-        if (consoleStatus)
-            if (colorStatus)
-                std::cout << color(c_magenta_light, ID) + color(c_blue_light, str) << std::endl;
-            else
-                std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
+        logSave::Log log = {
+            getTime(),
+            "INFO",
+            c_blue_light,
+            message
+        };
+        logSave::printLog(log);
     }
 
     void msg(std::string message)
     {
-        std::string str = message;
-        addTime(str);
-        if (consoleStatus)
-            std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
+        logSave::Log log = {
+            getTime(),
+            "INFO",
+            c_blue_light,
+            message
+        };
+        logSave::printClrLog(log);
     }
 
     void warn(std::string message)
     {
-        std::string str = "WARN: " + message;
-        addTime(str);
-        if (consoleStatus)
-            if (colorStatus)
-                std::cout << color(c_magenta_light, ID) + color(c_yellow_light, str) << std::endl;
-            else
-                std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
+        logSave::Log log = {
+            getTime(),
+            "WARN",
+            c_yellow_light,
+            message
+        };
+        logSave::printLog(log);
     }
 
     void err(std::string message)
     {
-        std::string str = "(!) ERROR: " + message;
-        addTime(str);
-        if (consoleStatus)
-            if (colorStatus)
-                std::cout << color(c_magenta_light, ID) + color(c_red, str) << std::endl;
-            else
-                std::cout << ID + str << std::endl;
-        if (fileStatus && filePath.size() > 0)
-            append(str);
+        logSave::Log log = {
+            getTime(),
+            "(!) ERROR",
+            c_red,
+            message
+        };
+        logSave::printLog(log);
     }
 
     namespace switches
