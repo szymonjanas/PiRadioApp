@@ -31,7 +31,7 @@ namespace db
                     name.erase(name.find('\r'));
                 while (name.find('\n') != std::string::npos)
                     name.erase(name.find('\n'));
-                database.push_back(new Station(name, record));
+                database.push_back(new radio::Station(name, record));
                 nameFlag = true;
             }
         }
@@ -51,7 +51,7 @@ namespace db
         dbFile.close();
     }
 
-    Station *StationsTxt::getByID(std::string name)
+    radio::Station *StationsTxt::getByID(std::string name)
     {
         for (auto iter : database)
             if (iter->getName() == name)
@@ -59,7 +59,7 @@ namespace db
         return nullptr;
     }
 
-    void StationsTxt::put(Station *station)
+    void StationsTxt::put(radio::Station *station)
     {
         if (station == nullptr)
             return;
@@ -75,7 +75,7 @@ namespace db
         return reinterpret_cast<void *>(&database);
     }
 
-    void StationsTxt::remove(Station *station)
+    void StationsTxt::remove(radio::Station *station)
     {
         if (station == nullptr)
             return;

@@ -3,25 +3,31 @@
 #include "Database.hpp"
 #include "dbStationTxt.hpp"
 #include "Communication.hpp"
-#include "Audio.hpp"
 #include "Logs.hpp"
+#include "AudioManager.hpp"
 
-class RadioManager
-{
+namespace radio {
 
-    db::Database<Station, std::string> *database;
-    audio::Manager *manager;
-    comm::Engine *communication;
+    class Manager
+    {
 
-public:
-    RadioManager(db::Database<Station, std::string> *database,
-                 audio::Manager *audioEngineManager,
-                 comm::Engine *communication);
-    ~RadioManager();
+        db::Database<radio::Station, std::string> *database;
+        radio::Audio *audio;
+        comm::Engine *communication;
 
-    void setDatabase(db::Database<Station, std::string> *database);
-    void setAudio(audio::Manager *audioEngineManager);
-    void setCommunication(comm::Engine *communication);
-    std::string execute(std::vector<std::string> command);
-    void start();
-};
+    public:
+        Manager(db::Database<radio::Station, std::string> *database,
+                     radio::Audio *audio,
+                     comm::Engine *communication);
+        ~Manager();
+
+        void setDatabase(db::Database<Station, std::string> *database);
+        void setAudio(radio::Audio *audioEngineManager);
+        void setCommunication(comm::Engine *communication);
+        std::string execute(std::vector<std::string> command);
+        void start();
+    };
+
+
+
+}

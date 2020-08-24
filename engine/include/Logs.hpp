@@ -76,6 +76,11 @@ namespace log
             enable/disbable debug message
         */
 
+        void basic(bool status);
+        /*
+            Disable info and debug message.
+        */
+
     } // namespace switches
 
 } // namespace log

@@ -38,34 +38,4 @@ namespace audio
         STATE getState();
     };
 
-    class Manager
-    {
-
-        Engine engine;
-        Station *station = nullptr;
-
-        Manager();
-
-        void play();
-        void pause();
-        void stop();
-
-    public:
-        Manager(Manager const &) = delete;
-        void operator=(Manager const &) = delete;
-
-        static Manager &getManager();
-
-        void setStation(Station *station);
-        Station *getStation();
-
-        std::string getState();
-        std::string getDetails(std::string type);
-
-        void setState(std::string state);
-        bool canSetState(std::string state);
-
-        std::string toString();
-    };
-
 } // namespace audio

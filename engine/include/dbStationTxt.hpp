@@ -8,10 +8,10 @@
 
 namespace db
 {
-    class StationsTxt : public Database<Station, std::string>
+    class StationsTxt : public Database<radio::Station, std::string>
     {
 
-        std::vector<Station *> database;
+        std::vector<radio::Station *> database;
         std::string filePath;
 
     public:
@@ -21,10 +21,10 @@ namespace db
         virtual void load();
         virtual void save();
 
-        virtual Station *getByID(std::string name);
-        virtual void put(Station *station);
+        virtual radio::Station *getByID(std::string name);
+        virtual void put(radio::Station *station);
         virtual void *getDatabase();
-        virtual void remove(Station *station);
+        virtual void remove(radio::Station *station);
         virtual std::string getIDsInString();
     };
 

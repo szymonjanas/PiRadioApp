@@ -3,6 +3,7 @@
 
 #include "RadioManager.hpp"
 #include "dbStationTxt.hpp"
+#include "AudioManager.hpp"
 #include "Audio.hpp"
 #include "Logs.hpp"
 
@@ -73,28 +74,30 @@ int main(int argc, char **argv)
             serverArgs += args[i] + " ";
             log::switches::color(true);
         }
+        else if (args[i] == "--basic-cmd" or args[i] == "-b")
+        {
+            log::switches::basic(true);
+        }
     }
 
     if (!helpFlag)
     {
 
-        RadioManager *manager;
+        radio::Manager *manager;
 
-        comm::Engine *engine = new comm::Engine("tcp://*:5555", consoleFlag);
+        comm::Engine *commEngine = new comm::Engine("tcp://*:5555", consoleFlag);
 
-        manager = new RadioManager(
+        manager = new radio::Manager(
                     new db::StationsTxt(databasePath),
-                    &audio::Manager::getManager(),
-                    engine);
+                    new radio::Audio(new audio::Engine()),
+                    commEngine );
 
         if (!onlyFlag)
             system("go run ../server/server.go &");
 
         manager->start();
-
         delete manager;
     }
-
     return 0;
 }
 
@@ -128,6 +131,8 @@ std::string help()
     helpStr += "\n";
     helpStr += " --cmd-colors               Enable colors of console message \n";
     helpStr += "       -col \n";
+    helpStr += " --basic-cmd                Disable info and debug message.\n";
+    helpStr += "    -b \n";
     helpStr += "\n \n";
     return helpStr;
 }

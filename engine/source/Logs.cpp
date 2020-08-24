@@ -1,20 +1,29 @@
 #include "Logs.hpp"
 
-static const std::string c_red = "[0;31m";
-static const std::string c_red_light = "[1;31m";
-static const std::string c_green = "[0;32m";
-static const std::string c_green_light = "[1;32m";
-static const std::string c_yellow = "[0;33m";
-static const std::string c_yellow_light = "[1;33m";
-static const std::string c_blue = "[0;34m";
-static const std::string c_blue_light = "[1;34m";
-static const std::string c_magenta = "[0;35m";
-static const std::string c_magenta_light = "[1;35m";
-static const std::string c_cyan = "[0;36m";
-static const std::string c_cyan_light = "[1;36m";
+namespace color {
 
-static const std::string c_reset = "[0m";
-static const std::string c_esc = "\033";
+    const std::string c_red = "[0;31m";
+    const std::string c_red_light = "[1;31m";
+    const std::string c_green = "[0;32m";
+    const std::string c_green_light = "[1;32m";
+    const std::string c_yellow = "[0;33m";
+    const std::string c_yellow_light = "[1;33m";
+    const std::string c_blue = "[0;34m";
+    const std::string c_blue_light = "[1;34m";
+    const std::string c_magenta = "[0;35m";
+    const std::string c_magenta_light = "[1;35m";
+    const std::string c_cyan = "[0;36m";
+    const std::string c_cyan_light = "[1;36m";
+
+    const std::string c_reset = "[0m";
+    const std::string c_esc = "\033";
+
+    std::string color(std::string color, std::string message)
+    {
+        std::string out = color::c_esc + color + message + color::c_esc + color::c_reset;
+        return out;
+    }
+}
 
 static bool consoleStatus = true;
 static bool colorStatus = false;
@@ -23,17 +32,12 @@ static std::string filePath = "";
 static bool fileStatus = false;
 
 static bool debugStatus = true;
+static bool basicView = false;
 
 static const std::string ID = "engine: ";
 
 namespace
 {
-    std::string color(std::string color, std::string message)
-    {
-        std::string out = c_esc + color + message + c_esc + c_reset;
-        return out;
-    }
-
     std::string getTime()
     {
         auto end = std::chrono::system_clock::now();
@@ -47,7 +51,7 @@ namespace
     }
 } // namespace
 
-const std::string col_ID = color(c_magenta_light, ID);
+const std::string col_ID = color::color(color::c_magenta_light, ID);
 
 namespace logSave
 {
@@ -85,7 +89,7 @@ namespace logSave
         }
 
         std::string toStringColored(){
-            return col_ID + logTime + " " + color(type_col, type + ": ") + message;
+            return col_ID + logTime + " " + color::color(type_col, type + ": ") + message;
         }
     };
 
@@ -102,7 +106,7 @@ namespace logSave
                 std::cout << log.toStringColored() << std::endl;
             else
                 std::cout << log.toString() << std::endl;
-       saveLog(log.toString());
+        saveLog(log.toString());
     }
 
     void printClrLog(Log &log){
@@ -117,10 +121,11 @@ namespace log {
 
     void debug(std::string message)
     {
+        if (basicView) return;
         logSave::Log log = {
             getTime(),
             "DEBUG",
-            c_cyan_light,
+            color::c_cyan_light,
             message
         };
         logSave::printLog(log);
@@ -128,10 +133,11 @@ namespace log {
 
     void info(std::string message)
     {
+        if (basicView) return;
         logSave::Log log = {
             getTime(),
             "INFO",
-            c_blue_light,
+            color::c_blue_light,
             message
         };
         logSave::printLog(log);
@@ -142,7 +148,7 @@ namespace log {
         logSave::Log log = {
             getTime(),
             "INFO",
-            c_blue_light,
+            color::c_blue_light,
             message
         };
         logSave::printClrLog(log);
@@ -153,7 +159,7 @@ namespace log {
         logSave::Log log = {
             getTime(),
             "WARN",
-            c_yellow_light,
+            color::c_yellow_light,
             message
         };
         logSave::printLog(log);
@@ -164,7 +170,7 @@ namespace log {
         logSave::Log log = {
             getTime(),
             "(!) ERROR",
-            c_red,
+            color::c_red,
             message
         };
         logSave::printLog(log);
@@ -216,6 +222,11 @@ namespace log {
         void debug(bool status)
         {
             debugStatus = status;
+        }
+
+        void basic(bool status)
+        {
+            basicView = status;
         }
 
     } // namespace switches

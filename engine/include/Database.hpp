@@ -11,7 +11,7 @@ namespace db {
         virtual void load() = 0;
         virtual void save() = 0;
 
-        virtual Station* getByID(ID name) = 0;
+        virtual RECORD* getByID(ID name) = 0;
         virtual void put(RECORD* record) = 0;
         virtual void* getDatabase() = 0;
         virtual void remove(RECORD* record) = 0;

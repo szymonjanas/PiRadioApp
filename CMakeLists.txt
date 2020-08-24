@@ -30,6 +30,7 @@ set(SOURCES
     ${engineSrc}/dbStationTxt.cpp
     ${engineSrc}/CommEngine.cpp
     ${engineSrc}/RadioManager.cpp
+    ${engineSrc}/AudioManager.cpp
     ${engineSrc}/Logs.cpp
     )
 

@@ -1,5 +1,7 @@
 #include "Station.hpp"
 
+using namespace radio;
+
 Station::Station(std::string name, std::string uri) :
     name(name), uri(uri)
 {}
