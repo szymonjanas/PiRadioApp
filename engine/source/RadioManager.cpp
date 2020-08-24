@@ -1,6 +1,6 @@
 #include "RadioManager.hpp"
 
-RadioManager::RadioManager(db::Database *database,
+RadioManager::RadioManager(db::Database<Station, std::string> *database,
                            audio::Manager *audioEngineManager,
                            comm::Engine *communication) : database(database),
     manager(audioEngineManager),
@@ -14,7 +14,7 @@ RadioManager::~RadioManager()
     delete communication;
 }
 
-void RadioManager::setDatabase(db::Database *database)
+void RadioManager::setDatabase(db::Database<Station, std::string> *database)
 {
     this->database = database;
 }
@@ -43,7 +43,7 @@ std::string RadioManager::execute(std::vector<std::string> args)
                 {
                     if (!database->isLoad())
                         database->load();
-                    reply = database->getNamesInString();
+                    reply = database->getIDsInString();
                 }
                 catch (std::string str)
                 {
@@ -56,9 +56,9 @@ std::string RadioManager::execute(std::vector<std::string> args)
         }
         else if (args[1] == "remove")
         {
-            if (database->getByName(args[2]) != nullptr)
+            if (database->getByID(args[2]) != nullptr)
             {
-                database->remove(database->getByName(args[2]));
+                database->remove(database->getByID(args[2]));
                 reply = "msg Station removed: " + args[2];
             }
             else
@@ -69,9 +69,9 @@ std::string RadioManager::execute(std::vector<std::string> args)
         }
         else if (args[1] == "set")
         {
-            if (database->getByName(args[2]) != nullptr)
+            if (database->getByID(args[2]) != nullptr)
             {
-                manager->setStation(database->getByName(args[2]));
+                manager->setStation(database->getByID(args[2]));
                 reply = "msg Station setted: " + manager->getStation()->getName();
             }
             else

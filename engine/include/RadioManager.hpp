@@ -9,17 +9,17 @@
 class RadioManager
 {
 
-    db::Database *database;
+    db::Database<Station, std::string> *database;
     audio::Manager *manager;
     comm::Engine *communication;
 
 public:
-    RadioManager(db::Database *database,
+    RadioManager(db::Database<Station, std::string> *database,
                  audio::Manager *audioEngineManager,
                  comm::Engine *communication);
     ~RadioManager();
 
-    void setDatabase(db::Database *database);
+    void setDatabase(db::Database<Station, std::string> *database);
     void setAudio(audio::Manager *audioEngineManager);
     void setCommunication(comm::Engine *communication);
     std::string execute(std::vector<std::string> command);

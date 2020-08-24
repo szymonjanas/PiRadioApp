@@ -8,7 +8,7 @@
 
 namespace db
 {
-    class StationsTxt : public Database
+    class StationsTxt : public Database<Station, std::string>
     {
 
         std::vector<Station *> database;
@@ -21,12 +21,11 @@ namespace db
         virtual void load();
         virtual void save();
 
-        virtual Station *getByName(std::string name);
-        virtual Station *getByUri(std::string uri);
+        virtual Station *getByID(std::string name);
         virtual void put(Station *station);
         virtual void *getDatabase();
         virtual void remove(Station *station);
-        virtual std::string getNamesInString();
+        virtual std::string getIDsInString();
     };
 
 } // namespace db

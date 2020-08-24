@@ -51,18 +51,10 @@ namespace db
         dbFile.close();
     }
 
-    Station *StationsTxt::getByName(std::string name)
+    Station *StationsTxt::getByID(std::string name)
     {
         for (auto iter : database)
             if (iter->getName() == name)
-                return iter;
-        return nullptr;
-    }
-
-    Station *StationsTxt::getByUri(std::string uri)
-    {
-        for (auto iter : database)
-            if (iter->getUri() == uri)
                 return iter;
         return nullptr;
     }
@@ -71,8 +63,8 @@ namespace db
     {
         if (station == nullptr)
             return;
-        if (getByName(station->getName()) != nullptr)
-            getByName(station->getName())->setUri(station->getUri());
+        if (getByID(station->getName()) != nullptr)
+            getByID(station->getName())->setUri(station->getUri());
         else
             database.push_back(station);
         this->save();
@@ -95,7 +87,7 @@ namespace db
         this->save();
     }
 
-    std::string StationsTxt::getNamesInString()
+    std::string StationsTxt::getIDsInString()
     {
         std::string all = "";
         for (auto iter : database)
