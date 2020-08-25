@@ -108,6 +108,7 @@ namespace radio {
                     }
                     else
                         reply = "err Cannot set given state: " + args[3];
+                        log::warn(reply);
                 }
                 else if (args[2] == "get")
                 {

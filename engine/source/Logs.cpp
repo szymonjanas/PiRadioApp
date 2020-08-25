@@ -89,7 +89,10 @@ namespace logSave
         }
 
         std::string toStringColored(){
-            return col_ID + logTime + " " + color::color(type_col, type + ": ") + message;
+            if (type == "INFO")
+                return col_ID + logTime + " " + color::color(type_col, type + ": ") + message;
+            else 
+                return col_ID + logTime + " " + color::color(type_col, type + ": " + message);
         }
     };
 
@@ -159,7 +162,7 @@ namespace log {
         logSave::Log log = {
             getTime(),
             "WARN",
-            color::c_yellow_light,
+            color::c_yellow,
             message
         };
         logSave::printLog(log);

@@ -4,70 +4,8 @@ import (
     "html/template"
     "net/http"
     "os"
-    "fmt"
-    "time"
-    "strings"
     zmq "github.com/pebbe/zmq4"
 )
-
-var ID string = "server: "
-var coloredID string =  "\033" + "[1;32m" + ID + "\033" + "[0m"
-var colorStatus bool = true
-var logFilePath string = "client.txt"
-func log_time(message string) string {
-    t := time.Now()
-    str := t.Format("2006-01-02 15:04:05")
-    return str + "  " + message
-}
-func log_file(message string){
-    f, _ := os.OpenFile(logFilePath, os.O_APPEND|os.O_WRONLY, 0644) 
-    f.WriteString(message) 
-    f.Close()
-}
-func log_debug(message string){
-    var str string
-    message = log_time("DEBUG: " + message)
-    log_file(ID + message + "\n")
-    if colorStatus {
-        str = coloredID + "\033" + "[1;36m" + message + "\033" + "[0m" + "\n"
-    } else {
-        str = ID + message + "\n"
-    }
-    fmt.Print(str)
-}
-func log_err(message string){
-    var str string
-    message = log_time("ERROR: "+ message)
-    log_file(ID + message + "\n")
-    if colorStatus {
-        str = coloredID + "\033" + "[0;31m" + message + "\033" + "[0m" + "\n"
-    } else {
-        str = ID + message + "\n"
-    }
-    fmt.Print(str) 
-}
-func log_warn(message string){
-    var str string
-    message = log_time("WARN: " + message)
-    log_file(ID + message + "\n")
-    if colorStatus {
-        str = coloredID + "\033" + "[1;33m" + message + "\033" + "[0m" + "\n"
-    } else {
-        str = ID + message + "\n"
-    }
-    fmt.Print(str)  
-}
-func log_info(message string){
-    var str string
-    message = log_time("INFO: " + message)
-    log_file(ID + message + "\n")
-    if colorStatus {
-        str = coloredID + "\033" + "[0;34m" + message + "\033" + "[0m" + "\n"
-    } else {
-        str = ID + message + "\n"
-    }
-    fmt.Print(str)
-}
 
 var client *zmq.Socket
 var checkedStation string = "none"
@@ -102,7 +40,7 @@ type ViewPageData struct {
 
 func getStations() []StationsName {
     var stations []StationsName
-    strStations := sendRequest("station get all")
+    strStations := Comm.SendRequest("station get all")
     for i := range strStations {
         stations = append(stations, StationsName{strStations[i]})
     }
@@ -114,15 +52,15 @@ func getStations() []StationsName {
 */
 
 func viewHandler(w http.ResponseWriter, r *http.Request){
-    log_debug("main page")
+    Log.Debug("main page")
     tmpl, err := template.ParseFiles("../server/resources/server.html")
     if err != nil {
-        log_err("Error occure: " + err.Error())
+        Log.Err("Error occure: " + err.Error())
         w.WriteHeader(http.StatusInternalServerError)
         return
     }
     
-    current := sendRequest("station get current")
+    current := Comm.SendRequest("station get current")
     details := ViewPageData {
         StationsData: StationsPageData{
             Stations: getStations(),
@@ -139,112 +77,105 @@ func viewHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func playHandler(w http.ResponseWriter, r *http.Request){
-    sendRequest("engine state set play")
-    log_info("play ")
+    Comm.SendRequest("engine state set play")
+    Log.Info("play ")
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func stopHandler(w http.ResponseWriter, r *http.Request){
-    sendRequest("engine state set stop")
-    log_info("stop")
+    Comm.SendRequest("engine state set stop")
+    Log.Info("stop")
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func setHandler(w http.ResponseWriter, r *http.Request){
     body := r.FormValue("Stations")
     checkedStation = body
-    log_info("checked " + checkedStation)
+    Log.Info("checked " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func submitHandler(w http.ResponseWriter, r *http.Request){
-    sendRequest("station set " + checkedStation)
-    sendRequest("engine state set play")
-    log_info("submit " + checkedStation)
+    Comm.SendRequest("station set " + checkedStation)
+    Comm.SendRequest("engine state set play")
+    Log.Info("submit " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func setsubmitHandler(w http.ResponseWriter, r *http.Request){
     body := r.FormValue("Stations")
     checkedStation = body
-    sendRequest("station set " + checkedStation)
-    sendRequest("engine state set play")
-    log_info("checked and submit " + checkedStation)
+    Comm.SendRequest("station set " + checkedStation)
+    Comm.SendRequest("engine state set play")
+    Log.Info("checked and submit " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func removeHandler(w http.ResponseWriter, r *http.Request){
-    sendRequest("station remove " + checkedStation)
-    log_info("remove " + checkedStation)
+    Comm.SendRequest("station remove " + checkedStation)
+    Log.Info("remove " + checkedStation)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func addHandler(w http.ResponseWriter, r *http.Request){
     name := r.FormValue("stationName")
     uri := r.FormValue("stationUri")
-    sendRequest("station new " + name + " " + uri)
-    log_info("add new " + name + " " + uri)
+    Comm.SendRequest("station new " + name + " " + uri)
+    Log.Info("add new " + name + " " + uri)
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
-/*
-    TCP connection with engine
-*/
 
-func sendRequest(request string) []string {
-    /*
-        send request; recive, decode and return reply
-    */
-    (*client).SendMessage(request, 0)
-    log_info("send request: " + request)
-    msg, err := (*client).RecvMessage(0)
-    if err != nil {
-        log_err("send error: " + err.Error())
-    }
-    reply := msg[0]
-    log_info("recive replay: " + reply)
-    var words []string
-	word := ""
-	flag := true
-	iter := -1
-	for i := range reply {
-		if reply[i] == ' ' {
-			flag = true
-		} else if flag {
-			word = ""
-			words = append(words, word)
-			iter++
-			words[iter] = words[iter] + string(reply[i])
-			flag = false
-		} else {
-			words[iter] = words[iter] + string(reply[i])
-		}
-    }
-    if words[0] == "msg" || words[0] == "err" {
-        if words[0] == "msg"{
-            informMessage.Type = true
-        } else {
-            informMessage.Type = false
-        }
-        informMessage.Message = strings.Join(words[1:len(words)], " ")
-        log_info("MSG: " + informMessage.Message)
-    }
-    return words 
-}
 
 func main() {
-    socket, errSocket := zmq.NewSocket(zmq.PAIR)
-    client = socket
+
+    args := os.Args[1:]
+
     engineUri := "tcp://localhost:5555"
     serveUri := ":8080"
+    resourcePath := "../server/resources/"
+
+    for i := 0; i < len(args); i++ {
+        if args[i] == "--cmd-colors" || args[i] == "-col" {
+            ColorStatus = true
+        } else if args[i] == "--basic-cmd" || args[i] == "-b" {
+            Basic = true
+        } else if args[i] == "--icomm-address" || args[i] == "-ic" {
+            i++;
+            engineUri = "tcp://" + args[i]
+            Log.Warn("Setted uri: " + engineUri)
+        } else if args[i] == "--icomm-port" || args[i] == "-icp" {
+            i++;
+            engineUri = "tcp://localhost" + args[i]
+            Log.Warn("Setted uri port: " + engineUri)
+        } else if args[i] == "--host-address" || args[i] == "-h" {
+            i++;
+            serveUri = args[i]
+            Log.Warn("Setted serve address: " + serveUri)
+        } else if args[i] == "--host-port" || args[i] == "-hp" {
+            i++;
+            serveUri = ":" + args[i]
+            Log.Warn("Setted serve port: " + serveUri)
+        } else if args[i] == "--resource" || args[i] == "-res" {
+            i++;
+            resourcePath = args[i]
+            Log.Warn("Setted resource path: " + resourcePath)
+        } else if args[i] == "--debug" || args[i] == "-d" {
+            
+        }
+    }
+
+    socket, errSocket := zmq.NewSocket(zmq.PAIR)
+    client = socket
+
     (*client).Connect(engineUri)
     if errSocket != nil {
-        log_err("error socket: " + errSocket.Error())
+        Log.Err("error socket: " + errSocket.Error())
     } else {
-        log_info("connected to server: " + engineUri)
+        Log.Info("connected to server: " + engineUri)
     }
     
-    http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir("../server/resources/"))))
+    http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir(resourcePath))))
     http.HandleFunc("/radio/api/play", playHandler)
     http.HandleFunc("/radio/api/stop", stopHandler)
     http.HandleFunc("/radio/api/set", setHandler)
@@ -254,9 +185,9 @@ func main() {
     http.HandleFunc("/radio/api/add", addHandler)
     http.HandleFunc("/radio/", viewHandler)
 
-    log_info("serve uri: " + serveUri)
+    Log.Info("serve uri: " + serveUri)
     errServe := http.ListenAndServe(serveUri, nil)
     if errServe != nil {
-        log_err("error serve: " + errServe.Error()) 
+        Log.Err("error serve: " + errServe.Error()) 
     }
 }

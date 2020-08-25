@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-
+#include <iostream>
 #include "RadioManager.hpp"
 #include "dbStationTxt.hpp"
 #include "AudioManager.hpp"
@@ -76,10 +76,10 @@ int main(int argc, char **argv)
         }
         else if (args[i] == "--basic-cmd" or args[i] == "-b")
         {
+            serverArgs += args[i] + " ";
             log::switches::basic(true);
         }
     }
-
     if (!helpFlag)
     {
 
@@ -92,8 +92,10 @@ int main(int argc, char **argv)
                     new radio::Audio(new audio::Engine()),
                     commEngine );
 
-        if (!onlyFlag)
-            system("go run ../server/server.go &");
+        if (!onlyFlag) {
+            std::string str = "go run ../server/*.go " + serverArgs + " &";
+            system(str.c_str());
+        }
 
         manager->start();
         delete manager;
