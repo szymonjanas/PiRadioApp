@@ -146,7 +146,7 @@ func main() {
             Log.Warn("Setted uri: " + engineUri)
         } else if args[i] == "--icomm-port" || args[i] == "-icp" {
             i++;
-            engineUri = "tcp://localhost" + args[i]
+            engineUri = "tcp://localhost:" + args[i]
             Log.Warn("Setted uri port: " + engineUri)
         } else if args[i] == "--host-address" || args[i] == "-h" {
             i++;

@@ -16,44 +16,49 @@ int main(int argc, char **argv)
     bool consoleFlag = false;
 
     std::string siteAddress = "";
-    std::string internalCommunicationAddress = "tcp://";
+    std::string internalCommunicationAddress = "tcp://*:5555";
     std::string databasePath = "../database.txt";
 
     std::string serverArgs = "";
 
     std::vector<std::string> args(argv, argv + argc);
-    for (int i = 0; i < args.size(); ++i)
+    for (int i = 0, argvc = args.size(); i < argvc; ++i)
     {
         if (args[i] == "--help" or args[i] == "-h")
         {
             helpFlag = true;
             std::cout << help();
         }
-        else if ((args[i] == "--icomm-address" or args[i] == "-ic") and i + 1 < argc)
+        else if ((args[i] == "--icomm-address" or args[i] == "-ic") && i + 1 < argvc)
         {
-            serverArgs += args[i] + " " + args[i+1] + " ";
-            internalCommunicationAddress += std::string(args[++i]);
+            serverArgs += args[i] + " ";
+            serverArgs += args[++i] + " ";
+            internalCommunicationAddress = "tcp://" + std::string(args[i]);
         }
-        else if ((args[i] == "--icomm-port" or args[i] == "-icp") and i + 1 < argc)
+        else if ((args[i] == "--icomm-port" or args[i] == "-icp") && i + 1 < argvc)
         {
-            serverArgs += args[i] + " " + args[i+1] + " ";
-            internalCommunicationAddress += "localhost:" + std::string(args[++i]);
+            serverArgs += args[i] + " ";
+            serverArgs += args[++i] + " ";
+            internalCommunicationAddress = "tcp://*:" + std::string(args[i]);
         }
-        else if ((args[i] == "--host-address" or args[i] == "-h") and i + 1 < argc)
+        else if ((args[i] == "--host-address" or args[i] == "-h") && i + 1 < argvc)
         {
-            serverArgs += args[i] + " " + args[++i] + " ";
+            serverArgs += args[i] + " ";
+            serverArgs += args[++i] + " ";
         }
-        else if ((args[i] == "--host-port" or args[i] == "-hp") and i + 1 < argc)
-        {
-            serverArgs += args[i] + " " + args[++i] + " ";
+        else if ((args[i] == "--host-port" or args[i] == "-hp") && i + 1 < argvc)
+        {   
+            serverArgs += args[i] + " ";
+            serverArgs += args[++i] + " ";
         }
-        else if ((args[i] == "--resource" or args[i] == "-res") and i + 1 < argc)
+        else if ((args[i] == "--resource" or args[i] == "-res") && i + 1 < argvc)
         {
-            serverArgs += args[i] + " " + args[++i] + " ";
+            serverArgs += args[i] + " ";
+            serverArgs += args[++i] + " ";
         }
         else if (args[i] == "--debug" or args[i] == "-d")
         {
-            serverArgs += args[i] + " ";
+            serverArgs += (args[i] + " ");
         }
         else if (args[i] == "--only")
         {
@@ -80,12 +85,14 @@ int main(int argc, char **argv)
             log::switches::basic(true);
         }
     }
+
+    std::cout << "ARGS:" << serverArgs << std::endl;
     if (!helpFlag)
     {
 
         radio::Manager *manager;
 
-        comm::Engine *commEngine = new comm::Engine("tcp://*:5555", consoleFlag);
+        comm::Engine *commEngine = new comm::Engine(internalCommunicationAddress, consoleFlag);
 
         manager = new radio::Manager(
                     new db::StationsTxt(databasePath),
