@@ -94,4 +94,38 @@ namespace db
             all += iter->getName() + " ";
         return all;
     }
+
+    radio::Station* StationsTxt::getNext(radio::Station *record)
+    {
+        if (database.size() > 1)
+            for (auto iter = database.begin(); iter != database.end(); ++iter){
+                if ((*iter)->getName() == record->getName())
+                    if (iter+1 != database.end())
+                        return *(++iter);
+            return *(database.begin());
+        }
+        else if (database.size() == 1)
+            return record;
+        else
+            return nullptr;
+    }
+
+    radio::Station* StationsTxt::getPrev(radio::Station *record)
+    {
+
+        if (database.size() > 1)
+        {
+            if (record == nullptr) return *(database.begin());
+            for (auto iter = database.rend(); iter != database.rbegin(); --iter)
+                if ((*iter)->getName() == record->getName())
+                    if (iter-1 != database.rbegin())
+                        return *(--iter);
+            return *(database.rend());
+        }
+        else if (database.size() == 1)
+            return *(database.begin());
+        else
+            return nullptr;
+    }
+
 } // namespace db

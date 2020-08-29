@@ -6,6 +6,12 @@
 		<title>PiRadio</title>
 	</head>
 	<body>
+		{{if .State}}
+			<label style="color: green;">WORKING</label>
+		{{else}}
+			<label style="color: red;">NOT WORKING</label>
+		{{end}}
+
 
 		{{if .Msg.Type}}
 			<label style="color: green;">  Message: {{.Msg.Message}}   </label> <br>
@@ -21,6 +27,12 @@
 		</form>
 		<form action="/radio/api/stop" method="post">
 			<input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
+		</form>
+		<form action="/radio/api/next" method="post">
+			<input class="mediaControlBtn" type="submit" name="nextRadio" value="Next">
+		</form>
+		<form action="/radio/api/prev" method="post">
+			<input class="mediaControlBtn" type="submit" name="prevRadio" value="Prev">
 		</form>
 
 		<form action="/radio/api/set" method="post">

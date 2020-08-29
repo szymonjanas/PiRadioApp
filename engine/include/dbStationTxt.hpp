@@ -26,6 +26,9 @@ namespace db
         virtual void *getDatabase();
         virtual void remove(radio::Station *station);
         virtual std::string getIDsInString();
+
+        virtual radio::Station* getNext(radio::Station* record);
+        virtual radio::Station* getPrev(radio::Station* record);
     };
 
 } // namespace db

@@ -35,6 +35,14 @@ namespace radio {
     {
         std::string reply = "error command not found";
 
+        /* 
+            Stations controller
+        */
+        if (args[0] == "isWorking"){
+            reply = "working";
+            log::warn(reply);
+            return reply;
+        } 
         if (args[0] == "station")
         {
             if (args[1] == "get")
@@ -94,7 +102,34 @@ namespace radio {
                     log::err(reply);
                 }
             }
+            else if (args[1] == "switch")
+            {
+                log::warn("SWITCH");
+                if (args[2] == "prev") {
+                    if (database->getDatabase() != nullptr) {
+                        audio->setStation(
+                                    database->getPrev(audio->getStation()));
+                        reply = "msg Prev station!";
+                    } else {
+                        reply = "err Cannot switch, database do not exist!";
+                        log::err(reply);
+                    }
+                }
+                else if (args[2] == "next") {
+                    if (database->getDatabase() != nullptr) {
+                        audio->setStation(
+                                    database->getNext(audio->getStation()));
+                        reply = "msg Next station!";
+                    } else {
+                        reply = "err Cannot switch, database do not exist!";
+                        log::err(reply);
+                    }
+                }
+            }
         }
+        /*
+            Engine controller
+        */
         else if (args[0] == "engine")
         {
             if (args[1] == "state")
@@ -128,7 +163,9 @@ namespace radio {
             std::vector<std::string> args =
                     comm::convertStringsToArgs(
                         communication->recive());
+            log::warn("CONTROL r:" +args[0]);
             std::string reply = execute(args);
+            log::warn("CONTROL R:" + reply);
             communication->send(reply);
         }
     }

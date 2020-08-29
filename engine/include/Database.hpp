@@ -16,6 +16,9 @@ namespace db {
         virtual void* getDatabase() = 0;
         virtual void remove(RECORD* record) = 0;
         virtual std::string getIDsInString() = 0;
+
+        virtual RECORD* getNext(RECORD* record) = 0;
+        virtual RECORD* getPrev(RECORD* record) = 0;
     };
 
 }

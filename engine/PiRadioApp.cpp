@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     bool consoleFlag = false;
 
     std::string siteAddress = "";
-    std::string internalCommunicationAddress = "tcp://*:5555";
+    std::string internalCommunicationAddress = "ipc://piradio.app";
     std::string databasePath = "../database.txt";
 
     std::string serverArgs = "";
@@ -87,8 +87,11 @@ int main(int argc, char **argv)
     }
 
     std::cout << "ARGS:" << serverArgs << std::endl;
+
     if (!helpFlag)
     {
+
+        log::warn("Internal comm addr: " + internalCommunicationAddress);
 
         radio::Manager *manager;
 

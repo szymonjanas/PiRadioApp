@@ -36,6 +36,7 @@ type ViewPageData struct {
     StationsData StationsPageData
     PlayingData PlayingDetails
     Msg Message
+    State bool
 }
 
 func getStations() []StationsName {
@@ -61,6 +62,12 @@ func viewHandler(w http.ResponseWriter, r *http.Request){
     }
     
     current := Comm.SendRequest("station get current")
+    var StateFlag bool = false
+    StateChecker := Comm.SendRequest("isWorking")[0]
+    Log.Warn("StateChecker: " + StateChecker)
+    if  StateChecker == "working" {
+        StateFlag = true
+    } 
     details := ViewPageData {
         StationsData: StationsPageData{
             Stations: getStations(),
@@ -71,7 +78,9 @@ func viewHandler(w http.ResponseWriter, r *http.Request){
             Url: current[2],
         },
         Msg: informMessage,
+        State: StateFlag,
     }
+
 
     tmpl.Execute(w, details)
 }
@@ -85,6 +94,18 @@ func playHandler(w http.ResponseWriter, r *http.Request){
 func stopHandler(w http.ResponseWriter, r *http.Request){
     Comm.SendRequest("engine state set stop")
     Log.Info("stop")
+    http.Redirect(w, r, "/radio/", http.StatusFound)
+} 
+
+func prevHandler(w http.ResponseWriter, r *http.Request){
+    Comm.SendRequest("station switch prev")
+    Log.Info("prev")
+    http.Redirect(w, r, "/radio/", http.StatusFound)
+} 
+
+func nextHandler(w http.ResponseWriter, r *http.Request){
+    Comm.SendRequest("station switch next")
+    Log.Info("next")
     http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
@@ -131,7 +152,7 @@ func main() {
 
     args := os.Args[1:]
 
-    engineUri := "tcp://localhost:5555"
+    engineUri := "ipc://piradio.app"
     serveUri := ":8080"
     resourcePath := "../server/resources/"
 
@@ -172,20 +193,22 @@ func main() {
     if errSocket != nil {
         Log.Err("error socket: " + errSocket.Error())
     } else {
-        Log.Info("connected to server: " + engineUri)
+        Log.Warn("connected to server: " + engineUri)
     }
     
     http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir(resourcePath))))
     http.HandleFunc("/radio/api/play", playHandler)
     http.HandleFunc("/radio/api/stop", stopHandler)
     http.HandleFunc("/radio/api/set", setHandler)
+    http.HandleFunc("/radio/api/next", nextHandler)
+    http.HandleFunc("/radio/api/prev", prevHandler)
     http.HandleFunc("/radio/api/submit", submitHandler)
     http.HandleFunc("/radio/api/setsubmit", setsubmitHandler)
     http.HandleFunc("/radio/api/remove", removeHandler)
     http.HandleFunc("/radio/api/add", addHandler)
     http.HandleFunc("/radio/", viewHandler)
 
-    Log.Info("serve uri: " + serveUri)
+    Log.Warn("serve uri: " + serveUri)
     errServe := http.ListenAndServe(serveUri, nil)
     if errServe != nil {
         Log.Err("error serve: " + errServe.Error()) 
