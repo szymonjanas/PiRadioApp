@@ -96,7 +96,7 @@ func (l *log) Info(message string){
 
 
 func (l *record) save_log(){
-	f, err := os.OpenFile(LogFilePath, os.O_APPEND|os.O_WRONLY, 0644) 
+	f, err := os.OpenFile(LogFilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644) 
 	if err != nil {
 		Log.Err(err.Error())
 	}
