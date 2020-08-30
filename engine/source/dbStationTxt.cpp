@@ -97,15 +97,17 @@ namespace db
 
     radio::Station* StationsTxt::getNext(radio::Station *record)
     {
-        if (database.size() > 1)
-            for (auto iter = database.begin(); iter != database.end(); ++iter){
-                if ((*iter)->getName() == record->getName())
-                    if (iter+1 != database.end())
-                        return *(++iter);
-            return *(database.begin());
-        }
+        if (database.size() > 1) {
+            if (record == nullptr) return *(database.begin());
+            for (int iter = 0; iter < database.size(); ++iter)
+                if (database[iter]->getName() == record->getName())
+                    if (iter+1 < database.size())
+                        return database[++iter];
+                    else
+                        return database[0];
+        }   
         else if (database.size() == 1)
-            return record;
+            return database[0];
         else
             return nullptr;
     }
@@ -113,17 +115,17 @@ namespace db
     radio::Station* StationsTxt::getPrev(radio::Station *record)
     {
 
-        if (database.size() > 1)
-        {
+        if (database.size() > 1) {
             if (record == nullptr) return *(database.begin());
-            for (auto iter = database.rend(); iter != database.rbegin(); --iter)
-                if ((*iter)->getName() == record->getName())
-                    if (iter-1 != database.rbegin())
-                        return *(--iter);
-            return *(database.rend());
+            for (int iter = database.size()-1; iter >= 0 ; --iter)
+                if (database[iter]->getName() == record->getName())
+                    if (iter-1 >= 0)
+                        return database[--iter];
+                    else 
+                        return database[database.size()-1];
         }
         else if (database.size() == 1)
-            return *(database.begin());
+            return database[0];
         else
             return nullptr;
     }
