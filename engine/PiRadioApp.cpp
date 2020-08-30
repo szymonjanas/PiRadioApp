@@ -85,8 +85,7 @@ int main(int argc, char **argv)
             log::switches::basic(true);
         }
     }
-
-    std::cout << "ARGS:" << serverArgs << std::endl;
+    log::warn("ARGS: " + serverArgs);
 
     if (!helpFlag)
     {
