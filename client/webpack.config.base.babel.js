@@ -75,6 +75,26 @@ export default {
           'sass-loader?sourceMap',
         ],
       },
+
+      // Process images
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+
+      // Process fonts
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          {
+            loader: 'file-loader?',
+          },
+        ],
+      },
     ],
   },
 

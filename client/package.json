@@ -43,6 +43,7 @@
     "eslint-loader": "^4.0.2",
     "eslint-plugin-react": "^7.20.5",
     "extract-css-chunks-webpack-plugin": "^4.7.5",
+    "file-loader": "^6.1.0",
     "html-webpack-plugin": "^3.2.0",
     "html-webpack-template": "^6.2.0",
     "node-sass": "^4.14.1",
