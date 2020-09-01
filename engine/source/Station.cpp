@@ -1,5 +1,7 @@
 #include "Station.hpp"
 
+using namespace radio;
+
 Station::Station(std::string name, std::string uri) :
     name(name), uri(uri)
 {}
@@ -33,7 +35,7 @@ bool Station::check(Station* station)
 {
     if (station == nullptr)
         return false;
-    else 
+    else
         return true;
 }
 
@@ -42,7 +44,7 @@ std::string Station::getString(Station* station)
     std::string reply = "";
     if (check(station))
         reply = station->toString();
-    else 
+    else
         reply = "Error StationDoesNotExist";
     return reply;
 }
@@ -51,7 +53,7 @@ std::string Station::getName(Station* station)
 {
     if (check(station))
         return station->getName();
-    else 
+    else
         return "StationDoesNotExist";
 }
 
@@ -59,6 +61,6 @@ std::string Station::getUri(Station* station)
 {
     if (check(station))
         return station->getUri();
-    else 
+    else
         return "StationDoesNotExist";
 }

@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="/res/css/server.css" />
+		<link rel="stylesheet" href="/radio/res/css/server.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>PiRadio</title>
 	</head>
 	<body>
+		{{if .State}}
+			<label style="color: green;">WORKING</label>
+		{{else}}
+			<label style="color: red;">NOT WORKING</label>
+		{{end}}
+
 
 		{{if .Msg.Type}}
 			<label style="color: green;">  Message: {{.Msg.Message}}   </label> <br>
@@ -16,14 +22,20 @@
 		<label>{{.PlayingData.Station}} </label> <br>
 		<label>  {{.PlayingData.Title}} </label> <br>
 
-		<form action="/radio/play" method="post">
+		<form action="/radio/api/play" method="post">
 			<input class="mediaControlBtn" type="submit" name="playRadio" value="Play">
 		</form>
-		<form action="/radio/stop" method="post">
+		<form action="/radio/api/stop" method="post">
 			<input class="mediaControlBtn" type="submit" name="stopRadio" value="Stop">
 		</form>
+		<form action="/radio/api/next" method="post">
+			<input class="mediaControlBtn" type="submit" name="nextRadio" value="Next">
+		</form>
+		<form action="/radio/api/prev" method="post">
+			<input class="mediaControlBtn" type="submit" name="prevRadio" value="Prev">
+		</form>
 
-		<form action="/radio/set" method="post">
+		<form action="/radio/api/set" method="post">
 			<label for="Stations">Stations:</label> <br>
 			<select id="Stations" name ="Stations" size="10" onchange="this.form.submit()">
 				{{range .StationsData.Stations}}
@@ -31,14 +43,14 @@
 				{{end}}
 			</select>
 		</form>
-		<form action="/radio/submit" method="post">
+		<form action="/radio/api/submit" method="post">
 			<input type="submit" name="submitAndPlay" value="Submit">
 		</form>
-		<form action="/radio/remove" method="post">
+		<form action="/radio/api/remove" method="post">
 			<input type="submit" name="removeStation" value="Remove">
 		</form>
 
-		<form action="/radio/add" method="post">
+		<form action="/radio/api/add" method="post">
 			<label>Station name:</label><br />
 			<input type="text" name="stationName"><br />
 			<label>Station uri:</label><br />
