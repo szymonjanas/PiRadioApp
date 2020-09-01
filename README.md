@@ -1,5 +1,5 @@
 # PiRadio App
-
+[![Build Status](https://travis-ci.com/PiRadioApp/PiRadioApp.svg?branch=master)](https://travis-ci.com/PiRadioApp/PiRadioApp)
 ## Description
 ```
 Simple embedded radio player.
