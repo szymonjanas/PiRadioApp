@@ -12,3 +12,11 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.site-content {
+  position: relative;
+  display: flex;
+  flex: 1;
+  background: $razzmatazz;
+  background: linear-gradient(to bottom, rgba($carrot-orange, 0.8) 0%, rgba($razzmatazz, 0.8) 100%);
+}
