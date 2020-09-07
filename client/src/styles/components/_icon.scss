@@ -1,0 +1,46 @@
+.icon--play {
+  font-size: 14rem;
+  color: $white;
+
+  &::before {
+    content: fa-content($fa-var-play-circle);
+  }
+
+  @media screen and (min-width: $size-small) {
+    font-size: 28rem;
+  }
+}
+
+.icon--previous,
+.icon--next {
+  font-size: 8rem;
+
+  @media screen and (min-width: $size-small) {
+    font-size: 12rem;
+  }
+}
+
+.icon--previous {
+  &::before {
+    content: fa-content($fa-var-step-backward);
+  }
+}
+
+.icon--next {
+  &::before {
+    content: fa-content($fa-var-step-forward);
+  }
+}
+
+.icon--menu {
+  font-size: 2.4rem;
+  color: $grey;
+
+  &::before {
+    content: fa-content($fa-var-bars);
+  }
+
+  @media screen and (min-width: $size-small) {
+    font-size: 3.2rem;
+  }
+}

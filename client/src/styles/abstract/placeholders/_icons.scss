@@ -1,0 +1,16 @@
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+
+%icon-container {
+  @extend %fa-icon;
+  @extend .fas;
+
+  speak: none;
+  font-weight: 400;
+  text-transform: none;
+}
+
+[class^='icon--'],
+[class*=' icon--'] {
+  @extend %icon-container;
+}

@@ -3,3 +3,30 @@
   flex-direction: column;
   width: 100%;
 }
+
+.player-controls {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &--play {
+      flex: 1;
+    }
+  }
+
+  [class^='icon--'],
+  [class*=' icon--'] {
+    color: $white;
+
+    &:hover {
+      color: $color-primary;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,15 +1,19 @@
 /* FONTS */
 $font-family: 'Montserrat', sans-serif;
 $font-size-base: 1rem !default;
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts' !default;
 
 /* COLOURS */
 $color-primary: #333;
+$background-primary: #F8F7F7;
 $carrot-orange: #E98826;
 $razzmatazz: #EC1B7A;
+$grey: #DBDBDB;
 $white: #FAFAFA;
 
 /* LAYOUT */
 $min-width: 320px;
+$size-small: 640px;
 
 /* OTHER */
 $box-shadow:

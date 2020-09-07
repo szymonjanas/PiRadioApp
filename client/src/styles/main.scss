@@ -4,6 +4,7 @@
 @import 'abstract/mixins';
 
 @import 'abstract/placeholders/typography';
+@import 'abstract/placeholders/icons';
 
 // 2. Vendors
 
@@ -17,7 +18,9 @@
 
 // 5. components
 @import 'components/header';
+@import 'components/icon';
 @import 'components/player';
+@import 'components/sidebar-button';
 
 // 6. Pages
 
