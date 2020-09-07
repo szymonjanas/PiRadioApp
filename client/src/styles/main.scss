@@ -3,6 +3,8 @@
 @import 'abstract/variables';
 @import 'abstract/mixins';
 
+@import 'abstract/placeholders/typography';
+
 // 2. Vendors
 
 // 3. Base stuff
@@ -13,7 +15,8 @@
 // 4. Layout related sections
 @import 'layout/base';
 
-// 5. Components
+// 5. components
+@import 'components/header';
 
 // 6. Pages
 

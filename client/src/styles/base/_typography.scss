@@ -13,3 +13,7 @@ body {
   line-height: 1;
   color: $color-primary;
 }
+
+.heading {
+  @extend %h1;
+}
