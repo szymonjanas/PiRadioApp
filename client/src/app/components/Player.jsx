@@ -20,6 +20,9 @@ const Player = () => {
           </button>
         </div>
       </div>
+      <div className="player__status">
+        <span className="player__message">Currently playing: PiRadio Station</span>
+      </div>
     </div>
   );
 };
