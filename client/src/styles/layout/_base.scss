@@ -1,0 +1,14 @@
+body {
+  min-width: $min-width;
+  background-color: $white;
+}
+
+.site-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}

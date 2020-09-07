@@ -1,0 +1,4 @@
+// Set font size in rems
+@mixin font-size($size) {
+  font-size: #{$size / 10}rem;
+}
