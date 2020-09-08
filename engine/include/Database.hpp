@@ -7,7 +7,10 @@ namespace db {
     
     template <typename ID, typename VALUE> 
     class RECORD {   
-
+        /*
+            RECORD is using by database,
+            must have same typename for id and value as database
+        */
     protected:   
         ID id;
         VALUE* value;

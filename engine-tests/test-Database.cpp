@@ -74,5 +74,19 @@ SCENARIO ("testDatabase", "[Database]") {
             }
         }
 
+        WHEN ("database is empty"){
+            THEN ("getID must be nullptr"){
+                REQUIRE(tdb.getByID("fake") == nullptr);
+            }
+            THEN ("size equal 0"){
+                REQUIRE(tdb.getDatabase()->size() == 0);
+            }
+            THEN ("do not remove anything"){
+                tdb.remove(new RECORD("fake", new std::string("fake-val")));
+            }
+            THEN ("getValues is empty") {
+                REQUIRE (tdb.getValues()->size() == 0);
+            }
+        }
     }
 }
