@@ -85,13 +85,6 @@ int main(int argc, char **argv)
             serverArgs += args[i] + " ";
             Log::switches::basic(true);
         }
-        else if (args[i] == "--test-json-write")
-        {
-            // helpFlag = true;
-            // db::StationJson database ("test.json");
-            // database.load();
-            // Log::info(database.getIDsInString());
-        }
     }
     Log::warn("ARGS: " + serverArgs);
 
