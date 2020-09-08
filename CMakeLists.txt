@@ -23,12 +23,12 @@ include_directories("${GST_INCLUDE_DIRS}")
 link_libraries(${GST_LIBRARIES})
 
 ## catch2 - utest
-include_directories(${enginePath}/dependencies)
+set (enginePath engine)
+include_directories(engine/dependencies)
 
 
 ## ENGINE LIBS ############################################
 
-set (enginePath engine)
 include_directories(${enginePath}/include)
 set (engineSrcPath ${enginePath}/source)
 set(engineSrc
