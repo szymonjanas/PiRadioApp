@@ -28,8 +28,5 @@ namespace db {
         virtual radio::Station* getPrev(radio::Station* record);
 
     };
+
 } // namespace db
-
-
-
-

@@ -88,5 +88,6 @@ SCENARIO ("testDatabase", "[Database]") {
                 REQUIRE (tdb.getValues()->size() == 0);
             }
         }
+        
     }
 }
