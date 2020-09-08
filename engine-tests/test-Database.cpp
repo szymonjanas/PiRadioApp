@@ -45,12 +45,13 @@ SCENARIO ("testDatabase", "[Database]") {
             }
 
             THEN ("compare values") {
-                std::vector<std::string> testVals = {"first-value", "third-value", "second-value", "fourth-value", "fifth-value"};
+                std::vector<std::string> testVals = {"first-value", "second-value", "third-value", "fourth-value", "fifth-value"};
                 std::vector<std::string*>* vals = tdb.getValues();
                 REQUIRE(vals->size() == testVals.size());
                 for (int iter = 0; iter < vals->size(); ++iter){
-                    int comp = testVals[iter].compare((*(*vals)[iter]));
-                    REQUIRE((comp != 0 ? comp : true));
+                    std::string first = testVals[iter];
+                    std::string second = *(*vals)[iter];
+                    REQUIRE(first == second);
                 }
             }
 
@@ -59,18 +60,21 @@ SCENARIO ("testDatabase", "[Database]") {
                 std::vector<std::string*>* vals = tdb.getValues();
                 REQUIRE(vals->size() == testVals.size());
                 for (int iter = 0; iter < vals->size(); ++iter){
-                    int comp = testVals[iter].compare((*(*vals)[iter]));
-                    REQUIRE((comp != 0 ? true : false));
+                    std::string first = testVals[iter];
+                    std::string second = *(*vals)[iter];
+                    REQUIRE(first != second);
                 }
             }
 
             THEN ("put new record with same name but diff value"){
                 tdb.put(new RECORD("fourth-name", new std::string("fake-value")));
                 REQUIRE(tdb.getDatabase()->size() == 5);
-                int comp = tdb.getByID("fourth-name")->getValue()->compare("fake-value");
-                int compTrue = tdb.getByID("fourth-name")->getValue()->compare("fourth-value");
-                REQUIRE((comp != 0 ? comp : true));
-                REQUIRE((compTrue == 0 ? comp : true));
+                std::string first = *(tdb.getByID("fourth-name")->getValue());
+                std::string second = "fake-value";
+                REQUIRE(first == second);
+                std::string firstTrue = *(tdb.getByID("fourth-name")->getValue());
+                std::string secondTrue = "fourth-value";
+                REQUIRE(firstTrue != secondTrue);
             }
         }
 
