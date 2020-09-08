@@ -13,6 +13,8 @@ export default webpackMerge(baseConfig, {
   devtool: 'source-map',
 
   devServer: {
+    host: '0.0.0.0',
+
     // Enable gzip compression of generated files.
     compress: true,
 

@@ -1,10 +1,10 @@
 .sidebar-button {
   position: absolute;
-  left: 2.8rem;
+  left: 2rem;
   width: 3.2rem;
   height: 3.2rem;
 
-  @media screen and (min-width: $size-small) {
+  @media screen and (min-width: $screen-tablet) {
     left: 2.4rem;
     width: 4.4rem;
     height: 4.4rem;

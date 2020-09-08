@@ -6,7 +6,7 @@
     content: fa-content($fa-var-play-circle);
   }
 
-  @media screen and (min-width: $size-small) {
+  @media screen and (min-width: $screen-tablet) {
     font-size: 28rem;
   }
 }
@@ -15,7 +15,7 @@
 .icon--next {
   font-size: 8rem;
 
-  @media screen and (min-width: $size-small) {
+  @media screen and (min-width: $screen-tablet) {
     font-size: 12rem;
   }
 }
@@ -40,7 +40,20 @@
     content: fa-content($fa-var-bars);
   }
 
-  @media screen and (min-width: $size-small) {
+  @media screen and (min-width: $screen-tablet) {
+    font-size: 3.2rem;
+  }
+}
+
+.icon--angle-left {
+  font-size: 2.4rem;
+  color: $grey;
+
+  &::before {
+    content: fa-content($fa-var-angle-left);
+  }
+
+  @media screen and (min-width: $screen-tablet) {
     font-size: 3.2rem;
   }
 }

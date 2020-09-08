@@ -1,0 +1,45 @@
+.station-list {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.station-list__item {
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem;
+  font-size: 2.2rem;
+
+  @media screen and (min-width: $screen-tablet) {
+    padding: 0 2.4rem;
+  }
+}
+
+.station-list__item-body {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  border-bottom: 1px solid $grey;
+
+  .icon--play {
+    font-size: 1.8rem;
+    color: $color-primary;
+
+    @media screen and (min-width: $screen-tablet) {
+      font-size: 2.6rem;
+    }
+  }
+}
+
+.station-list__button {
+  width: 3.2rem;
+  height: 3.2rem;
+  margin-right: 2rem;
+
+  @media screen and (min-width: $screen-tablet) {
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+}

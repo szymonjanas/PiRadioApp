@@ -40,12 +40,11 @@
 }
 
 .player__message {
-  font-size: 1.6rem;
-  font-weight: bold;
+  font-size: 1.4rem;
   color: $white;
 
-  @media screen and (min-width: $size-small) {
-    font-size: 2.2rem;
+  @media screen and (min-width: $screen-tablet) {
+    font-size: 2rem;
     font-weight: normal;
   }
 }

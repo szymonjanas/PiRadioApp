@@ -1,10 +1,10 @@
 .header {
   position: relative;
-  z-index: 999999;
+  z-index: 100000;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 8rem;
+  height: $header-height;
   background-color: #FFF;
   box-shadow: $box-shadow;
 }
