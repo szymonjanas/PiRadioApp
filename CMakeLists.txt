@@ -40,7 +40,7 @@ set(engineSrc
     ${engineSrcPath}/AudioManager.cpp
     ${engineSrcPath}/Logs.cpp
     ${engineSrcPath}/dbStationJson.cpp
-    )
+)
 add_library(${PROJECT_NAME}EngineLib SHARED ${engineSrc})
 set (engineLib ${PROJECT_NAME}EngineLib)
 
@@ -55,7 +55,7 @@ target_link_libraries(
     ${GST_LIBRARIES}
     zmq
     pthread
-    )
+)
 
 
 ## uTESTS #################################################
@@ -65,6 +65,7 @@ include_directories(${engineTestsPath})
 set (engineTestsSrc 
     ${engineTestsPath}/test-main.cpp
     ${engineTestsPath}/test-Database.cpp
+    ${engineTestsPath}/test-Database-json.cpp
 )
 
 set (project_name_engine_tests ${PROJECT_NAME}-engine-tests)
