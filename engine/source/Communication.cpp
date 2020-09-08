@@ -44,7 +44,7 @@ namespace comm
     void Engine::send(std::string message)
     {
         if (debug)
-            log::info("send: " + message);
+            Log::info("send: " + message);
         else
         {
             zmq::message_t messageData(message.size());
@@ -70,7 +70,7 @@ namespace comm
             if (requestData == "0")
                 requestData = "";
             else
-                log::info("recived: " + requestData);
+                Log::info("recived: " + requestData);
         }
         return requestData;
     }

@@ -8,7 +8,7 @@ namespace db
 
     bool StationsTxt::isLoad()
     {
-        return (bool)database.size();
+        return loadFlag;
     }
 
     void StationsTxt::load()
@@ -31,10 +31,11 @@ namespace db
                     name.erase(name.find('\r'));
                 while (name.find('\n') != std::string::npos)
                     name.erase(name.find('\n'));
-                database.push_back(new radio::Station(name, record));
+                database.push_back(new RECORD<std::string, radio::Station>(name, new radio::Station(name, record)));
                 nameFlag = true;
             }
         }
+        loadFlag = true;
         dbFile.close();
     }
 
@@ -45,69 +46,25 @@ namespace db
             throw std::string("Cannot save to file!");
         for (auto iter : database)
         {
-            dbFile << iter->getName() + "\n";
-            dbFile << iter->getUri() + "\n";
+            dbFile << iter->getValue()->getName() + "\n";
+            dbFile << iter->getValue()->getUri() + "\n";
         }
         dbFile.close();
-    }
-
-    radio::Station *StationsTxt::getByID(std::string name)
-    {
-        for (auto iter : database)
-            if (iter->getName() == name)
-                return iter;
-        return nullptr;
-    }
-
-    void StationsTxt::put(radio::Station *station)
-    {
-        if (station == nullptr)
-            return;
-        if (getByID(station->getName()) != nullptr)
-            getByID(station->getName())->setUri(station->getUri());
-        else
-            database.push_back(station);
-        this->save();
-    }
-
-    void *StationsTxt::getDatabase()
-    {
-        return reinterpret_cast<void *>(&database);
-    }
-
-    void StationsTxt::remove(radio::Station *station)
-    {
-        if (station == nullptr)
-            return;
-        for (auto iter = database.begin(); iter != database.end();)
-            if ((*iter)->getName() == station->getName())
-                database.erase(iter);
-            else
-                ++iter;
-        this->save();
-    }
-
-    std::string StationsTxt::getIDsInString()
-    {
-        std::string all = "";
-        for (auto iter : database)
-            all += iter->getName() + " ";
-        return all;
     }
 
     radio::Station* StationsTxt::getNext(radio::Station *record)
     {
         if (database.size() > 1) {
-            if (record == nullptr) return *(database.begin());
+            if (record == nullptr) return (*(database.begin()))->getValue();
             for (int iter = 0; iter < database.size(); ++iter)
-                if (database[iter]->getName() == record->getName())
+                if (database[iter]->getValue()->getName() == record->getName())
                     if (iter+1 < database.size())
-                        return database[++iter];
+                        return database[++iter]->getValue();
                     else
-                        return database[0];
+                        return database[0]->getValue();
         }   
         else if (database.size() == 1)
-            return database[0];
+            return database[0]->getValue();
         else
             return nullptr;
     }
@@ -116,16 +73,16 @@ namespace db
     {
 
         if (database.size() > 1) {
-            if (record == nullptr) return *(database.begin());
+            if (record == nullptr) return (*(database.begin()))->getValue();
             for (int iter = database.size()-1; iter >= 0 ; --iter)
-                if (database[iter]->getName() == record->getName())
+                if (database[iter]->getValue()->getName() == record->getName())
                     if (iter-1 >= 0)
-                        return database[--iter];
+                        return database[--iter]->getValue();
                     else 
-                        return database[database.size()-1];
+                        return database[database.size()-1]->getValue();
         }
         else if (database.size() == 1)
-            return database[0];
+            return database[0]->getValue();
         else
             return nullptr;
     }

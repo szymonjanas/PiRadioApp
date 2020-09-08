@@ -3,6 +3,7 @@
 #include <iostream>
 #include "RadioManager.hpp"
 #include "dbStationTxt.hpp"
+#include "dbStationJson.hpp"
 #include "AudioManager.hpp"
 #include "Audio.hpp"
 #include "Logs.hpp"
@@ -66,7 +67,7 @@ int main(int argc, char **argv)
         }
         else if (args[i] == "--only-with-console")
         {
-            log::warn("Mode: Only with console. Internal communication turned off. Type \"help\" for instructions.");
+            Log::warn("Mode: Only with console. Internal communication turned off. Type \"help\" for instructions.");
             onlyFlag = true;
             consoleFlag = true;
         }
@@ -77,20 +78,27 @@ int main(int argc, char **argv)
         else if (args[i] == "--cmd-colors" or args[i] == "-col")
         {
             serverArgs += args[i] + " ";
-            log::switches::color(true);
+            Log::switches::color(true);
         }
         else if (args[i] == "--basic-cmd" or args[i] == "-b")
         {
             serverArgs += args[i] + " ";
-            log::switches::basic(true);
+            Log::switches::basic(true);
+        }
+        else if (args[i] == "--test-json-write")
+        {
+            // helpFlag = true;
+            // db::StationJson database ("test.json");
+            // database.load();
+            // Log::info(database.getIDsInString());
         }
     }
-    log::warn("ARGS: " + serverArgs);
+    Log::warn("ARGS: " + serverArgs);
 
     if (!helpFlag)
     {
 
-        log::warn("Internal comm addr: " + internalCommunicationAddress);
+        Log::warn("Internal comm addr: " + internalCommunicationAddress);
 
         radio::Manager *manager;
 

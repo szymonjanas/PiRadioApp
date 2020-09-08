@@ -2,7 +2,7 @@
 
 namespace radio {
 
-    Manager::Manager(db::Database<radio::Station, std::string> *database,
+    Manager::Manager(db::Database<std::string, radio::Station> *database,
                      radio::Audio *audio,
                      comm::Engine *communication) : database(database),
         audio(audio),
@@ -16,7 +16,7 @@ namespace radio {
         delete communication;
     }
 
-    void Manager::setDatabase(db::Database<Station, std::string> *database)
+    void Manager::setDatabase(db::Database<std::string, radio::Station> *database)
     {
         this->database = database;
     }
@@ -40,7 +40,7 @@ namespace radio {
         */
         if (args[0] == "isWorking"){
             reply = "working";
-            log::warn(reply);
+            Log::warn(reply);
             return reply;
         } 
         if (args[0] == "station")
@@ -53,12 +53,22 @@ namespace radio {
                     {
                         if (!database->isLoad())
                             database->load();
-                        reply = database->getIDsInString();
+                        // reply = database->getIDsInString();
+
+                        /*
+                        ! IMPORTANT
+                        ! TO DO HERE 
+
+
+                            convert vector of values to string or json
+
+
+                        */
                     }
                     catch (std::string str)
                     {
                         reply = "err Error, Cannot load database: " + str;
-                        log::err("Cannot load database: " + str);
+                        Log::err("Cannot load database: " + str);
                     }
                 }
                 else if (args[2] == "current")
@@ -74,37 +84,37 @@ namespace radio {
                 else
                 {
                     reply = "err Station does not exist: " + args[2];
-                    log::err(reply);
+                    Log::err(reply);
                 }
             }
             else if (args[1] == "set")
             {
                 if (database->getByID(args[2]) != nullptr)
                 {
-                    audio->setStation(database->getByID(args[2]));
+                    audio->setStation(database->getByID(args[2])->getValue());
                     reply = "msg Station setted: " + audio->getStation()->getName();
                 }
                 else
                 {
                     reply = "err Station does not exist: " + args[2];
-                    log::err(reply);
+                    Log::err(reply);
                 }
             }
             else if (args[1] == "new")
             {
                 try
                 {
-                    database->put(new Station(args[2], args[3]));
+                    database->put(new db::RECORD<std::string, radio::Station>(args[2], new Station(args[2], args[3])));
                 }
                 catch (...)
                 {
                     reply = "err Somethink went wrong!";
-                    log::err(reply);
+                    Log::err(reply);
                 }
             }
             else if (args[1] == "switch")
             {
-                log::warn("SWITCH");
+                Log::warn("SWITCH");
                 if (args[2] == "prev") {
                     if (database->getDatabase() != nullptr) {
                         audio->setStation(
@@ -112,7 +122,7 @@ namespace radio {
                         reply = "msg Prev station!";
                     } else {
                         reply = "err Cannot switch, database do not exist!";
-                        log::err(reply);
+                        Log::err(reply);
                     }
                 }
                 else if (args[2] == "next") {
@@ -122,7 +132,7 @@ namespace radio {
                         reply = "msg Next station!";
                     } else {
                         reply = "err Cannot switch, database do not exist!";
-                        log::err(reply);
+                        Log::err(reply);
                     }
                 }
             }
@@ -143,7 +153,7 @@ namespace radio {
                     }
                     else
                         reply = "err Cannot set given state: " + args[3];
-                        log::warn(reply);
+                        Log::warn(reply);
                 }
                 else if (args[2] == "get")
                 {
@@ -157,15 +167,15 @@ namespace radio {
 
     void Manager::start()
     {
-        log::info("starting");
+        Log::info("starting");
         while (true)
         {
             std::vector<std::string> args =
                     comm::convertStringsToArgs(
                         communication->recive());
-            log::warn("CONTROL r:" +args[0]);
+            Log::warn("CONTROL r:" +args[0]);
             std::string reply = execute(args);
-            log::warn("CONTROL R:" + reply);
+            Log::warn("CONTROL R:" + reply);
             communication->send(reply);
         }
     }

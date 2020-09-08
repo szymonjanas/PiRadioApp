@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "Database.hpp"
 
 namespace radio {
 

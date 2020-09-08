@@ -1,29 +1,35 @@
 #pragma once
 
-#include <vector>
+#include "Database.hpp"
+#include "Station.hpp"
+
 #include <fstream>
 #include <string>
+#include "json.hpp"
+#include "Logs.hpp"
 
-#include "Database.hpp"
+namespace db {
 
-namespace db
-{
-    class StationsTxt : public Database<std::string, radio::Station>
-    {
+    class StationJson : public db::Database<std::string, radio::Station> {
+
         bool loadFlag = false;
         std::string filePath;
-
+        
     public:
-        StationsTxt(std::string filePath);
 
-        bool isLoad();
+        StationJson(std::string filePath);
+        ~StationJson();
+
+        virtual bool isLoad();
         virtual void load();
         virtual void save();
 
-        virtual std::string getIDsInString(){return "";}
-
         virtual radio::Station* getNext(radio::Station* record);
         virtual radio::Station* getPrev(radio::Station* record);
-    };
 
+    };
 } // namespace db
+
+
+
+

@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 3.7.0)
+cmake_minimum_required(VERSION 3.9.0)
 
-project(PiRadioApp VERSION 0.3.0)
+project(PiRadioApp VERSION 0.4.0)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+## DEPENDENCIES ###########################################
+## gstreamer
 set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
 find_package(PkgConfig REQUIRED)
 if ( NOT (PKGCONFIG_FOUND))
@@ -19,25 +22,57 @@ set(ENV{PKG_CONFIG_PATH})
 include_directories("${GST_INCLUDE_DIRS}")
 link_libraries(${GST_LIBRARIES})
 
+## catch2 - utest
+include_directories(${enginePath}/dependencies)
+
+
+## ENGINE LIBS ############################################
+
 set (enginePath engine)
 include_directories(${enginePath}/include)
-
-set (engineSrc ${enginePath}/source)
-set(SOURCES
-    ${enginePath}/PiRadioApp.cpp
-    ${engineSrc}/Audio.cpp
-    ${engineSrc}/Station.cpp
-    ${engineSrc}/dbStationTxt.cpp
-    ${engineSrc}/CommEngine.cpp
-    ${engineSrc}/RadioManager.cpp
-    ${engineSrc}/AudioManager.cpp
-    ${engineSrc}/Logs.cpp
+set (engineSrcPath ${enginePath}/source)
+set(engineSrc
+    ${engineSrcPath}/Audio.cpp
+    ${engineSrcPath}/Station.cpp
+    ${engineSrcPath}/dbStationTxt.cpp
+    ${engineSrcPath}/Communication.cpp
+    ${engineSrcPath}/RadioManager.cpp
+    ${engineSrcPath}/AudioManager.cpp
+    ${engineSrcPath}/Logs.cpp
+    ${engineSrcPath}/dbStationJson.cpp
     )
+add_library(${PROJECT_NAME}EngineLib SHARED ${engineSrc})
+set (engineLib ${PROJECT_NAME}EngineLib)
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+
+## APP EXECUTABLE #########################################
+
+set(engineSrcMain ${enginePath}/PiRadioApp.cpp)
+add_executable(${PROJECT_NAME} ${engineSrcMain})
 target_link_libraries(
     ${PROJECT_NAME}
+    ${engineLib}
     ${GST_LIBRARIES}
     zmq
     pthread
     )
+
+
+## uTESTS #################################################
+
+set (engineTestsPath engine-tests)
+include_directories(${engineTestsPath})
+set (engineTestsSrc 
+    ${engineTestsPath}/test-main.cpp
+    ${engineTestsPath}/test-Database.cpp
+)
+
+set (project_name_engine_tests ${PROJECT_NAME}-engine-tests)
+add_executable(${project_name_engine_tests} ${engineTestsSrc})
+target_link_libraries(
+    ${project_name_engine_tests}
+    ${engineLib}
+    ${GST_LIBRARIES}
+    zmq
+    pthread
+)
