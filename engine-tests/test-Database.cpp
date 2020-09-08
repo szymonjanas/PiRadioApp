@@ -72,9 +72,8 @@ SCENARIO ("testDatabase", "[Database]") {
                 std::string first = *(tdb.getByID("fourth-name")->getValue());
                 std::string second = "fake-value";
                 REQUIRE(first == second);
-                std::string firstTrue = *(tdb.getByID("fourth-name")->getValue());
                 std::string secondTrue = "fourth-value";
-                REQUIRE(firstTrue != secondTrue);
+                REQUIRE(first != secondTrue);
             }
         }
 
