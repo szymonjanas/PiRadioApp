@@ -30,6 +30,13 @@ namespace db {
 
     template <typename ID, typename VALUE> 
     class Database {
+        /*
+            ABSTRACT CLASS
+            some func must be defined in inheritance
+
+            provided interface for plenty of Database types
+            with basic functionalities
+        */
 
     protected:
         std::vector<RECORD<ID, VALUE>*> database;
