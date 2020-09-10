@@ -5,7 +5,6 @@ project(PiRadioApp VERSION 0.4.0)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
 ## DEPENDENCIES ###########################################
 ## gstreamer
 set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
@@ -66,6 +65,7 @@ set (engineTestsSrc
     ${engineTestsPath}/test-main.cpp
     ${engineTestsPath}/test-Database.cpp
     ${engineTestsPath}/test-Database-json.cpp
+    ${engineTestsPath}/test-RadioCommMessage.cpp
 )
 
 set (project_name_engine_tests ${PROJECT_NAME}-engine-tests)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Station.hpp"
+#include "json.hpp"
 #include <vector>
 
 namespace db {
@@ -53,6 +54,9 @@ namespace db {
 
         virtual VALUE* getNext(VALUE* record) = 0;
         virtual VALUE* getPrev(VALUE* record) = 0;
+
+        virtual std::string toString() = 0;
+        virtual nlohmann::json toJson() = 0;
 
 
         RECORD<ID, VALUE>* getByID(ID id);

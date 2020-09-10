@@ -10,19 +10,22 @@
 
 namespace db {
 
-    class StationJson : public db::Database<std::string, radio::Station> {
+    class StationsJson : public db::Database<std::string, radio::Station> {
 
         bool loadFlag = false;
         std::string filePath;
         
     public:
 
-        StationJson(std::string filePath);
-        ~StationJson();
+        StationsJson(std::string filePath);
+        ~StationsJson();
 
         virtual bool isLoad();
         virtual void load();
         virtual void save();
+
+        virtual std::string toString();
+        virtual nlohmann::json toJson();
 
         virtual radio::Station* getNext(radio::Station* record);
         virtual radio::Station* getPrev(radio::Station* record);

@@ -7,7 +7,7 @@
 SCENARIO ("json file database") {
 
     GIVEN ("StationJson database"){
-        db::StationJson jdb ("fakePath");
+        db::StationsJson jdb ("fakePath");
 
         using RECORD = db::RECORD<std::string, radio::Station>;
 

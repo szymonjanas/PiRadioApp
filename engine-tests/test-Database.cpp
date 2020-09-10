@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "Database.hpp"
+#include "json.hpp"
 
 class testDatabase : public db::Database<std::string, std::string> 
 {
@@ -7,6 +8,9 @@ class testDatabase : public db::Database<std::string, std::string>
         virtual bool isLoad(){}
         virtual void load(){}
         virtual void save(){}
+
+        virtual std::string toString(){}
+        virtual nlohmann::json toJson(){}
 
         virtual std::string* getNext(std::string* record){}
         virtual std::string* getPrev(std::string* record){}

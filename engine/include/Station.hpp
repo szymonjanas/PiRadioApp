@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "json.hpp"
 #include "Database.hpp"
 
 namespace radio {
@@ -21,6 +22,7 @@ namespace radio {
         void setUri(std::string uri);
 
         std::string toString();
+        nlohmann::json toJson();
 
         static bool check(Station *station);
         static std::string getString(Station *station);

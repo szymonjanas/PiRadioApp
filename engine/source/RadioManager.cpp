@@ -53,38 +53,38 @@ namespace radio {
                     {
                         if (!database->isLoad())
                             database->load();
-                        // reply = database->getIDsInString();
-
-                        /*
-                        ! IMPORTANT
-                        ! TO DO HERE 
-
-
-                            convert vector of values to string or json
-
-
-                        */
+                        reply = radio::Message(radio::Message::Type::REP, "Stations database").putValue(database->toJson()).toJson().dump();
                     }
                     catch (std::string str)
                     {
-                        reply = "err Error, Cannot load database: " + str;
+                        reply = radio::Message(radio::Message::Type::ERR, "Cannot load database: " + str).toJson().dump();
                         Log::err("Cannot load database: " + str);
                     }
                 }
                 else if (args[2] == "current")
-                    reply = audio->toString();
+                {
+                    radio::Station *station = audio->getStation();
+                    if (station == nullptr){
+                        reply = radio::Message(radio::Message::Type::WARN, "No station loaded!").toJson().dump();
+                        Log::warn("No station loaded!");
+                    } 
+                    else {
+                        reply = station->toJson().dump();
+                    }
+                }
             }
             else if (args[1] == "remove")
             {
                 if (database->getByID(args[2]) != nullptr)
                 {
                     database->remove(database->getByID(args[2]));
-                    reply = "msg Station removed: " + args[2];
+                    reply = radio::Message(radio::Message::Type::INFO, "Station removed: " + args[2]).toJson().dump();
+                    Log::info("Station removed: " + args[2]);
                 }
                 else
                 {
-                    reply = "err Station does not exist: " + args[2];
-                    Log::err(reply);
+                    reply = radio::Message(radio::Message::Type::ERR, "Station does not exist: " + args[2]).toJson().dump();
+                    Log::err("Station does not exist: " + args[2]);
                 }
             }
             else if (args[1] == "set")
@@ -92,15 +92,15 @@ namespace radio {
                 if (database->getByID(args[2]) != nullptr)
                 {
                     audio->setStation(database->getByID(args[2])->getValue());
-                    reply = "msg Station setted: " + audio->getStation()->getName();
+                    reply = radio::Message(radio::Message::Type::INFO, "Station setted: " + audio->getStation()->getName()).toJson().dump();    
                 }
                 else
                 {
-                    reply = "err Station does not exist: " + args[2];
-                    Log::err(reply);
+                    reply = radio::Message(radio::Message::Type::ERR, "Station does not exist: " + args[2]).toJson().dump();
+                    Log::err("Station does not exist: " + args[2]);
                 }
             }
-            else if (args[1] == "new")
+            else if (args[1] == "put")
             {
                 try
                 {
@@ -108,8 +108,8 @@ namespace radio {
                 }
                 catch (...)
                 {
-                    reply = "err Somethink went wrong!";
-                    Log::err(reply);
+                    reply = radio::Message(radio::Message::Type::ERR, "Cannot add/change station: " + args[2]).toJson().dump();
+                    Log::err("Cannot add/change station: " + args[2]);
                 }
             }
             else if (args[1] == "switch")
@@ -119,20 +119,22 @@ namespace radio {
                     if (database->getDatabase() != nullptr) {
                         audio->setStation(
                                     database->getPrev(audio->getStation()));
-                        reply = "msg Prev station!";
+                        reply = radio::Message(radio::Message::Type::INFO, "Prev station!").toJson().dump();
+                        Log::debug("Prev station!");
                     } else {
-                        reply = "err Cannot switch, database do not exist!";
-                        Log::err(reply);
+                        reply = radio::Message(radio::Message::Type::ERR, "Cannot prev switch, database do not exist!").toJson().dump();
+                        Log::err("Cannot prev switch, database do not exist!");
                     }
                 }
                 else if (args[2] == "next") {
                     if (database->getDatabase() != nullptr) {
                         audio->setStation(
                                     database->getNext(audio->getStation()));
-                        reply = "msg Next station!";
+                        reply = radio::Message(radio::Message::Type::INFO, "Next station!").toJson().dump();
+                        Log::debug("Next station!");
                     } else {
-                        reply = "err Cannot switch, database do not exist!";
-                        Log::err(reply);
+                        reply = radio::Message(radio::Message::Type::ERR, "Cannot switch, database do not exist!").toJson().dump();
+                        Log::err("Cannot switch, database do not exist!");
                     }
                 }
             }
@@ -149,15 +151,20 @@ namespace radio {
                     if (audio->canSetState(args[3]))
                     {
                         audio->setState(args[3]);
-                        reply = "msg Audio is: " + audio->getState();
+                        reply = radio::Message(radio::Message::Type::DEBUG, "Audio is: " + audio->getState()).toJson().dump();
+                        Log::debug("Audio is:" + audio->getState() );
                     }
                     else
-                        reply = "err Cannot set given state: " + args[3];
-                        Log::warn(reply);
+                    {
+                        reply = radio::Message(radio::Message::Type::ERR, "Cannot set given state: " + args[3]).toJson().dump();
+                        Log::err("Cannot set given state: " + args[3]);
+                    }
                 }
                 else if (args[2] == "get")
                 {
-                    reply = audio->getState();
+                    nlohmann::json jdata;
+                    jdata["state"] = audio->getState();
+                    reply = radio::Message(radio::Message::Type::REP, "State ").putValue(jdata).toJson().dump();
                 }
             }
         }

@@ -64,3 +64,11 @@ std::string Station::getUri(Station* station)
     else
         return "StationDoesNotExist";
 }
+
+nlohmann::json Station::toJson()
+{
+    nlohmann::json jdata;
+    jdata["name"] = name;
+    jdata["uri"] = uri;
+    return jdata;
+}

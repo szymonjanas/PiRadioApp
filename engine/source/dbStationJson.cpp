@@ -2,44 +2,44 @@
 
 namespace db {
 
-    StationJson::StationJson(std::string filePath) : filePath(filePath) 
+    StationsJson::StationsJson(std::string filePath) : filePath(filePath) 
     {}
 
-    StationJson::~StationJson() {
+    StationsJson::~StationsJson() {
 
     }
 
-    bool StationJson::isLoad()
+    bool StationsJson::isLoad()
     {
         return loadFlag;
     }
 
-    void StationJson::load()
+    void StationsJson::load()
     {
         if (!filePath.size()){
             Log::err("Database file path is empty!");
-            return;
+            throw std::string("Database File path is empty!");
         }
         std::fstream dbFile(filePath, std::ios::in);
         if (!dbFile.good()){
             Log::err("Database cannot be open: please check if json file exist!");
-            return;
+            throw std::string("Database cannot be open: please check if json file exist!");
         }
         nlohmann::json dbJson = nlohmann::json::parse(dbFile);
         auto stations = dbJson["stations"];
-        for (auto iter = stations.begin(); iter != stations.end(); ++iter){
+        for (auto iter = stations.begin(); iter != stations.end(); ++iter)
             this->put(new db::RECORD<std::string, radio::Station>((*iter)["name"], new radio::Station((*iter)["name"], (*iter)["uri"])));
-        }
+        
         loadFlag = true;
         dbFile.close();
     }
 
-     void StationJson::save()
+     void StationsJson::save()
      {
         
      }
 
-     radio::Station* StationJson::getNext(radio::Station* record)
+     radio::Station* StationsJson::getNext(radio::Station* record)
      {
         if (database.size() > 1) {
             if (record == nullptr) return database[0]->getValue();
@@ -56,7 +56,7 @@ namespace db {
             return nullptr;
      }
 
-     radio::Station* StationJson::getPrev(radio::Station* record)
+     radio::Station* StationsJson::getPrev(radio::Station* record)
      {
         if (database.size() > 1) {
             if (record == nullptr) return database[0]->getValue();
@@ -72,4 +72,19 @@ namespace db {
         else
             return nullptr;
      }
+
+    std::string StationsJson::toString()
+    {
+        return this->toJson().dump();
+    }
+
+    nlohmann::json StationsJson::toJson()
+    {
+        nlohmann::json jdata;
+        for (auto& record : database){
+            jdata.push_back(record->getValue()->toJson());
+        }
+        return jdata;
+    }
+
 }

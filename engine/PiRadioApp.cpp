@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 
     std::string siteAddress = "";
     std::string internalCommunicationAddress = "ipc://piradio.app";
-    std::string databasePath = "../database.txt";
+    std::string databasePath = "../database.json";
 
     std::string serverArgs = "";
 
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
         comm::Engine *commEngine = new comm::Engine(internalCommunicationAddress, consoleFlag);
 
         manager = new radio::Manager(
-                    new db::StationsTxt(databasePath),
+                    new db::StationsJson(databasePath),
                     new radio::Audio(new audio::Engine()),
                     commEngine );
 
