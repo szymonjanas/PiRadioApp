@@ -6,56 +6,159 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PiRadio</title>
-    <link rel="stylesheet" type="text/css" href="/res/css/dark.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/server.css">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@100&family=Ranchers&display=swap"
+        rel="stylesheet">
+
+
 
 
 
 </head>
 
 <body>
-    
-
-
-        
-        <audio src="/res/mp3/Queen – Bohemian Rhapsody (Official Video Remastered).mp3"></audio>
-        <div class="setup_and_data">
-
-            <div class="data">
-                <p class="station words">PlayingData.Station</p>
-                <div class="arrow"><i></i></div>
+    <div class="panel">
+        <div class="panel_filter">
+            <div class="panel.header">
+                <div class="panel_header_logo"><img src="resources/img/radio4.svg"></div>
+                <div class="panel_header_add_button"></div>
             </div>
-    
-                
-               
-        </div>
-        <div class="music">
-            <i class="fa fa-music" style="color: rgb(238, 238, 238); margin-left: .7rem; font-size: 1rem;"></i>
-            <p class="tittle words">PlayingData.Tittle</p>
-        </div>
-        </div>
-    
-        </div>
-    
-    
-        </div>
-    
-    
-    
-        <div>
-            <div class="controls">
-                <div class="around_play">
-    
-                    <div class="play"></div>
+            <div class="stations">
+                <div class="stations_filter">
+                    <div class="stations_station" v-for='(station, index) in stations' v-bind:key='station.id'
+                        v-bind:class="{'stations_station_clicked':clicked===station.id}" v-bind:stationId='station.id'
+                        v-on:click="clicked=station.id, returnId">
+
+                        <p :style="{fontSize:style.fontSize+.3+'vh'}">{{station.title}}{{station.id}}</p>
+                        <p :style="{fontSize: style.fontSize+'vh'}">{{station.name}}{{station.id}}</p>
+
+
+                    </div>
                 </div>
             </div>
-        </div>		
+            <div class="panel_current">
+                <div class="panel_current_controls">
+                    <div class="panel_current_controls_info">
+                        <div class="panel_current_controls_info_title">
+                            {{stations[stationId].title}}{{stations[stationId].id}}</div>
+                        <div class="panel_current_controls_info_station">
+                            {{stations[stationId].name}}{{stations[stationId].id}}</div>
+                    </div>
 
-<script src="/res/js/dark.js"></script>
+                    <div class="panel_current_controls_button" v-on:click="changeClass()">
+                        <div class="panel_current_controls_button_play" id="play">
+                        </div>
+                        <!-- <div class="panel_current_controls_button_pause" v-bind:style="{display: displayNone}"
+                            v-on:click="changeClass()"> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    </div>
+
+    <script>
+        let panel = new Vue({
+            el: '.panel',
+            data: {
+                displayNone: 'none',
+                display: 'inline-blok',
+                stationId: 0,
+                stations: [{
+                    name: 'Station name',
+                    title: 'Title of song/name of artist',
+                    id: 1,
+
+
+                },
+                {
+                    name: 'Station name',
+                    title: 'Title of song/name of artist',
+                    id: 2,
+
+                },
+                {
+                    name: 'Station name',
+                    title: 'Title of song/name of artist',
+                    id: 3,
+
+                },
+                {
+                    name: 'Station name',
+                    title: 'Title of song/name of artist',
+                    id: 4,
+
+                },
+                {
+                    name: 'Station name',
+                    title: 'Title of song/name of artist',
+                    id: 5,
+
+                },
+                {
+                    name: 'Station name',
+                    title: 'Title of song/name of artist',
+                    id: 6,
+
+
+                },
+                {
+                    name: 'Station name',
+                    title: 'Title of song/name of artist',
+                    id: 7,
+
+
+                },
+                ],
+                clicked: undefined,
+
+                style: {
+                    fontSize: 3
+                },
+
+            },
+            watch: {
+                update() {
+                    stationId = 'clicked'
+                }
+            },
+            methods: {
+                changeClass: function () {
+                    let display = this.display;
+                    let displayNone = this.displayNone;
+                    // let pause = document.querySelector('.panel_current_controls_button_pause');
+                    let play = document.querySelector('#play');
+
+                    if (play.className === 'panel_current_controls_button_play') { play.className = 'panel_current_controls_button_pause' } else { play.className = 'panel_current_controls_button_play' }
+                    // if (pause.style.display === displayNone) {
+                    //     pause.style.display = display; play.style.display = displayNone;
+                    //     console.log(pause.style.display, play.style.display)
+                    // } else {
+                    //     play.style.display = displayNone; pause.style.display = display;
+                    //     console.log('pause')
+                    // }
+                },
+                // computed: {
+                //     returnId: function () {
+                //         console.log(stations.id);
+
+                //         return stations.id
+                //     }
+
+                // }
+            }
+
+        })
+    </script>
+
+
+
 </body>
 
 </html>
-
-		
-   
