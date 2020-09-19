@@ -1,0 +1,59 @@
+{
+    "help": [
+        {
+            "set": "--icomm-address [ip:port]" ,
+            "short": "-ic [ip:port]",
+            "description": "Internal (server <-> engine) tcp communication address. Default: localhost:5555" 
+        },
+        {
+            "set": "--icomm-port [port]",
+            "short": "-icp [port]",
+            "description": "Internal (server <-> engine) tcp communication port. Default: 5555"
+        },
+        {
+            "set": "--host-address [ip:port]",
+            "short": "-h [ip:port]",
+            "description": "Host site address. Default: localhost:8080"
+        },
+        {
+            "set": "--host-port [port]",
+            "short": "-hp [port]",
+            "description": "Host site port. Default: 8080"
+        },
+        {
+            "set": "--resource [path]",
+            "short": "-res [path]",
+            "description": "Resource path. Default: ../server/resources/"
+        },
+        {
+            "set": "--debug",
+            "short": "-d",
+            "description": "Debug mode."
+        },
+        {
+            "set": "--only",
+            "short": "",
+            "description": "Run only engine app"
+        },
+        {
+            "set": "--only-with-console",
+            "short": "",
+            "description": "Run only engine app with cmd control instead of internal communication tcp.  Mode for testing purpose."
+        },
+        {
+            "set": "--database [path]",
+            "short": "-db [path]",
+            "description": "Set database path."
+        },
+        {
+            "set": "--cmd-colors",
+            "short": "-col",
+            "description": "Enable colors of console message."
+        },
+        {
+            "set": "--basic-cmd",
+            "short": "-b",
+            "description": " Disable info and debug message."
+        }
+    ]
+}
