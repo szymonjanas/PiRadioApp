@@ -89,10 +89,13 @@ namespace radio {
             }
             else if (args[1] == "set")
             {
-                if (database->getByID(args[2]) != nullptr)
+                std::string station = args[2];
+                Log::err("Station here here here: " + station);
+                if (station.size() > 0 && database->getByID(station) != nullptr)
                 {
                     audio->setStation(database->getByID(args[2])->getValue());
-                    reply = radio::Message(radio::Message::Type::INFO, "Station setted: " + audio->getStation()->getName()).toJson().dump();    
+                    audio->setState(radio::STATE::PLAY);
+                    reply = radio::Message(radio::Message::Type::INFO, "Station setted and playing: " + audio->getStation()->getName()).toJson().dump();    
                 }
                 else
                 {
