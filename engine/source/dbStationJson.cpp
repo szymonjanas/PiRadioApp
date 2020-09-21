@@ -18,12 +18,12 @@ namespace db {
     {
         if (!filePath.size()){
             Log::err("Database file path is empty!");
-            throw std::string("Database File path is empty!");
+            return;
         }
         std::fstream dbFile(filePath, std::ios::in);
         if (!dbFile.good()){
             Log::err("Database cannot be open: please check if json file exist!");
-            throw std::string("Database cannot be open: please check if json file exist!");
+            return;
         }
         nlohmann::json dbJson = nlohmann::json::parse(dbFile);
         auto stations = dbJson["stations"];
@@ -87,4 +87,4 @@ namespace db {
         return jdata;
     }
 
-}
+} // namespace db

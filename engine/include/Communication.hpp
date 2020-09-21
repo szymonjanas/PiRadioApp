@@ -3,11 +3,10 @@
 #include <string>
 #include <memory>
 #include <vector>
-#include <queue>
-#include <thread>
-#include <mutex>
-#include "Logs.hpp"
+
 #include <zmq.hpp>
+
+#include "Logs.hpp"
 
 namespace comm
 {

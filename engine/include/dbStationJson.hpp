@@ -1,12 +1,14 @@
 #pragma once
 
-#include "Database.hpp"
-#include "Station.hpp"
-
 #include <fstream>
 #include <string>
+
 #include "json.hpp"
+
+#include "Database.hpp"
+#include "Station.hpp"
 #include "Logs.hpp"
+
 
 namespace db {
 
@@ -16,7 +18,6 @@ namespace db {
         std::string filePath;
         
     public:
-
         StationsJson(std::string filePath);
         ~StationsJson();
 

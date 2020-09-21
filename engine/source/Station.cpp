@@ -16,6 +16,18 @@ std::string Station::getUri()
     return uri;
 }
 
+void Station::setPlaying(bool state)
+{
+    this->isPlaying = state;
+    if (state == false)
+        this->title = "";
+}
+
+void Station::setTitle(std::string title)
+{
+    this->title = title;
+}
+
 void Station::setName(std::string name) 
 {
     this->name = name;
@@ -70,5 +82,7 @@ nlohmann::json Station::toJson()
     nlohmann::json jdata;
     jdata["name"] = name;
     jdata["uri"] = uri;
+    jdata["isPlaying"] = isPlaying;
+    jdata["title"] = title;
     return jdata;
 }

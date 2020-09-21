@@ -17,7 +17,7 @@ SCENARIO ("test of RadioCommMessage", "[RadioCommMessage]") {
         GIVEN("add json value") {
             nlohmann::json jdata;
             jdata["num"] = 1;
-            jdata["name"] = "xyz";
+            jdata["name"] = "xyz"; 
             message.putValue(jdata);
 
             THEN("check json value") {

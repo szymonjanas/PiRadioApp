@@ -1,7 +1,9 @@
 #pragma once
 
-#include <gst/gst.h>
 #include <string>
+
+#include <gst/gst.h>
+
 #include "Station.hpp"
 #include "Logs.hpp"
 
@@ -16,6 +18,15 @@ namespace audio
 
     class Engine
     {
+        /*
+            Engine class is a simple player.
+            To play audio you must pass uri to source (web stream, local file, etc).
+            Audio can be manipulated by: play(), pause(), stop().
+            To get information about current music (in web stream): getTitle(), 
+                but there is no guarantee to get title (can be unavaliable or unknown).
+            Audio player is playing stream on separate thread.
+        */
+
         GstElement *pipeline;
         GstBus *bus;
         GstMessage *msg;

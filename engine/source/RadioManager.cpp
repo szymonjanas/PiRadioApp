@@ -90,12 +90,12 @@ namespace radio {
             else if (args[1] == "set")
             {
                 std::string station = args[2];
-                Log::err("Station here here here: " + station);
                 if (station.size() > 0 && database->getByID(station) != nullptr)
                 {
                     audio->setStation(database->getByID(args[2])->getValue());
                     audio->setState(radio::STATE::PLAY);
-                    reply = radio::Message(radio::Message::Type::INFO, "Station setted and playing: " + audio->getStation()->getName()).toJson().dump();    
+                    reply = radio::Message(radio::Message::Type::INFO, "Station setted and playing: " + audio->getStation()->getName()).toJson().dump();
+                    Log::info("Setted and play: " + station);    
                 }
                 else
                 {
@@ -108,6 +108,8 @@ namespace radio {
                 try
                 {
                     database->put(new db::RECORD<std::string, radio::Station>(args[2], new Station(args[2], args[3])));
+                    reply = radio::Message(radio::Message::Type::INFO, "Station added to database: " + args[2] + " " + args[3]).toJson().dump();
+                    Log::info("Station added to database: " + args[2] + " " + args[3]);
                 }
                 catch (...)
                 {
@@ -190,4 +192,4 @@ namespace radio {
         }
     }
 
-}
+} // namespace radio

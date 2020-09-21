@@ -1,12 +1,14 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "RadioManager.hpp"
-#include "dbStationTxt.hpp"
-#include "dbStationJson.hpp"
-#include "AudioManager.hpp"
-#include "Audio.hpp"
+
+#include "json.hpp"
+
 #include "Logs.hpp"
+#include "Audio.hpp"
+#include "AudioManager.hpp"
+#include "RadioManager.hpp"
+#include "dbStationJson.hpp"
 
 void help(std::string);
 
@@ -15,6 +17,7 @@ int main(int argc, char **argv)
     bool helpFlag = false;
     bool onlyFlag = false;
     bool consoleFlag = false;
+    bool audioFlag = true;
 
     std::string siteAddress = "";
     std::string internalCommunicationAddress = "ipc://piradio.app";
@@ -85,6 +88,10 @@ int main(int argc, char **argv)
             serverArgs += args[i] + " ";
             Log::switches::basic(true);
         }
+        else if (args[i] == "--no-audio" or args[i] == "-na")
+        {
+            audioFlag = false;
+        }
     }
     Log::warn("ARGS: " + serverArgs);
 
@@ -96,11 +103,13 @@ int main(int argc, char **argv)
         radio::Manager *manager;
 
         comm::Engine *commEngine = new comm::Engine(internalCommunicationAddress, consoleFlag);
-
+        radio::Audio *audioManager = new radio::Audio(new audio::Engine());
+        audioManager->setAudio(audioFlag);
         manager = new radio::Manager(
-                    new db::StationsJson(databasePath),
-                    new radio::Audio(new audio::Engine()),
-                    commEngine );
+                        new db::StationsJson(databasePath),
+                        audioManager,
+                        commEngine 
+                    );
 
         if (!onlyFlag) {
             std::string str = "go run ../server/*.go " + serverArgs + " &";

@@ -20,7 +20,6 @@ namespace radio {
         std::string typeToString(Type type);
 
     public:
-
         Message(Type&& type, std::string&& message) : type(type), message(message)
         {}
 
@@ -59,6 +58,3 @@ namespace radio {
     }
 
 }
-
-
-

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Station.hpp"
-#include "json.hpp"
 #include <vector>
+#include "json.hpp"
+#include "Station.hpp"
 
 namespace db {
     
@@ -46,7 +46,7 @@ namespace db {
         std::vector<RECORD<ID, VALUE>*> database;
 
     public:
-        virtual ~Database(){}
+        virtual ~Database();
 
         virtual bool isLoad() = 0;
         virtual void load() = 0;
@@ -99,12 +99,17 @@ namespace db {
     /* 
         ## DATABASE #############################################
     */
+    template<typename ID, typename VALUE>
+    Database<ID, VALUE>::~Database(){
+        for (int i = 0; i < database.size(); ++i)
+            delete database[i];
+    }
 
     template<typename ID, typename VALUE>
     RECORD<ID, VALUE>* Database<ID, VALUE>::getByID(ID id){
-        for (auto iter : database)
-        if (iter->getID() == id)
-            return iter;
+        for (auto& iter : database)
+            if (iter->getID() == id)
+                return iter;
         return nullptr;
     }
 

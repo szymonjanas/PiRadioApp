@@ -8,8 +8,14 @@
 
 namespace radio {
 
+    enum class STATE {
+        PLAY, PAUSE, STOP
+    };
+
     class Audio
     {
+
+        bool audio = true;
 
         audio::Engine* engine;
         radio::Station *station = nullptr;
@@ -28,12 +34,13 @@ namespace radio {
         radio::Station *getStation();
 
         std::string getState();
-        std::string getDetails(std::string type);
 
         void setState(std::string state);
+        void setState(STATE state);
         bool canSetState(std::string state);
-
-        std::string toString();
+        
+        void setAudio(bool state);
+        bool isAudio();
     };
 
-}
+} // namespace radio

@@ -53,7 +53,12 @@
         {
             "set": "--basic-cmd",
             "short": "-b",
-            "description": " Disable info and debug message."
+            "description": "Disable info and debug message."
+        },
+        {
+            "set": "--no-audio",
+            "short": "-na",
+            "description": "Disable audio engine"
         }
     ]
 }

@@ -11,6 +11,8 @@ namespace radio {
 
         std::string name = "";
         std::string uri = "";
+        bool isPlaying = false;
+        std::string title = "";
 
     public:
         Station(std::string name, std::string uri);
@@ -20,6 +22,8 @@ namespace radio {
 
         void setName(std::string name);
         void setUri(std::string uri);
+        void setPlaying(bool state);
+        void setTitle(std::string title);
 
         std::string toString();
         nlohmann::json toJson();
@@ -30,4 +34,4 @@ namespace radio {
         static std::string getUri(Station *station);
     };
 
-}
+} // namespace radio

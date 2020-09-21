@@ -1,51 +1,48 @@
 package main
 
 import (
-    "html/template"
     "net/http"
     "os"
+    "encoding/json"
+    "io/ioutil"
+    "fmt"
     zmq "github.com/pebbe/zmq4"
 )
 
-var client *zmq.Socket
-var checkedStation string = "none"
-var DEBUG bool = true
+type Station struct {
+    Name string `json:"name"`
+    Uri string `json:"uri"`
+}
+
+type StationName struct {
+    Name string `json:"name"`
+}
 
 type Message struct {
-    Message string
-    Type bool
+    Type string `json:"type"`
+    Message string `json:"message"`
+    Value []Station `json:"value"`
 }
 
-var informMessage Message 
+/*
+    Internal communication
+*/
+var checkedStation string
 
-type StationsName struct {
-    Name string
-}
-
-type StationsPageData struct {
-    Stations []StationsName
-}
-
-type PlayingDetails struct {
-    Station string
-    Title string
-    Url string
-}
-
-type ViewPageData struct {
-    StationsData StationsPageData
-    PlayingData PlayingDetails
-    Msg Message
-    State bool
-}
-
-func getStations() []StationsName {
-    var stations []StationsName
-    strStations := Comm.SendRequest("station get all")
-    for i := range strStations {
-        stations = append(stations, StationsName{strStations[i]})
+var client *zmq.Socket
+func SendRequest(request string) string {
+    /*
+        send request; recive, decode and return reply
+    */
+    (*client).SendMessage(request, 0)
+    Log.Info("send request: " + request)
+    msg, err := (*client).RecvMessage(0)
+    if err != nil {
+        Log.Err("send error: " + err.Error())
     }
-    return stations
+    reply := msg[0]
+    Log.Info("recive replay: " + reply)
+    return reply 
 }
 
 /* 
@@ -53,98 +50,101 @@ func getStations() []StationsName {
 */
 
 func viewHandler(w http.ResponseWriter, r *http.Request){
-    Log.Debug("main page")
-    tmpl, err := template.ParseFiles("../server/resources/server.html")
-    if err != nil {
-        Log.Err("Error occure: " + err.Error())
-        w.WriteHeader(http.StatusInternalServerError)
-        return
-    }
-    
-    current := Comm.SendRequest("station get current")
-    var StateFlag bool = false
-    StateChecker := Comm.SendRequest("isWorking")[0]
-    Log.Warn("StateChecker: " + StateChecker)
-    if  StateChecker == "working" {
-        StateFlag = true
-    } 
-    details := ViewPageData {
-        StationsData: StationsPageData{
-            Stations: getStations(),
-        },
-        PlayingData: PlayingDetails {
-            Station: current[0],
-            Title: current[1],
-            Url: current[2],
-        },
-        Msg: informMessage,
-        State: StateFlag,
-    }
+    fmt.Fprintf(w, "Welcome to the HomePage!")
+}
 
-
-    tmpl.Execute(w, details)
+func getAllHandler(w http.ResponseWriter, r *http.Request){
+    all := SendRequest("station get all")
+    var msg Message
+    if err := json.Unmarshal([]byte(all), &msg); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(msg); err != nil {
+		Log.Err(err.Error())
+	}
 }
 
 func playHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("engine state set play")
+    SendRequest("engine state set play")
     Log.Info("play ")
-    http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func stopHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("engine state set stop")
+    SendRequest("engine state set stop")
     Log.Info("stop")
-    http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func prevHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("station switch prev")
+    SendRequest("station switch prev")
     Log.Info("prev")
-    http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func nextHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("station switch next")
+    SendRequest("station switch next")
     Log.Info("next")
-    http.Redirect(w, r, "/radio/", http.StatusFound)
 } 
 
 func setHandler(w http.ResponseWriter, r *http.Request){
-    body := r.FormValue("Stations")
-    checkedStation = body
-    Log.Info("checked " + checkedStation)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
-} 
-
-func submitHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("station set " + checkedStation)
-    Comm.SendRequest("engine state set play")
-    Log.Info("submit " + checkedStation)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
-} 
-
-func setsubmitHandler(w http.ResponseWriter, r *http.Request){
-    body := r.FormValue("Stations")
-    checkedStation = body
-    Comm.SendRequest("station set " + checkedStation)
-    Comm.SendRequest("engine state set play")
-    Log.Info("checked and submit " + checkedStation)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
-} 
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var msg StationName
+    if err := json.Unmarshal([]byte(reqBody), &msg); err != nil {
+        Log.Err(err.Error())
+    }
+    checkedStation = msg.Name
+    rep := SendRequest("station set " + checkedStation)
+    Log.Info("checked and submit: " + checkedStation)
+    var repMsg Message
+    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+		Log.Err(err.Error())
+    }
+}
 
 func removeHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("station remove " + checkedStation)
-    Log.Info("remove " + checkedStation)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var msg StationName
+    if err := json.Unmarshal([]byte(reqBody), &msg); err != nil {
+        Log.Err(err.Error())
+    }
+    rep := SendRequest("station remove " + msg.Name)
+    Log.Info("station removed: " + msg.Name)
+    var repMsg Message
+    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+		Log.Err(err.Error())
+    }
 } 
 
-func addHandler(w http.ResponseWriter, r *http.Request){
-    name := r.FormValue("stationName")
-    uri := r.FormValue("stationUri")
-    Comm.SendRequest("station new " + name + " " + uri)
-    Log.Info("add new " + name + " " + uri)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
+func putHandler(w http.ResponseWriter, r *http.Request){
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var msg Station
+    if err := json.Unmarshal([]byte(reqBody), &msg); err != nil {
+        Log.Err(err.Error())
+    }
+
+    Log.Info("station put " + msg.Name + " " + msg.Uri)
+    rep := SendRequest("station put " + msg.Name + " " + msg.Uri)
+
+    var repMsg Message
+    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+		Log.Err(err.Error())
+    }
 } 
+
+/*
+    MAIN
+*/
 
 func main() {
 
@@ -195,16 +195,15 @@ func main() {
     }
     
     http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir(resourcePath))))
-    http.HandleFunc("/radio/api/play", playHandler)
-    http.HandleFunc("/radio/api/stop", stopHandler)
-    http.HandleFunc("/radio/api/set", setHandler)
-    http.HandleFunc("/radio/api/next", nextHandler)
-    http.HandleFunc("/radio/api/prev", prevHandler)
-    http.HandleFunc("/radio/api/submit", submitHandler)
-    http.HandleFunc("/radio/api/setsubmit", setsubmitHandler)
-    http.HandleFunc("/radio/api/remove", removeHandler)
-    http.HandleFunc("/radio/api/add", addHandler)
-    http.HandleFunc("/radio/", viewHandler)
+    http.HandleFunc("/radio/api/station/all", getAllHandler)
+    http.HandleFunc("/radio/api/state/play", playHandler)
+    http.HandleFunc("/radio/api/state/stop", stopHandler)
+    http.HandleFunc("/radio/api/station/set", setHandler)
+    http.HandleFunc("/radio/api/station/next", nextHandler)
+    http.HandleFunc("/radio/api/station/prev", prevHandler)
+    http.HandleFunc("/radio/api/station/remove", removeHandler)
+    http.HandleFunc("/radio/api/station/put", putHandler)
+    http.HandleFunc("/radio", viewHandler)
 
     Log.Warn("serve uri: " + serveUri)
     errServe := http.ListenAndServe(serveUri, nil)
