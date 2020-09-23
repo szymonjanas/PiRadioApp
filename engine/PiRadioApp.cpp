@@ -103,8 +103,9 @@ int main(int argc, char **argv)
         radio::Manager *manager;
 
         comm::Engine *commEngine = new comm::Engine(internalCommunicationAddress, consoleFlag);
-        radio::Audio *audioManager = new radio::Audio(new audio::Engine());
-        audioManager->setAudio(audioFlag);
+        radio::Audio *audioManager;
+        if (audioFlag) audioManager = new radio::Audio(new audio::Engine());
+        else audioManager = new radio::Audio(new audio::EngineFake());
         manager = new radio::Manager(
                         new db::StationsJson(databasePath),
                         audioManager,

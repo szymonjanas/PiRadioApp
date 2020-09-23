@@ -66,23 +66,55 @@ func getAllHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func playHandler(w http.ResponseWriter, r *http.Request){
-    SendRequest("engine state set play")
-    Log.Info("play ")
+    rep := SendRequest("engine state set play")
+    Log.Info("engine state set play")
+    var repMsg Message
+    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+		Log.Err(err.Error())
+    }
 } 
 
 func stopHandler(w http.ResponseWriter, r *http.Request){
-    SendRequest("engine state set stop")
-    Log.Info("stop")
+    rep := SendRequest("engine state set stop")
+    Log.Info("engine state set stop")
+    var repMsg Message
+    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+		Log.Err(err.Error())
+    }
 } 
 
 func prevHandler(w http.ResponseWriter, r *http.Request){
-    SendRequest("station switch prev")
-    Log.Info("prev")
+    rep := SendRequest("station switch prev")
+    Log.Info("station switch prev")
+    var repMsg Message
+    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+		Log.Err(err.Error())
+    }
 } 
 
 func nextHandler(w http.ResponseWriter, r *http.Request){
-    SendRequest("station switch next")
-    Log.Info("next")
+    rep := SendRequest("station switch next")
+    Log.Info("station switch next")
+    var repMsg Message
+    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+		Log.Err(err.Error())
+    }
 } 
 
 func setHandler(w http.ResponseWriter, r *http.Request){
@@ -196,8 +228,8 @@ func main() {
     
     http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir(resourcePath))))
     http.HandleFunc("/radio/api/station/all", getAllHandler)
-    http.HandleFunc("/radio/api/state/play", playHandler)
-    http.HandleFunc("/radio/api/state/stop", stopHandler)
+    http.HandleFunc("/radio/api/engine/state/play", playHandler)
+    http.HandleFunc("/radio/api/engine/state/stop", stopHandler)
     http.HandleFunc("/radio/api/station/set", setHandler)
     http.HandleFunc("/radio/api/station/next", nextHandler)
     http.HandleFunc("/radio/api/station/prev", prevHandler)

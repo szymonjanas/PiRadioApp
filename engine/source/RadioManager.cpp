@@ -93,7 +93,7 @@ namespace radio {
                 if (station.size() > 0 && database->getByID(station) != nullptr)
                 {
                     audio->setStation(database->getByID(args[2])->getValue());
-                    audio->setState(radio::STATE::PLAY);
+                    audio->setState(audio::STATE::PLAY);
                     reply = radio::Message(radio::Message::Type::INFO, "Station setted and playing: " + audio->getStation()->getName()).toJson().dump();
                     Log::info("Setted and play: " + station);    
                 }
@@ -156,8 +156,8 @@ namespace radio {
                     if (audio->canSetState(args[3]))
                     {
                         audio->setState(args[3]);
-                        reply = radio::Message(radio::Message::Type::DEBUG, "Audio is: " + audio->getState()).toJson().dump();
-                        Log::debug("Audio is:" + audio->getState() );
+                        reply = radio::Message(radio::Message::Type::INFO, "Audio is: " + radio::Audio::stateToString(audio->getState())).toJson().dump();
+                        Log::debug("Audio is:" + radio::Audio::stateToString(audio->getState()));
                     }
                     else
                     {
