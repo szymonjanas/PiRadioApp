@@ -29,4 +29,4 @@ script:
   - make
   - ./PiRadioApp-engine-tests
   - cd ..
-  - python server-api-tests/
+  - python3.6 server-api-tests
