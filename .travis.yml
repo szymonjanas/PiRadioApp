@@ -5,7 +5,7 @@ os: linux
 
 compiler:
   - gcc
-  
+launguage: python
 python:
   - "3.6" 
 
