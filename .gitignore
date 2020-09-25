@@ -1,0 +1,7 @@
+server-api-tests/__pycache__/
+piradio.app
+img/
+build/
+.vscode/
+CMakeLists.txt.user
+
