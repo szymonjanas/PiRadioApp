@@ -31,3 +31,5 @@ if __name__ == "__main__":
 
         pidEngine.terminate()
         pidServer.terminate()
+
+        subprocess.call(['rm', 'piradio.app'])
