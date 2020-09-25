@@ -1,14 +1,9 @@
-language: 
-  - cpp
-  - python
+language: cpp
 dist: bionic
 sudo: required
 os: linux
 
-compiler:
-  - gcc
-
-python: "3.6"
+compiler: g++
 
 addons:
   apt:
@@ -19,6 +14,7 @@ addons:
       - gcc-6
       - g++-6
       - cmake
+      - python3.6
       
 
 install:
