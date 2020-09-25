@@ -1,11 +1,13 @@
-language: cpp
-dist: trusty
-sudo: required
+dist: xenial
 os: linux
+sudo: required
+lauguage: python
+python:
+  - 3.6
 
+language: cpp
 compiler:
   - gcc
-
 
 addons:
   apt:
