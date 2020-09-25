@@ -14,7 +14,6 @@ if __name__ == "__main__":
     if onlyFlag:
         tests.test()
     else:
-        subprocess.call(['pwd'])
         pidEngine = subprocess.Popen(['build/PiRadioApp', '--only', '-na', '-col', '-db', 'database.json'])
         time.sleep(3)
         pidServer = subprocess.Popen(['build/server', '-col'])
