@@ -26,6 +26,12 @@ int main(int argc, char **argv)
     std::string serverArgs = "";
 
     std::vector<std::string> args(argv, argv + argc);
+
+    std::string argsStr = "";
+    for (auto& argStr : args)
+        argsStr += argStr + " ";
+    Log::warn(argsStr);
+
     for (int i = 0, argvc = args.size(); i < argvc; ++i)
     {
         if (args[i] == "--help" or args[i] == "-h")
@@ -77,6 +83,7 @@ int main(int argc, char **argv)
         else if ((args[i] == "--database" or args[i] == "-db") and i + 1 < argc)
         {
             databasePath = args[++i];
+            Log::warn("setted database: " + databasePath);
         }
         else if (args[i] == "--cmd-colors" or args[i] == "-col")
         {
@@ -91,6 +98,7 @@ int main(int argc, char **argv)
         else if (args[i] == "--no-audio" or args[i] == "-na")
         {
             audioFlag = false;
+            Log::warn("No audio mode!");
         }
     }
     Log::warn("ARGS: " + serverArgs);

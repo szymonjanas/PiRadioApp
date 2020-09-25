@@ -20,9 +20,9 @@ namespace db {
             Log::err("Database file path is empty!");
             return;
         }
-        std::fstream dbFile(filePath, std::ios::in);
+        std::fstream dbFile(filePath, std::ios::in | std::ios::out);
         if (!dbFile.good()){
-            Log::err("Database cannot be open: please check if json file exist!");
+            Log::err("Database cannot be open: please check if json file exist: " + filePath);
             return;
         }
         nlohmann::json dbJson = nlohmann::json::parse(dbFile);

@@ -1,7 +1,22 @@
 import tests
+import sys
+import subprocess
+import time
 
 if __name__ == "__main__":
-    tests.test()
 
+    onlyFlag = False
 
+    for arg in sys.argv:
+        if arg == "--only" or arg == "-o":
+            onlyFlag = True
 
+    if onlyFlag:
+        tests.test()
+    else:
+        subprocess.call(['pwd'])
+        pidEngine = subprocess.Popen(['build/PiRadioApp', '--only', '-na', '-col', '-db', 'database.json'])
+        time.sleep(3)
+        pidServer = subprocess.Popen(['build/server', '-col'])
+        time.sleep(3)
+        tests.test()
