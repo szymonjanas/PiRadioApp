@@ -6,12 +6,12 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PiRadio</title>
-    <link rel="stylesheet" type="text/css" href="resources/css/server.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/server_space.css" id="css">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@100&family=Ranchers&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600&family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+    
 
 
 
@@ -22,143 +22,214 @@
 <body>
     <div class="panel">
         <div class="panel_filter">
-            <div class="panel.header">
-                <div class="panel_header_logo"><img src="resources/img/radio4.svg"></div>
-                <div class="panel_header_add_button"></div>
-            </div>
-            <div class="stations">
-                <div class="stations_filter">
-                    <div class="stations_station" v-for='(station, index) in stations' v-bind:key='station.id'
-                        v-bind:class="{'stations_station_clicked':clicked===station.id}" v-bind:stationId='station.id'
-                        v-on:click="clicked=station.id, returnId">
-
-                        <p :style="{fontSize:style.fontSize+.3+'vh'}">{{station.title}}{{station.id}}</p>
-                        <p :style="{fontSize: style.fontSize+'vh'}">{{station.name}}{{station.id}}</p>
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="panel_current">
-                <div class="panel_current_controls">
-                    <div class="panel_current_controls_info">
-                        <div class="panel_current_controls_info_title">
-                            {{stations[stationId].title}}{{stations[stationId].id}}</div>
-                        <div class="panel_current_controls_info_station">
-                            {{stations[stationId].name}}{{stations[stationId].id}}</div>
-                    </div>
-
-                    <div class="panel_current_controls_button" v-on:click="changeClass()">
-                        <div class="panel_current_controls_button_play" id="play">
+            <div class="panel_header">
+                <div class="panel_header_logo">
+                    <img src="resources/img/radio_white(1).svg"></div>
+                    <div class="panel_header_menu" v-on:click="style.display=!style.display,style.views_display=false">
+                        <div class="panel_header_menu_button"></div>
+                        <div class="panel_header_menu_button">
+    
                         </div>
-                        <!-- <div class="panel_current_controls_button_pause" v-bind:style="{display: displayNone}"
-                            v-on:click="changeClass()"> -->
+                        <div class="panel_header_menu_button"></div>
+                    </div>
+                </div>
+                <div class="stations" v-on:click="style.display=false">
+                    
+                    <div class="panel_header_menu_button_menu" v-if=style.display>
+                        <div class="panel_header_menu_button_menu_p panel_header_menu_button_menu_add">
+                            <div class="icons_wrap">
+                                <img src="resources/img/add.svg">
+                                <p>Add station</p>
+                            </div>
+                        </div>
+                        <div class="panel_header_menu_button_menu_p" v-on:click="style.views_display=true">
+    
+    
+                            <div class="icons_wrap">
+                                <img src="resources/img/change.svg">
+                                <p>Change view</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="views" v-if=style.views_display>
+                        <div class="views_option views_option_space" v-on:mouseover="changeStyle('space')"
+                        v-on:click="changeStyle('space'),style.views_display=false">
+                        
+                            <img src="resources/img/space.svg">
+                            <p>Space</p>
+                        </div>
+                        <div class="views_option views_option_blue" v-on:mouseover="changeStyle('blue')"
+                        v-on:click="changeStyle('blue'),style.views_display=false">
+                            <img src="resources/img/blue.svg">
+                            <p>Blue bricks</p>
+                        </div>
+                        <div class="views_option views_option_pink" v-on:mouseover="changeStyle('pink')"
+                        v-on:click="changeStyle('pink'),style.views_display=false">
+                            <img src="resources/img/pink.svg">
+                            <p>Raspberry</p>
+                        </div>
+                        <div class="views_option views_option_orange" v-on:mouseover="changeStyle('orange')"
+                        v-on:click="changeStyle('orange'),style.views_display=false">
+                            <img src="resources/img/orange.svg">
+                            <p>Orange</p>
+                        </div>
+                        <div class="views_option views_option_green" v-on:mouseover="changeStyle('green')"
+                        v-on:click="changeStyle('green'),style.views_display=false">
+                            <img src="resources/img/green.svg">
+                            <p>Lime</p>
+                        </div>                      
+                        
+                       </div>  
+   
+                    <ul class="stations_filter" v-bind:style="{backgroundColor:style.darker}"
+                        >
+                        <li class="stations_station" v-for='(station, index) in stations' v-bind:key='station.id'
+                            v-bind:class="{'stations_station_marked':clicked===station.id,'stations_station_clicked':clicked===station.id}"
+                            v-bind:stationId='station.id' v-on:click="clicked=station.id,number=returnId(clicked)" 
+                            v-bind:class="{'darker':style.display}" 
+                            >
+                            <div class="stations_station_box">
+                                <div class="stations_station_box_name">
+                                <p :style="{fontSize:style.fontSize+.3+'vh'}">{{station.title}}{{station.id}}</p>
+                                <p :style="{fontSize: style.fontSize+'vh'}">{{station.name}}{{station.id}}</p></div>
+                            <div class="stations_station_box_delete">
+                                <div class="stations_station_box_delete_x">+</div>
+                                <!-- <div class="stations_station_box_delete_down"></div> -->
+
+                            </div>
+                        </div>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel_current">
+                    <div class="panel_current_controls">
+                        <div class="panel_current_controls_info">
+                            <div class="panel_current_controls_info_title">
+                                {{stations[stationId].title}}{{number}}</div>
+                            <div class="panel_current_controls_info_station">
+                                {{stations[stationId].name}}{{number}}</div>
+                        </div>
+    
+                        <div class="panel_current_controls_button"v-on:click="changeClass()">
+                            <div class="panel_current_controls_button_play" id="play" >
+                            </div>
+                            <!-- <div class="panel_current_controls_button_pause" v-bind:style="{display: displayNone}"
+                                v-on:click="changeClass()"> -->
+                        </div>
                     </div>
                 </div>
             </div>
+    
         </div>
-
-    </div>
-    </div>
-
-    </div>
-
-    <script>
-        let panel = new Vue({
-            el: '.panel',
-            data: {
-                displayNone: 'none',
-                display: 'inline-blok',
-                stationId: 0,
-                stations: [{
-                    name: 'Station name',
-                    title: 'Title of song/name of artist',
-                    id: 1,
-
-
+        </div>
+    
+        </div>
+    
+        <script>
+            let panel = new Vue({
+                el: '.panel',
+                data: {
+                    number:null,
+                    stationId: 0,
+                    stations: [{
+                        name: 'Station name',
+                        title: 'Title of song/name of artist',
+                        id: 1,
+    
+    
+                    },
+                    {
+                        name: 'Station name',
+                        title: 'Title of song/name of artist',
+                        id: 2,
+    
+                    },
+                    {
+                        name: 'Station name',
+                        title: 'Title of song/name of artist',
+                        id: 3,
+    
+                    },
+                    {
+                        name: 'Station name',
+                        title: 'Title of song/name of artist',
+                        id: 4,
+    
+                    },
+                    {
+                        name: 'Station name',
+                        title: 'Title of song/name of artist',
+                        id: 5,
+    
+                    },
+                    {
+                        name: 'Station name',
+                        title: 'Title of song/name of artist',
+                        id: 6,
+    
+    
+                    },
+                    {
+                        name: 'Station name',
+                        title: 'Title of song/name of artist',
+                        id: 7,
+    
+    
+                    },
+                    ],
+                    clicked: undefined,
+    
+                    style: {
+                        fontSize: 3,
+                        boxShadow: 'inset 0 0 20px rgb(148, 148, 148)',
+                        fontWeight: '600',
+                        display: false,
+                        views_display: false,
+                    },
+    
                 },
-                {
-                    name: 'Station name',
-                    title: 'Title of song/name of artist',
-                    id: 2,
-
+                watch: {
+                    update() {
+                        stationId = 'clicked'
+                    }
                 },
-                {
-                    name: 'Station name',
-                    title: 'Title of song/name of artist',
-                    id: 3,
+                methods: {
+                    changeClass: function () {
+                       
+                        let play = document.querySelector('#play');
+    
+                        if (play.className === 'panel_current_controls_button_play') { play.className = 'panel_current_controls_button_pause' } else { play.className = 'panel_current_controls_button_play' }
+                      
+                    },
+                    changeStyle: function(style){
+                        let css=document.querySelector('#css');
+                        css.setAttribute('href','resources/css/server_'+style+'.css');
+                        console.log(css.getAttribute('href'));
 
-                },
-                {
-                    name: 'Station name',
-                    title: 'Title of song/name of artist',
-                    id: 4,
+                    },
+                    returnId: function (id) {
+                            console.log(id);
+    
+                            return id
+                        },   
+                
+                   
+                    marked: function (choosen) {
+    
+                        choosen.classList.add('stations_station_marked');
+                    },
+                    // hideX: function(){
+                    //     let x=document.querySelector('.stations_station_box_delete_x');
+                    //     console.log('d');
+                    //     x.style.display='none'
 
-                },
-                {
-                    name: 'Station name',
-                    title: 'Title of song/name of artist',
-                    id: 5,
-
-                },
-                {
-                    name: 'Station name',
-                    title: 'Title of song/name of artist',
-                    id: 6,
-
-
-                },
-                {
-                    name: 'Station name',
-                    title: 'Title of song/name of artist',
-                    id: 7,
-
-
-                },
-                ],
-                clicked: undefined,
-
-                style: {
-                    fontSize: 3
-                },
-
-            },
-            watch: {
-                update() {
-                    stationId = 'clicked'
-                }
-            },
-            methods: {
-                changeClass: function () {
-                    let display = this.display;
-                    let displayNone = this.displayNone;
-                    // let pause = document.querySelector('.panel_current_controls_button_pause');
-                    let play = document.querySelector('#play');
-
-                    if (play.className === 'panel_current_controls_button_play') { play.className = 'panel_current_controls_button_pause' } else { play.className = 'panel_current_controls_button_play' }
-                    // if (pause.style.display === displayNone) {
-                    //     pause.style.display = display; play.style.display = displayNone;
-                    //     console.log(pause.style.display, play.style.display)
-                    // } else {
-                    //     play.style.display = displayNone; pause.style.display = display;
-                    //     console.log('pause')
+                        
                     // }
-                },
-                // computed: {
-                //     returnId: function () {
-                //         console.log(stations.id);
-
-                //         return stations.id
-                //     }
-
-                // }
-            }
-
-        })
-    </script>
-
-
-
+                }
+    
+            })
+        </script>
 </body>
 
 </html>
