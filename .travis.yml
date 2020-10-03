@@ -15,6 +15,7 @@ addons:
       - g++-6
       - cmake
       - python3.6
+      - python3-pip
       - golang
 
 install:
@@ -22,6 +23,8 @@ install:
   - sudo apt-get install libgstreamer1.0-0 libgstreamer1.0-dev gstreamer1.0-plugins-base  gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-pulseaudio
   - sudo apt-get install libzmq5 libzmq3-dev
   - go get github.com/pebbe/zmq4
+  - pip3 install pyzmq
+  - pip3 install flask
 
 script:
   - sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
