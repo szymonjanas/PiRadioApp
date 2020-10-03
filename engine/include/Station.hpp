@@ -15,10 +15,12 @@ namespace radio {
         std::string title = "";
 
     public:
+        Station();
         Station(std::string name, std::string uri);
+        Station(nlohmann::json jstation);
 
-        std::string getName();
-        std::string getUri();
+        std::string getName() const;
+        std::string getUri() const;
 
         void setName(std::string name);
         void setUri(std::string uri);

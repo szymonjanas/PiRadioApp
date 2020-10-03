@@ -39,6 +39,7 @@ set(engineSrc
     ${engineSrcPath}/AudioManager.cpp
     ${engineSrcPath}/Logs.cpp
     ${engineSrcPath}/dbStationJson.cpp
+    ${engineSrcPath}/RadioIPCMessage.cpp
 )
 add_library(${PROJECT_NAME}EngineLib SHARED ${engineSrc})
 set (engineLib ${PROJECT_NAME}EngineLib)
@@ -59,7 +60,7 @@ target_link_libraries(
 
 ## uTESTS #################################################
 
-set (engineTestsPath engine-tests)
+set (engineTestsPath engine-utests)
 include_directories(${engineTestsPath})
 set (engineTestsSrc 
     ${engineTestsPath}/test-main.cpp

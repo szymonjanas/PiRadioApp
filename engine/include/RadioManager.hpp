@@ -8,11 +8,23 @@
 #include "Logs.hpp"
 #include "AudioManager.hpp"
 #include "RadioCommMessage.hpp"
+#include "RadioIPCMessage.hpp"
+#include <stdlib.h>
 
 namespace radio {
 
     class Manager
     {
+        /*
+            Recive and process message in json format:
+            {
+                "method" : "get",
+                "layer" : "engine",
+                "command" : "play",
+                "value" : ""
+            }
+        */
+
 
         db::Database<std::string, radio::Station> *database;
         radio::Audio *audio;
@@ -27,7 +39,7 @@ namespace radio {
         void setDatabase(db::Database<std::string, radio::Station> *database);
         void setAudio(radio::Audio *audioEngineManager);
         void setCommunication(comm::Engine *communication);
-        std::string execute(std::vector<std::string> command);
+        std::string execute(radio::IPCMessage&& message);
         void start();
     };
 

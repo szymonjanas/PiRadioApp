@@ -2,16 +2,33 @@
 
 using namespace radio;
 
+Station::Station()
+{}
+
 Station::Station(std::string name, std::string uri) :
     name(name), uri(uri)
 {}
 
-std::string Station::getName() 
+Station::Station(nlohmann::json jstation)
+{
+    try {
+        name = jstation["name"].get<std::string>();
+    } catch (nlohmann::json::exception& err) {
+        name = "NULL";
+    }
+    try {
+        uri = jstation["uri"].get<std::string>();
+    } catch (nlohmann::json::exception& err) {
+        uri = "";
+    }
+}
+
+std::string Station::getName() const
 {
     return name;
 }
 
-std::string Station::getUri() 
+std::string Station::getUri() const
 {
     return uri;
 }

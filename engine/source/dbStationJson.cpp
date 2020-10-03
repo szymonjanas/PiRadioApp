@@ -18,12 +18,12 @@ namespace db {
     {
         if (!filePath.size()){
             Log::err("Database file path is empty!");
-            return;
+            throw std::string("Database file path is empty!");
         }
-        std::fstream dbFile(filePath, std::ios::in | std::ios::out);
+        std::ifstream dbFile(filePath);
         if (!dbFile.good()){
             Log::err("Database cannot be open: please check if json file exist: " + filePath);
-            return;
+            throw std::string("Database cannot be open: please check if json file exist: " + filePath);
         }
         nlohmann::json dbJson = nlohmann::json::parse(dbFile);
         auto stations = dbJson["stations"];
@@ -36,7 +36,16 @@ namespace db {
 
      void StationsJson::save()
      {
-        
+        if (!filePath.size()){
+            Log::err("Database file path is empty!");
+            throw std::string("Database file path is empty!");
+        }
+        std::ofstream dbFile(filePath);
+        if (!dbFile.good()){
+            Log::err("Database cannot be open: please check if json file exist: " + filePath);
+            throw std::string("Database cannot be open: please check if json file exist: " + filePath);
+        }
+        dbFile << toJson() << std::endl;
      }
 
      radio::Station* StationsJson::getNext(radio::Station* record)
