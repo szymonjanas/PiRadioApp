@@ -139,6 +139,7 @@ def test_database_put_new():
     test_database_get_all(expectedResponseAll)
 testsList.append(test_database_put_new)
 
+
 #! ###############
 #! DATABASE DELETE
 #! ###############
@@ -210,6 +211,7 @@ def test_audio_set_station():
         print("GOT: " + json.dumps(responseJson))
     assert expectedResponseJson == responseJson, "Error! Station could not be setted or played!"
     global testNumber
-    print(str(testNumber) + ". Test OK! station setted and audio played")
+    print(str(testNumber) + ". Test OK! audio set station")
     testNumber += 1
+    test_database_delete()
 testsList.append(test_audio_set_station)
