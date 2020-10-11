@@ -4,7 +4,6 @@
 #include "Logs.hpp"
 #include "Database.hpp"
 #include "Station.hpp"
-#include "Communication.hpp"
 
 namespace radio {
 
