@@ -1,38 +1,11 @@
 #pragma once
 
-#include <vector>
-#include "json.hpp"
-#include "Station.hpp"
+#include <map>
+#include <memory>
 
 namespace db {
-    
-    template <typename ID, typename VALUE> 
-    class RECORD {   
-        /*
-            RECORD is using by database,
-            must have same typename for id and value as database
-        */
-    protected:   
-        ID id;
-        VALUE* value;
 
-    public:
-        RECORD()
-        {}
-        
-        RECORD(ID id, VALUE* value) : id(id), value(value)
-        {}
-
-        virtual ~RECORD(){}
-
-        virtual ID getID();
-        virtual VALUE* getValue();
-        virtual void setValue(VALUE* value);
-        virtual void setID(ID id);
-
-    };
-
-    template <typename ID, typename VALUE> 
+    template <typename ID, typename RECORD> 
     class Database {
         /*
             ABSTRACT CLASS
@@ -41,9 +14,12 @@ namespace db {
             provided interface for plenty of Database types
             with basic functionalities
         */
+    public:
+        typedef std::unique_ptr<RECORD> RECORDptr;
+        typedef std::map<ID, RECORDptr> DATABASE; 
 
     protected:
-        std::vector<RECORD<ID, VALUE>*> database;
+        DATABASE database;
 
     public:
         virtual ~Database();
@@ -52,100 +28,62 @@ namespace db {
         virtual void load() = 0;
         virtual void save() = 0;
 
-        virtual VALUE* getNext(VALUE* record) = 0;
-        virtual VALUE* getPrev(VALUE* record) = 0;
+        virtual RECORD* getNext(RECORD* record) = 0;
+        virtual RECORD* getPrev(RECORD* record) = 0;
 
         virtual std::string toString() = 0;
         virtual nlohmann::json toJson() = 0;
 
+        RECORD* getByID(ID id);
 
-        RECORD<ID, VALUE>* getByID(ID id);
+        void put(ID id, RECORD* record);
 
-        void put(RECORD<ID, VALUE>* record);
+        DATABASE* getDatabase();
 
-        std::vector<RECORD<ID, VALUE>*>* getDatabase();
+        void remove(ID id);
 
-        void remove(RECORD<ID, VALUE>* record);
-
-        virtual std::vector<VALUE*>* getValues();
+        virtual std::unique_ptr<std::vector<RECORD>> getValues();
 
     };
     
-
-    /* 
-        ## RECORD ###############################################
-    */
-
-    template <typename ID, typename VALUE> 
-    ID RECORD<ID, VALUE>::getID(){
-        return id;
-    }
-
-    template <typename ID, typename VALUE> 
-    VALUE* RECORD<ID, VALUE>::getValue(){
-        return value;
-    }
-
-    template <typename ID, typename VALUE> 
-    void RECORD<ID, VALUE>::setValue(VALUE* value){
-        this->value = value;
-    }
-
-    template <typename ID, typename VALUE> 
-    void RECORD<ID, VALUE>::setID(ID id){
-        this->id = id;
-    }
-
     /* 
         ## DATABASE #############################################
     */
-    template<typename ID, typename VALUE>
-    Database<ID, VALUE>::~Database(){
-        for (int i = 0; i < database.size(); ++i)
-            delete database[i];
-    }
-
-    template<typename ID, typename VALUE>
-    RECORD<ID, VALUE>* Database<ID, VALUE>::getByID(ID id){
+    template<typename ID, typename RECORD>
+    RECORD* Database<ID, RECORD>::getByID(ID id){
         for (auto& iter : database)
             if (iter->getID() == id)
-                return iter;
+                return iter->get();
         return nullptr;
     }
 
-    template <typename ID, typename VALUE> 
-    void Database<ID, VALUE>::put(RECORD<ID, VALUE>* record){
+    template <typename ID, typename RECORD> 
+    void Database<ID, RECORD>::put(ID id, RECORD* record){
         if (record == nullptr)
             return;
-        if (getByID(record->getID()) != nullptr)
-            getByID(record->getID())->setValue(record->getValue());
-        else
-            database.push_back(record);
+        if (getByID(id) != nullptr)
+            database->insert({id, RECORDptr (record)});
     }
 
-    template<typename ID, typename VALUE>
-    std::vector<RECORD<ID, VALUE>*>* Database<ID, VALUE>::getDatabase(){
+    template<typename ID, typename RECORD>
+    Database<ID, RECORD>::DATABASE* Database<ID, RECORD>::getDatabase(){
         return &database;
     }
 
-    template<typename ID, typename VALUE>
-    void Database<ID, VALUE>::remove(RECORD<ID, VALUE>* record){
+    template<typename ID, typename RECORD>
+    void Database<ID, RECORD>::remove(ID id){
         if (record == nullptr)
             return;
-        for (auto iter = database.begin(); iter != database.end();)
-            if ((*iter)->getID() == record->getID())
-                database.erase(iter);
-            else
-                ++iter;
+        if (database->find(id) != database->end())
+            database->erase(database->find(id));
     }
 
-    template<typename ID, typename VALUE>
-    std::vector<VALUE*>* Database<ID, VALUE>::getValues(){
-        std::vector<VALUE*>* values = new std::vector<VALUE*>();
-        for (auto iter = database.begin(); iter != database.end(); ++iter){
-            values->push_back((*iter)->getValue());
-        }
-        return values;
+    template<typename ID, typename RECORD>
+    std::unique_ptr<std::vector<RECORD>> Database<ID, RECORD>::getValues(){
+        std::unique_ptr<std::vector<RECORD>> values (new std::vector<RECORD>());
+        for (auto pair : database)
+            values->push_back(pair.second);
+        return std::move(values);
     }
 
 } // namespace db
