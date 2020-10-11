@@ -21,7 +21,7 @@ int main(int argc, char **argv)
     bool audioFlag = true;
 
     std::string siteAddress = "";
-    std::string internalCommunicationAddress = "ipc://piradio.app";
+    std::string internalCommunicationAddress = "piradio.app";
     std::string databasePath = "../database.json";
 
     std::string serverArgs = "";
@@ -44,13 +44,13 @@ int main(int argc, char **argv)
         {
             serverArgs += args[i] + " ";
             serverArgs += args[++i] + " ";
-            internalCommunicationAddress = "tcp://" + std::string(args[i]);
+            internalCommunicationAddress = std::string(args[i]);
         }
         else if ((args[i] == "--icomm-port" or args[i] == "-icp") && i + 1 < argvc)
         {
             serverArgs += args[i] + " ";
             serverArgs += args[++i] + " ";
-            internalCommunicationAddress = "tcp://*:" + std::string(args[i]);
+            internalCommunicationAddress = std::string(args[i]);
         }
         else if ((args[i] == "--host-address" or args[i] == "-h") && i + 1 < argvc)
         {
@@ -70,6 +70,7 @@ int main(int argc, char **argv)
         else if (args[i] == "--debug" or args[i] == "-d")
         {
             serverArgs += (args[i] + " ");
+            Log::switches::debug(true);
         }
         else if (args[i] == "--only")
         {
@@ -118,6 +119,7 @@ int main(int argc, char **argv)
         db::StationsJson    *database = new db::StationsJson(databasePath);
         radio::Routes       *routes = new radio::Routes(database, audioManager);
         ipc::IPCService     *service = new ipc::IPCService();
+        service->connect(internalCommunicationAddress);
 
         manager = new radio::Manager(
                         database,

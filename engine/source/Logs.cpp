@@ -31,7 +31,7 @@ static bool colorStatus = false;
 static std::string filePath = "";
 static bool fileStatus = false;
 
-static bool debugStatus = true;
+static bool debugStatus = false;
 static bool basicView = false;
 
 static const std::string ID = "engine: ";
@@ -124,7 +124,7 @@ namespace Log {
 
     void debug(std::string message)
     {
-        if (basicView) return;
+        if (!debugStatus) return;
         logSave::Log Log = {
             getTime(),
             "DEBUG",

@@ -21,6 +21,7 @@ namespace radio
 
         Routes(db::StationsJson *database, radio::Audio *audio) : database(database), audio(audio)
         {
+            this->add("database/get/all", &Routes::database_get_all);
             this->add("database/put", &Routes::database_put);
             this->add("database/delete", &Routes::database_delete);
 

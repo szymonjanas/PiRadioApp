@@ -1,5 +1,5 @@
 #include "RadioStation.hpp"
-
+#include "Logs.hpp"
 using namespace radio;
 
 Station::Station()
@@ -7,6 +7,9 @@ Station::Station()
 
 Station::Station(std::string name, std::string uri) :
     name(name), uri(uri)
+{}
+
+Station::~Station()
 {}
 
 Station::Station(nlohmann::json jstation)

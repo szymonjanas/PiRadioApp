@@ -27,9 +27,15 @@ namespace db {
         }
         nlohmann::json dbJson = nlohmann::json::parse(dbFile);
         auto stations = dbJson["stations"];
-        for (auto iter = stations.begin(); iter != stations.end(); ++iter)
-            this->put((*iter)["name"], new radio::Station((*iter)["name"], (*iter)["uri"]));
-        
+        for (auto iter = stations.begin(); iter != stations.end(); ++iter){
+            this->put(
+                (*iter)["name"].get<std::string>(), 
+                new radio::Station(
+                    (*iter)["name"].get<std::string>(), 
+                    (*iter)["uri"].get<std::string>()
+                    )
+                );
+        }
         loadFlag = true;
         dbFile.close();
     }

@@ -68,8 +68,7 @@ namespace db {
     void Database<ID, RECORD>::put(ID id, RECORD* record){
         if (record == nullptr)
             return;
-        if (getByID(id) != nullptr)
-            database.insert({id, RECORDptr (record)});
+        database[id] = RECORDptr (record);
     }
 
     template <typename ID, typename RECORD> 

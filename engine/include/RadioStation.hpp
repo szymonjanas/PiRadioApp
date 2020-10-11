@@ -18,6 +18,7 @@ namespace radio {
         Station();
         Station(std::string name, std::string uri);
         Station(nlohmann::json jstation);
+        ~Station();
 
         std::string getName() const;
         std::string getUri() const;
