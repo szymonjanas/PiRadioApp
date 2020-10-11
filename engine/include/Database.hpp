@@ -16,7 +16,9 @@ namespace db {
         */
     public:
         typedef std::unique_ptr<RECORD> RECORDptr;
-        typedef std::map<ID, RECORDptr> DATABASE; 
+        typedef std::map<ID, RECORDptr> DATABASE;
+        typedef std::vector<RECORD> RECORDS;
+        typedef std::unique_ptr<> RECORDSptr; 
 
     protected:
         DATABASE database;
@@ -42,7 +44,7 @@ namespace db {
 
         void remove(ID id);
 
-        virtual std::unique_ptr<std::vector<RECORD>> getValues();
+        virtual RECORDSptr getValues();
 
     };
     
@@ -79,10 +81,10 @@ namespace db {
     }
 
     template<typename ID, typename RECORD>
-    std::unique_ptr<std::vector<RECORD>> Database<ID, RECORD>::getValues(){
-        std::unique_ptr<std::vector<RECORD>> values (new std::vector<RECORD>());
+    Database<ID, RECORD>::RECORDSptr Database<ID, RECORD>::getValues(){
+        RECORDSptr values (new RECORDS());
         for (auto pair : database)
-            values->push_back(pair.second);
+            values->push_back(pair->second);
         return std::move(values);
     }
 
