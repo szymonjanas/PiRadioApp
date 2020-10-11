@@ -39,6 +39,7 @@ namespace db {
         RECORD* getByID(ID id);
 
         void put(ID id, RECORD* record);
+        void put(ID id, RECORDptr record);
 
         DATABASE* getDatabase();
 
@@ -65,6 +66,11 @@ namespace db {
             return;
         if (getByID(id) != nullptr)
             database->insert({id, RECORDptr (record)});
+    }
+
+    template <typename ID, typename RECORD> 
+    void Database<ID, RECORD>::put(ID id, RECORDptr record){
+        database->insert(id, std::move(record));
     }
 
     template<typename ID, typename RECORD>
