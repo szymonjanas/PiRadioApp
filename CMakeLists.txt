@@ -36,7 +36,7 @@ include_directories(${enginePath}/include)
 set (engineSrcPath ${enginePath}/source)
 set(engineSrc
     ${engineSrcPath}/Audio.cpp
-    ${engineSrcPath}/Station.cpp
+    ${engineSrcPath}/RadioStation.cpp
     ${engineSrcPath}/RadioManager.cpp
     ${engineSrcPath}/AudioManager.cpp
     ${engineSrcPath}/Logs.cpp

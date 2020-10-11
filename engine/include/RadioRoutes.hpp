@@ -5,7 +5,7 @@
 #include "ipc/IPCRoutes.hpp"
 #include "ipc/IPCMessage.hpp"
 #include "dbStationJson.hpp"
-#include "Station.hpp"
+#include "RadioStation.hpp"
 #include "AudioManager.hpp"
 
 namespace radio {

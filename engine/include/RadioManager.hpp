@@ -4,42 +4,34 @@
 
 #include "Database.hpp"
 #include "dbStationJson.hpp"
-#include "Communication.hpp"
 #include "Logs.hpp"
 #include "AudioManager.hpp"
-#include "RadioCommMessage.hpp"
-#include "RadioIPCMessage.hpp"
-#include <stdlib.h>
+#include "ipc/IPCService.hpp"
+#include "ipc/IPCRoutes.hpp"
+
+// #include <stdlib.h>
 
 namespace radio {
 
     class Manager
     {
-        /*
-            Recive and process message in json format:
-            {
-                "method" : "get",
-                "layer" : "engine",
-                "command" : "play",
-                "value" : ""
-            }
-        */
-
 
         db::Database<std::string, radio::Station> *database;
         radio::Audio *audio;
-        comm::Engine *communication;
+        ipc::IPCService *service;
+        ipc::IPCRoutes *routes;
 
-    public:
+        public:
         Manager(db::Database<std::string, radio::Station> *database,
-                     radio::Audio *audio,
-                     comm::Engine *communication);
+                radio::Audio *audio,
+                ipc::IPCService *service,
+                ipc::IPCRoutes *routes);
         ~Manager();
 
         void setDatabase(db::Database<std::string, radio::Station> *database);
         void setAudio(radio::Audio *audioEngineManager);
-        void setCommunication(comm::Engine *communication);
-        std::string execute(radio::IPCMessage&& message);
+        void setService(ipc::IPCService *service);
+        void setRoutes(ipc::IPCRoutes *routes);
         void start();
     };
 

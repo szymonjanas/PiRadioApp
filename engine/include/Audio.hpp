@@ -4,7 +4,7 @@
 
 #include <gst/gst.h>
 
-#include "Station.hpp"
+#include "RadioStation.hpp"
 #include "Logs.hpp"
 
 namespace audio

@@ -28,7 +28,7 @@ namespace db {
         nlohmann::json dbJson = nlohmann::json::parse(dbFile);
         auto stations = dbJson["stations"];
         for (auto iter = stations.begin(); iter != stations.end(); ++iter)
-            this->put(new db::RECORD<std::string, radio::Station>((*iter)["name"], new radio::Station((*iter)["name"], (*iter)["uri"])));
+            this->put((*iter)["name"], new radio::Station((*iter)["name"], (*iter)["uri"]));
         
         loadFlag = true;
         dbFile.close();
@@ -50,10 +50,11 @@ namespace db {
 
      radio::Station* StationsJson::getNext(radio::Station* record)
      {
+        
         if (database.size() > 1) {
-            if (record == nullptr) return database[0]->getValue();
+            if (record == nullptr) return database[0];
             for (int iter = 0; iter < database.size(); ++iter)
-                if (database[iter]->getValue()->getName() == record->getName())
+                if (getByID(iter]->getName() == record->getName())
                     if (iter+1 < database.size())
                         return database[++iter]->getValue();
                     else

@@ -3,7 +3,7 @@
 #include "Audio.hpp"
 #include "Logs.hpp"
 #include "Database.hpp"
-#include "Station.hpp"
+#include "RadioStation.hpp"
 
 namespace radio {
 
