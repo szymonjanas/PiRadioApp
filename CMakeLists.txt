@@ -25,6 +25,10 @@ link_libraries(${GST_LIBRARIES})
 set (enginePath engine)
 include_directories(engine/dependencies)
 
+## gtest
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
 
 ## ENGINE LIBS ############################################
 
@@ -33,13 +37,11 @@ set (engineSrcPath ${enginePath}/source)
 set(engineSrc
     ${engineSrcPath}/Audio.cpp
     ${engineSrcPath}/Station.cpp
-    ${engineSrcPath}/dbStationTxt.cpp
-    ${engineSrcPath}/Communication.cpp
     ${engineSrcPath}/RadioManager.cpp
     ${engineSrcPath}/AudioManager.cpp
     ${engineSrcPath}/Logs.cpp
     ${engineSrcPath}/dbStationJson.cpp
-    ${engineSrcPath}/RadioIPCMessage.cpp
+    ${engineSrcPath}/RadioRoutes.cpp
 )
 add_library(${PROJECT_NAME}EngineLib SHARED ${engineSrc})
 set (engineLib ${PROJECT_NAME}EngineLib)
@@ -63,18 +65,20 @@ target_link_libraries(
 set (engineTestsPath engine-utests)
 include_directories(${engineTestsPath})
 set (engineTestsSrc 
-    ${engineTestsPath}/test-main.cpp
-    ${engineTestsPath}/test-Database.cpp
-    ${engineTestsPath}/test-Database-json.cpp
-    ${engineTestsPath}/test-RadioCommMessage.cpp
+    ${engineTestsPath}/test_main.cpp
+    ${engineTestsPath}/test_IPCMessage.cpp
+    ${engineTestsPath}/test_IPCMaanger.cpp
+    ${engineTestsPath}/test_Database.cpp
 )
 
 set (project_name_engine_tests ${PROJECT_NAME}-engine-tests)
 add_executable(${project_name_engine_tests} ${engineTestsSrc})
 target_link_libraries(
     ${project_name_engine_tests}
+    ${GTEST_LIBRARIES}
     ${engineLib}
     ${GST_LIBRARIES}
     zmq
     pthread
 )
+add_test(unitTest ${project_name_engine_tests})
