@@ -2,7 +2,7 @@
 
 namespace radio {
 
-    Manager(db::Database<std::string, radio::Station> *database,
+    Manager::Manager(db::Database<std::string, radio::Station> *database,
             radio::Audio *audio,
             ipc::IPCService *service,
             ipc::IPCRoutes *routes) :

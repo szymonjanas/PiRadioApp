@@ -52,16 +52,16 @@ namespace db {
      {
         
         if (database.size() > 1) {
-            if (record == nullptr) return database[0];
-            for (int iter = 0; iter < database.size(); ++iter)
-                if (getByID(iter]->getName() == record->getName())
-                    if (iter+1 < database.size())
-                        return database[++iter]->getValue();
+            if (record == nullptr) return database.begin()->second.get();
+            for (auto iter = database.begin(); iter != database.end(); ++iter)
+                if (iter->second.get()->getName() == record->getName())
+                    if ((++iter) != database.end())
+                        return iter->second.get();
                     else
-                        return database[0]->getValue();
+                        return database.begin()->second.get();
         }   
         else if (database.size() == 1)
-            return database[0]->getValue();
+            return database.begin()->second.get();
         else
             return nullptr;
      }
@@ -69,16 +69,16 @@ namespace db {
      radio::Station* StationsJson::getPrev(radio::Station* record)
      {
         if (database.size() > 1) {
-            if (record == nullptr) return database[0]->getValue();
-            for (int iter = database.size()-1; iter >= 0 ; --iter)
-                if (database[iter]->getValue()->getName() == record->getName())
-                    if (iter-1 >= 0)
-                        return database[--iter]->getValue();
+            if (record == nullptr) return database.begin()->second.get();
+            for (auto iter = database.rbegin(); iter != database.rend() ; ++iter)
+                if (database.begin()->second.get()->getName() == record->getName())
+                    if ((++iter) != database.rend())
+                        return iter->second.get();
                     else 
-                        return database[database.size()-1]->getValue();
+                        return database.rbegin()->second.get();
         }
         else if (database.size() == 1)
-            return database[0]->getValue();
+            return database.begin()->second.get();
         else
             return nullptr;
      }
@@ -92,7 +92,7 @@ namespace db {
     {
         nlohmann::json jdata;
         for (auto& record : database){
-            jdata.push_back(record->getValue()->toJson());
+            jdata.push_back(record.second.get()->toJson());
         }
         return jdata;
     }

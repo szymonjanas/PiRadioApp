@@ -6,11 +6,18 @@
 
 using namespace nlohmann;
 
-void test_func(ipc::message::IPCRecived& recv, ipc::message::IPCReply& rep)
-{
-    rep.setState(true);
-    rep.setMessage(recv.getRoute());   
-}
+class TestRoutes : public ipc::IPCRoutes {
+    public:
+    TestRoutes(){
+        this->add("test/route", (MemberMethod) &TestRoutes::test_func);
+    }
+
+    void test_func(ipc::message::IPCRecived& recv, ipc::message::IPCReply& rep)
+    {
+        rep.setCode(true);
+        rep.setMessage(recv.getRoute());   
+    }
+};
 
 TEST(add_function_and_execute, ipc_IPCManager) {
     json jData;
@@ -19,9 +26,8 @@ TEST(add_function_and_execute, ipc_IPCManager) {
     ipc::message::IPCRecived recv (jData.dump());
     ipc::message::IPCReply rply (true, jData["route"].get<std::string>(), jData["value"]);
 
-    ipc::IPCRoutes manager;
-    manager.add("test/route", test_func);    
-    
+    TestRoutes manager;
+
     ipc::message::IPCReply got;
     manager.execute(recv, got);
     ASSERT_EQ(got.toJson(), rply.toJson());

@@ -9,6 +9,7 @@
 #include "AudioManager.hpp"
 #include "RadioManager.hpp"
 #include "dbStationJson.hpp"
+#include "RadioRoutes.hpp"
 
 void help(std::string);
 
@@ -108,16 +109,21 @@ int main(int argc, char **argv)
 
         Log::warn("Internal comm addr: " + internalCommunicationAddress);
 
-        radio::Manager *manager;
+        radio::Manager  *manager;
 
-        comm::Engine *commEngine = new comm::Engine(internalCommunicationAddress, consoleFlag);
-        radio::Audio *audioManager;
+        radio::Audio    *audioManager;
         if (audioFlag) audioManager = new radio::Audio(new audio::Engine());
         else audioManager = new radio::Audio(new audio::EngineFake());
+        
+        db::StationsJson    *database = new db::StationsJson(databasePath);
+        radio::Routes       *routes = new radio::Routes(database, audioManager);
+        ipc::IPCService     *service = new ipc::IPCService();
+
         manager = new radio::Manager(
-                        new db::StationsJson(databasePath),
+                        database,
                         audioManager,
-                        commEngine 
+                        service, 
+                        routes
                     );
 
         if (!onlyFlag) {

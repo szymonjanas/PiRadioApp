@@ -1,10 +1,11 @@
 #pragma once
 
+#include <string>
 #include "json.hpp"
-
 #include "Database.hpp"
 #include "dbStationJson.hpp"
 #include "Logs.hpp"
+#include "RadioStation.hpp"
 #include "AudioManager.hpp"
 #include "ipc/IPCService.hpp"
 #include "ipc/IPCRoutes.hpp"

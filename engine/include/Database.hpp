@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+#include "json.hpp"
 
 namespace db {
 
@@ -15,10 +16,10 @@ namespace db {
             with basic functionalities
         */
     public:
-        typedef std::unique_ptr<RECORD> RECORDptr;
-        typedef std::map<ID, RECORDptr> DATABASE;
-        typedef std::vector<RECORD> RECORDS;
-        typedef std::unique_ptr<> RECORDSptr; 
+        using RECORDptr = std::unique_ptr<RECORD>;
+        using DATABASE =  std::map<ID, RECORDptr>;
+        using RECORDS = std::vector<RECORD>;
+        using RECORDSptr = std::unique_ptr<RECORDS>; 
 
     protected:
         DATABASE database;
@@ -53,11 +54,14 @@ namespace db {
         ## DATABASE #############################################
     */
     template<typename ID, typename RECORD>
+    Database<ID, RECORD>::~Database()
+    {}
+
+    template<typename ID, typename RECORD>
     RECORD* Database<ID, RECORD>::getByID(ID id){
-        for (auto& iter : database)
-            if (iter->getID() == id)
-                return iter->get();
-        return nullptr;
+        if (database.find(id) != database.end())
+            return database.at(id).get();
+        else return nullptr;
     }
 
     template <typename ID, typename RECORD> 
@@ -65,32 +69,30 @@ namespace db {
         if (record == nullptr)
             return;
         if (getByID(id) != nullptr)
-            database->insert({id, RECORDptr (record)});
+            database.insert({id, RECORDptr (record)});
     }
 
     template <typename ID, typename RECORD> 
     void Database<ID, RECORD>::put(ID id, RECORDptr record){
-        database->insert(id, std::move(record));
+        database[id] = std::move(record);
     }
 
     template<typename ID, typename RECORD>
-    Database<ID, RECORD>::DATABASE* Database<ID, RECORD>::getDatabase(){
+    typename Database<ID, RECORD>::DATABASE* Database<ID, RECORD>::getDatabase(){
         return &database;
     }
 
     template<typename ID, typename RECORD>
     void Database<ID, RECORD>::remove(ID id){
-        if (record == nullptr)
-            return;
-        if (database->find(id) != database->end())
-            database->erase(database->find(id));
+        if (database.find(id) != database.end())
+            database.erase(database.find(id));
     }
 
     template<typename ID, typename RECORD>
-    Database<ID, RECORD>::RECORDSptr Database<ID, RECORD>::getValues(){
+    typename Database<ID, RECORD>::RECORDSptr Database<ID, RECORD>::getValues(){
         RECORDSptr values (new RECORDS());
-        for (auto pair : database)
-            values->push_back(pair->second);
+        for (auto& pair : database)
+            values->push_back(*(pair.second.get()));
         return std::move(values);
     }
 

@@ -31,14 +31,14 @@ TEST(test_database, Database) {
     TestValue *testValue = new TestValue("FirstTest", "FirstTestMessage");
     database.put(testID, testValue);
  
-    ASSERT_EQ(*(database.getByID(testID)), *testValue);
+    ASSERT_EQ(database.getByID(testID)->message, testValue->message);
     ASSERT_EQ( database.getDatabase()->size(), 1);
     ASSERT_EQ( database.getValues()->size(), 1);
 
     std::string secTestID = "SecondTest";
     TestValue *secTestValue = new TestValue("SecondTest", "SecondTestMessage");
     database.put(secTestID, secTestValue);
-    ASSERT_EQ(*(database.getByID(secTestID)), *secTestValue);
+    ASSERT_EQ(database.getByID(secTestID)->message, secTestValue->message);
     ASSERT_EQ( database.getDatabase()->size(), 2);
 
     database.remove(secTestID);
@@ -48,7 +48,7 @@ TEST(test_database, Database) {
 
     TestValue *overTestValue = new TestValue("OverwrittenTest", "FirstTestMessageOver");
     database.put(testID, overTestValue);
-    ASSERT_EQ(*(database.getByID(testID)), *overTestValue); 
+    ASSERT_EQ(database.getByID(testID)->message, overTestValue->message); 
     ASSERT_EQ(database.getDatabase()->size(), 1);
 
 }
