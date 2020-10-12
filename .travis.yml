@@ -38,6 +38,7 @@ addons:
 install:
   - "[ $CXX = g++ ] && export CXX=g++-6 || true"
   - go get github.com/pebbe/zmq4
+  - pip3 install setuptools
   - pip3 install pyzmq flask termcolor
 
 script:
