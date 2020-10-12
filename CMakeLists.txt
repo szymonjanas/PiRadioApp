@@ -83,14 +83,14 @@ set (engineTestsSrc
     ${engineTestsPath}/test_Database.cpp
 )
 
-set (project_name_engine_tests ${PROJECT_NAME}-engine-tests)
-add_executable(${project_name_engine_tests} ${engineTestsSrc})
+set (project_name_engine_utests ${PROJECT_NAME}-engine-utests)
+add_executable(${project_name_engine_utests} ${engineTestsSrc})
 target_link_libraries(
-    ${project_name_engine_tests}
+    ${project_name_engine_utests}
     ${GTEST_LIBRARIES}
     ${ipcLib}
     ${engineLib}
     ${GST_LIBRARIES}
     pthread
 )
-add_test(unitTest ${project_name_engine_tests})
+add_test(unitTest ${project_name_engine_utests})

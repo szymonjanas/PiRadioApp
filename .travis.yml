@@ -34,8 +34,7 @@ script:
   - cd build
   - cmake ..
   - make
-  - ./PiRadioApp-engine-tests
-  - go build -o server ../server/*.go
+  - ./PiRadioApp-engine-utests
 
   - cd ..
-  - python3 server-api-tests
+  - python3 tests/engine-ipc-test --engine
