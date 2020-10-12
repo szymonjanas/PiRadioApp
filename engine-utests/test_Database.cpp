@@ -43,7 +43,6 @@ TEST(test_database, Database) {
 
     database.remove(secTestID);
     ASSERT_EQ(database.getByID(secTestID), nullptr);
-    ASSERT_EQ(secTestValue, nullptr);
     ASSERT_EQ(database.getDatabase()->size(), 1);
 
     TestValue *overTestValue = new TestValue("OverwrittenTest", "FirstTestMessageOver");

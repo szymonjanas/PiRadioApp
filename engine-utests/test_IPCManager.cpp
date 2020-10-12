@@ -14,8 +14,9 @@ class TestRoutes : public ipc::IPCRoutes {
 
     void test_func(ipc::message::IPCRecived& recv, ipc::message::IPCReply& rep)
     {
-        rep.setCode(true);
-        rep.setMessage(recv.getRoute());   
+        rep.setCode(200);
+        rep.setMessage(recv.getRoute());  
+        rep.setValue(recv.getValue()); 
     }
 };
 
@@ -24,7 +25,7 @@ TEST(add_function_and_execute, ipc_IPCManager) {
     jData["route"] = "test/route";
     jData["value"] = "testValue";
     ipc::message::IPCRecived recv (jData.dump());
-    ipc::message::IPCReply rply (true, jData["route"].get<std::string>(), jData["value"]);
+    ipc::message::IPCReply rply (200, jData["route"].get<std::string>(), jData["value"]);
 
     TestRoutes manager;
 

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "json.hpp"
 #include "ipc/IPCMessage.hpp"
-
+#include <iostream>
 using namespace nlohmann;
 
 json jdata = {
@@ -26,16 +26,16 @@ TEST(creating_without_value, message_IPCRecive) {
 }
 
 TEST(creating_with_value, message_IPCReply) {
-    json testMsg = {{"state", true}, {"message", "testMessage"}, {"value", "someText"}};
-    ipc::message::IPCReply ipcMsg ( testMsg["state"].get<bool>(),
+    json testMsg = {{"code", 200}, {"message", "testMessage"}, {"value", "someText"}};
+    ipc::message::IPCReply ipcMsg ( testMsg["code"].get<short>(),
                                     testMsg["message"].get<std::string>(),
                                     testMsg["value"]);
     ASSERT_EQ(ipcMsg.toJson(), testMsg);
 }
 
 TEST(creating_without_value, message_IPCReply) {
-    json testMsg = {{"state", true}, {"message", "testMessage"}};
-    ipc::message::IPCReply ipcMsg ( testMsg["state"].get<bool>(),
+    json testMsg = {{"code", 200}, {"message", "testMessage"}};
+    ipc::message::IPCReply ipcMsg ( testMsg["code"].get<short>(),
                                     testMsg["message"].get<std::string>());
     testMsg["value"] = json();
     ASSERT_EQ(ipcMsg.toJson(), testMsg);
