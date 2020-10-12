@@ -1,7 +1,9 @@
-server-api-tests/__pycache__/
+tests/server-api-tests/__pycache__/
 piradio.app
 img/
 build/
 .vscode/
 CMakeLists.txt.user
-
+tests/engine-ipc-test/__pycache__
+client.txt
+server/__pycache__/
