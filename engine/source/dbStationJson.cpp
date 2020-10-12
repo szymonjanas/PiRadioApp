@@ -77,11 +77,12 @@ namespace db {
         if (database.size() > 1) {
             if (record == nullptr) return database.begin()->second.get();
             for (auto iter = database.rbegin(); iter != database.rend() ; ++iter)
-                if (database.begin()->second.get()->getName() == record->getName())
+                if (iter->second.get()->getName() == record->getName())
                     if ((++iter) != database.rend())
                         return iter->second.get();
                     else 
                         return database.rbegin()->second.get();
+            
         }
         else if (database.size() == 1)
             return database.begin()->second.get();

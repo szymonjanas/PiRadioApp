@@ -42,11 +42,11 @@ namespace radio
         void database_put(ipc::message::IPCRecived &, ipc::message::IPCReply &);
         void database_delete(ipc::message::IPCRecived &, ipc::message::IPCReply &);
 
+        void audio_set_station(ipc::message::IPCRecived &, ipc::message::IPCReply &);
+        void audio_get_current(ipc::message::IPCRecived &, ipc::message::IPCReply &);
         void audio_switch_prev(ipc::message::IPCRecived &, ipc::message::IPCReply &);
         void audio_switch_next(ipc::message::IPCRecived &, ipc::message::IPCReply &);
         void audio_set_state(ipc::message::IPCRecived &, ipc::message::IPCReply &);
-        void audio_set_station(ipc::message::IPCRecived &, ipc::message::IPCReply &);
         void audio_get_state(ipc::message::IPCRecived &, ipc::message::IPCReply &);
-        void audio_get_current(ipc::message::IPCRecived &, ipc::message::IPCReply &);
     };
 } // namespace radio
