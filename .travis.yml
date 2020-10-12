@@ -52,7 +52,8 @@ script:
   - sudo make
   - sudo cp *.a /usr/lib
   - cd 
-  
+  - ls -la
+
   # COMPILE AND RUN
   - mkdir build
   - cd build
