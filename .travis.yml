@@ -42,9 +42,18 @@ install:
   - pip3 install pyzmq flask termcolor
 
 script:
+  # NEW C++ COMPILER
   - sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
   - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
 
+  # GTEST SETTING
+  - cd /usr/src/gtest
+  - sudo cmake CMakeLists.txt
+  - sudo make
+  - sudo cp *.a /usr/lib
+  - cd 
+  
+  # COMPILE AND RUN
   - mkdir build
   - cd build
   - cmake ..
