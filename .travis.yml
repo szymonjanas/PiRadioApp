@@ -47,13 +47,11 @@ script:
   - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
 
   # GTEST SETTING
-  - pwd
   - cd /usr/src/gtest
   - sudo cmake CMakeLists.txt
   - sudo make
   - sudo cp *.a /usr/lib
-  - cd 
-  - ls -la
+  - cd /home/travis/build/PiRadioApp/PiRadioApp
 
   # COMPILE AND RUN
   - mkdir build
