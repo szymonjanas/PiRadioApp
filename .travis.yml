@@ -47,6 +47,7 @@ script:
   - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
 
   # GTEST SETTING
+  - pwd
   - cd /usr/src/gtest
   - sudo cmake CMakeLists.txt
   - sudo make
