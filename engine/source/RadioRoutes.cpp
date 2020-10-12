@@ -37,7 +37,7 @@ namespace radio
             database->put(station.getName(), std::move(StationPtr));
             reply.setCode(200);
             reply.setMessage("Station added to database: " + station.getName());
-            Log::debug("Station added to database!");
+            Log::debug("Station added to database: " + station.getName());
         }
         catch (...)
         {
@@ -55,7 +55,7 @@ namespace radio
         {
             database->remove(id);
             reply.setCode(200);
-            reply.setMessage("Station deleted!");
+            reply.setMessage("Station deleted: " + station.getName());
             Log::debug("Station deleted: " + station.getName());
         }
         else

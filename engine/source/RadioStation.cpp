@@ -99,6 +99,7 @@ std::string Station::getUri(Station* station)
 
 nlohmann::json Station::toJson()
 {
+    if (name.size() == 0 or uri.size() == 0) return nlohmann::json();
     nlohmann::json jdata;
     jdata["name"] = name;
     jdata["uri"] = uri;

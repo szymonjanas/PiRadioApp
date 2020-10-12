@@ -42,23 +42,25 @@ namespace radio {
 
     void Audio::play()
     {
-        if (station != nullptr){
-            if (engine->getState() == audio::STATE::STOP)
-                engine->play(station->getUri());
-            else
-                engine->play();
-            station->setPlaying(true);
-        }
+        if (station == nullptr) return;
+        if (engine->getState() == audio::STATE::STOP)
+            engine->play(station->getUri());
+        else
+            engine->play();
+        station->setPlaying(true);
+        
     }
 
     void Audio::pause()
     {
+        if (station == nullptr) return;
         if (engine->getState() == audio::STATE::PLAY)
             engine->pause();
     }
 
     void Audio::stop()
     {
+        if (station == nullptr) return;
         if (engine->getState() != audio::STATE::STOP){
             engine->stop();
             station->setPlaying(false);
@@ -104,6 +106,7 @@ namespace radio {
 
     void Audio::setStation(Station *station)
     {
+        if (station == nullptr) return;
         if (engine->getState() != audio::STATE::STOP)
             engine->stop();
         this->station = station;
