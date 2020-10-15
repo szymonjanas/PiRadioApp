@@ -16,9 +16,8 @@ namespace ipc {
         context.reset();
     }
 
-    void IPCService::connect(std::string name)
+    void IPCService::connect(std::string address)
     {
-        std::string address = "ipc://" + name;
         socket->bind(address.c_str());
     }
 

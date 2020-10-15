@@ -21,7 +21,7 @@ int main(int argc, char **argv)
     bool audioFlag = true;
 
     std::string siteAddress = "";
-    std::string internalCommunicationAddress = "piradio.app";
+    std::string internalCommunicationAddress = "ipc://piradio.app";
     std::string databasePath = "../database.json";
 
     std::string serverArgs = "";
