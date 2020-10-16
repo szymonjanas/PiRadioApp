@@ -5,6 +5,9 @@ os: linux
 
 compiler: g++
 
+before_install:
+  - wget https://download.opensuse.org/repositories/network:/messaging:/zeromq:/release-stable/Debian_9.0/Release.key -O- | sudo apt-key add
+
 addons:
   apt:
     sources:
@@ -55,7 +58,7 @@ script:
 
   # COMPILE AND RUN
   - ./build.sh
-  - ./PiRadioApp-engine-utests
+  - ./build/PiRadioApp-engine-utests
 
   - cd ..
   - python3 tests/
