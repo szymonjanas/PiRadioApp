@@ -1,33 +1,25 @@
+import testing
 import zmq
 import json
-from termcolor import colored as col
+
 
 context = zmq.Context()
 socket = context.socket(zmq.PAIR)
-socket.connect("ipc://piradio.app")
 
-debugFlag = False
+test = testing.TestClass()
+debugFlag = test.debugFlag
+
+def disconnect(address : str):
+    global socket
+    socket.disconnect(address)
+    print("DISCONNECTED: " + address)
+
+def connect(address : str):
+    global socket
+    socket.connect(address)    
+    print("CONNECTED: " + address)
+
 ipcFlag = False
-basicFlag = False
-testNumber = 1
-caseNumber = 1
-allCase = 1
-testsList = []
-def test():
-    for func in testsList:
-        global testNumber, caseNumber, allCase
-        if not basicFlag:
-            print()
-            print("TEST " + str(testNumber) + " RUN... " + func.__name__)
-            print("-----------------------------------------------------")
-        func()
-        print("[  " + col("TEST", "green") + "  ]" + " " + \
-        "TEST " + str(testNumber) +":   ALL CASE " + col("PASS", "green") + \
-        " " + str(caseNumber-1) + "/" + str(caseNumber-1) + \
-        ", all: " + str(allCase-1) + " | " + str(testNumber) + "  " + func.__name__)
-        testNumber += 1
-        caseNumber = 1
-
 def send(message : str):
     global ipcFlag
     if ipcFlag:
@@ -38,17 +30,6 @@ def send(message : str):
         print("Recv message: " + reply)
     return reply
 
-def check(funcName : str, state : bool, message : str):
-    global caseNumber, allCase
-    if state:
-        if not basicFlag:
-            print("[  " + col("PASS", "green") + "  ]" + " CASE " + str(caseNumber) + ": " + "  " + funcName )
-    else:
-        if not basicFlag:
-            print("[   " + col("FAIL", "red") + "   ]" + " CASE " + str(caseNumber) + ": " + "  " + funcName )
-        raise Exception(funcName + ": " + message)
-    caseNumber += 1
-    allCase += 1
 
 # ANCHOR TEST CASES ##################################################
 
@@ -92,8 +73,8 @@ def test_database_get_all(expectedResponse : str = None):
         print("DEBUG: ")
         print("EXP: " + json.dumps(expectedResponseJson))
         print("GOT: " + json.dumps(responseJson))
-    check(test_database_get_all.__name__, responseJson == expectedResponseJson, "Response is diffrent. Probably database not found!")
-testsList.append(test_database_get_all)
+    test.check(test_database_get_all.__name__, responseJson == expectedResponseJson, "Response is diffrent. Probably database not found!")
+test.add(test_database_get_all)
 
 
 #! ############
@@ -140,6 +121,7 @@ def test_database_put_new(putStation = None):
     if putStation != None:
         requestJson["value"]["name"] = putStation[0]
         requestJson["value"]["uri"]  = putStation[1]
+    print("SENT: ", json.dumps(requestJson))
     response = send(json.dumps(requestJson))
     responseJson = json.loads(response)
     expectedResponse = '''
@@ -156,14 +138,14 @@ def test_database_put_new(putStation = None):
         print("DEBUG: ")
         print("EXP: " + json.dumps(expectedResponseJson))
         print("GOT: " + json.dumps(responseJson))
-    check(test_database_put_new.__name__, expectedResponseJson == responseJson, "Station put to database error!")
+    test.check(test_database_put_new.__name__, expectedResponseJson == responseJson, "Station put to database error!")
     if putStation != None:
         expectedResponseAllJson = json.loads(expectedResponseAll)
         expectedResponseAllJson["value"][2]["name"] = putStation[0]
         expectedResponseAllJson["value"][2]["uri"]  = putStation[1]
         expectedResponseAll = json.dumps(expectedResponseAllJson)
     test_database_get_all(expectedResponseAll)
-testsList.append(test_database_put_new)
+test.add(test_database_put_new)
 
 #! ###############
 #! DATABASE DELETE
@@ -197,9 +179,9 @@ def test_database_delete(deleteStationName = None):
         print("DEBUG")
         print("EXP: " + json.dumps(expectedResponseJson))
         print("GOT: " + json.dumps(responseJson))
-    check( test_database_delete.__name__, expectedResponseJson == responseJson, "Error! Station could not be deleted!")
+    test.check( test_database_delete.__name__, expectedResponseJson == responseJson, "Error! Station could not be deleted!")
     test_database_get_all()
-testsList.append(test_database_delete)
+test.add(test_database_delete)
 
 
 #! #################
@@ -235,10 +217,10 @@ def test_audio_set_station(setStationName = None):
         print("DEBUG")
         print("EXP: " + json.dumps(expectedResponseJson))
         print("GOT: " + json.dumps(responseJson))
-    check( test_audio_set_station.__name__, expectedResponseJson == responseJson, "Error! Station could not be setted or played!")
+    test.check( test_audio_set_station.__name__, expectedResponseJson == responseJson, "Error! Station could not be setted or played!")
     if setStationName == None:
         test_database_delete()
-testsList.append(test_audio_set_station)
+test.add(test_audio_set_station)
 
 
 #! #################
@@ -281,11 +263,11 @@ def test_audio_get_current(compareJson = None):
             print("EXPC: " + json.dumps(compareJson))
         print("GOT: " + json.dumps(responseJson))
     if compareJson == None:
-        check( test_audio_get_current.__name__, expectedResponseJson == responseJson, "Error! Station could not be setted or played!")
+        test.check( test_audio_get_current.__name__, expectedResponseJson == responseJson, "Error! Station could not be setted or played!")
         test_database_delete("newstation")
     else:
-        check( test_audio_get_current.__name__, compareJson == responseJson, "Error! Station could not be setted or played!")
-testsList.append(test_audio_get_current)
+        test.check( test_audio_get_current.__name__, compareJson == responseJson, "Error! Station could not be setted or played!")
+test.add(test_audio_get_current)
 
 
 #! #################
@@ -320,7 +302,7 @@ def test_audio_switch_prev():
         print("EXP: " + json.dumps(expectedResponseJson))
         print("GOT: " + json.dumps(responseJson))
     
-    check( test_audio_switch_prev.__name__, expectedResponseJson == responseJson, "Error! Station could not be setted or played!")
+    test.check( test_audio_switch_prev.__name__, expectedResponseJson == responseJson, "Error! Station could not be setted or played!")
     
     expectedCurrentResponse = '''
     {
@@ -338,7 +320,7 @@ def test_audio_switch_prev():
     expectedCurrentResponseJson = json.loads(expectedCurrentResponse)
     test_audio_get_current(expectedCurrentResponseJson)
     test_database_delete("newstation")
-testsList.append(test_audio_switch_prev)
+test.add(test_audio_switch_prev)
 
 
 #! #################
@@ -373,7 +355,7 @@ def test_audio_switch_next():
         print("EXP: " + json.dumps(expectedResponseJson))
         print("GOT: " + json.dumps(responseJson))
     
-    check( test_audio_switch_next.__name__, expectedResponseJson == responseJson, "Error! Station could not be setted or played!")
+    test.check( test_audio_switch_next.__name__, expectedResponseJson == responseJson, "Error! Station could not be setted or played!")
     
     expectedCurrentResponse = '''
     {
@@ -390,5 +372,4 @@ def test_audio_switch_next():
     '''
     test_audio_get_current(json.loads(expectedCurrentResponse))
     test_database_delete("newstation")
-testsList.append(test_audio_switch_next)
-
+test.add(test_audio_switch_next)

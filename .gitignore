@@ -7,3 +7,4 @@ CMakeLists.txt.user
 tests/engine-ipc-test/__pycache__
 client.txt
 server/__pycache__/
+tests/__pycache__/
