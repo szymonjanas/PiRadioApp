@@ -9,20 +9,41 @@ import (
     zmq "github.com/pebbe/zmq4"
 )
 
-type Station struct {
+type StationToEngine struct {
     Name string `json:"name"`
     Uri string `json:"uri"`
+}
+
+type StationFromEngine struct {
+    Name string `json:"name"`
+    Uri string `json:"uri"`
+    IsPlaying bool `json:"isPlaying"`    
+    Title string `json:"title"`
+}
+
+type MessageToServer struct {
+    Route string `json:"route"`
+    Value string `json:"value"`
+}
+
+type MessageFromServer struct {
+    Code int `json:"code"`
+    Message string `json:"message"`
+    Value string `json:"value"`
 }
 
 type StationName struct {
     Name string `json:"name"`
 }
 
-type Message struct {
-    Type string `json:"type"`
-    Message string `json:"message"`
-    Value []Station `json:"value"`
+type StationsArray struct {
+    Stations []StationFromEngine
 }
+
+type PlayingState struct {
+    State string `json:"state"`
+}
+
 
 /*
     Internal communication
@@ -54,122 +75,179 @@ func viewHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func getAllHandler(w http.ResponseWriter, r *http.Request){
-    all := SendRequest("station get all")
-    var msg Message
-    if err := json.Unmarshal([]byte(all), &msg); err != nil {
+    type MessageFromServerArr struct {
+        Code int `json:"code"`
+        Message string `json:"message"`
+        Value []StationFromEngine `json:"value"`
+    }
+    var request MessageToServer
+    request.Route = "database/get/all"
+    request.Value = ""
+    reqJson, _ := json.Marshal(request)
+    got := SendRequest(string(reqJson))
+    var reply MessageFromServerArr
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
         Log.Err(err.Error())
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-    if err := json.NewEncoder(w).Encode(msg); err != nil {
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
+}
+
+func getCurrentHandler(w http.ResponseWriter, r *http.Request){
+    type MessageFromServerCurr struct {
+        Code int `json:"code"`
+        Message string `json:"message"`
+        Value StationFromEngine `json:"value"`
+    }
+    var request MessageToServer
+    request.Route = "audio/get/current"
+    request.Value = ""
+    reqJson, _ := json.Marshal(request)
+    got := SendRequest(string(reqJson))
+    var reply MessageFromServerCurr
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
 		Log.Err(err.Error())
 	}
 }
 
 func playHandler(w http.ResponseWriter, r *http.Request){
-    rep := SendRequest("engine state set play")
-    Log.Info("engine state set play")
-    var repMsg Message
-    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+    var state PlayingState 
+    state.State = "play"
+    stateJson, _ := json.Marshal(state)
+    var request MessageToServer
+    request.Route = "audio/set/state"
+    request.Value = string(stateJson)
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
         Log.Err(err.Error())
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
 		Log.Err(err.Error())
-    }
+	}
 } 
 
 func stopHandler(w http.ResponseWriter, r *http.Request){
-    rep := SendRequest("engine state set stop")
-    Log.Info("engine state set stop")
-    var repMsg Message
-    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+    var state PlayingState 
+    state.State = "stop"
+    stateJson, _ := json.Marshal(state)
+    var request MessageToServer
+    request.Route = "audio/set/state"
+    request.Value = string(stateJson)
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
         Log.Err(err.Error())
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
 		Log.Err(err.Error())
-    }
+	}
 } 
 
 func prevHandler(w http.ResponseWriter, r *http.Request){
-    rep := SendRequest("station switch prev")
-    Log.Info("station switch prev")
-    var repMsg Message
-    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+    var request MessageToServer
+    request.Route = "audio/switch/prev"
+    request.Value = ""
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
         Log.Err(err.Error())
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
 		Log.Err(err.Error())
-    }
+	}
 } 
 
 func nextHandler(w http.ResponseWriter, r *http.Request){
-    rep := SendRequest("station switch next")
-    Log.Info("station switch next")
-    var repMsg Message
-    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+    var request MessageToServer
+    request.Route = "audio/switch/next"
+    request.Value = ""
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
         Log.Err(err.Error())
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
 		Log.Err(err.Error())
-    }
+	}
 } 
 
 func setHandler(w http.ResponseWriter, r *http.Request){
     reqBody, _ := ioutil.ReadAll(r.Body)
-    var msg StationName
-    if err := json.Unmarshal([]byte(reqBody), &msg); err != nil {
+    var name StationName
+    if err := json.Unmarshal([]byte(reqBody), &name); err != nil {
         Log.Err(err.Error())
     }
-    checkedStation = msg.Name
-    rep := SendRequest("station set " + checkedStation)
-    Log.Info("checked and submit: " + checkedStation)
-    var repMsg Message
-    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+    nameJson, _ := json.Marshal(name)
+    var request MessageToServer
+    request.Route = "audio/set/station"
+    request.Value = string(nameJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
         Log.Err(err.Error())
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
 		Log.Err(err.Error())
     }
 }
 
-func removeHandler(w http.ResponseWriter, r *http.Request){
+func deleteHandler(w http.ResponseWriter, r *http.Request){
     reqBody, _ := ioutil.ReadAll(r.Body)
-    var msg StationName
-    if err := json.Unmarshal([]byte(reqBody), &msg); err != nil {
+    var name StationName
+    if err := json.Unmarshal([]byte(reqBody), &name); err != nil {
         Log.Err(err.Error())
     }
-    rep := SendRequest("station remove " + msg.Name)
-    Log.Info("station removed: " + msg.Name)
-    var repMsg Message
-    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+    nameJson, _ := json.Marshal(name)
+    var request MessageToServer
+    request.Route = "database/delete"
+    request.Value = string(nameJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
         Log.Err(err.Error())
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
 		Log.Err(err.Error())
     }
 } 
 
 func putHandler(w http.ResponseWriter, r *http.Request){
     reqBody, _ := ioutil.ReadAll(r.Body)
-    var msg Station
-    if err := json.Unmarshal([]byte(reqBody), &msg); err != nil {
+    var station StationToEngine
+    if err := json.Unmarshal([]byte(reqBody), &station); err != nil {
         Log.Err(err.Error())
     }
-
-    Log.Info("station put " + msg.Name + " " + msg.Uri)
-    rep := SendRequest("station put " + msg.Name + " " + msg.Uri)
-
-    var repMsg Message
-    if err := json.Unmarshal([]byte(rep), &repMsg); err != nil {
+    stationJson, _ := json.Marshal(station)
+    var request MessageToServer
+    request.Route = "database/put"
+    request.Value = string(stationJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
         Log.Err(err.Error())
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-    if err := json.NewEncoder(w).Encode(repMsg); err != nil {
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
 		Log.Err(err.Error())
     }
 } 
@@ -182,7 +260,8 @@ func main() {
 
     args := os.Args[1:]
 
-    engineUri := "ipc://piradio.app"
+    // engineUri := "ipc://piradio.app"
+    engineUri := "tcp://127.0.0.1:5009"
     serveUri := ":8080"
     resourcePath := "../server/resources/"
 
@@ -191,9 +270,9 @@ func main() {
             ColorStatus = true
         } else if args[i] == "--basic-cmd" || args[i] == "-b" {
             Basic = true
-        } else if args[i] == "--icomm-address" || args[i] == "-ic" {
+        } else if args[i] == "--icomm-address" || args[i] == "-ica" {
             i++;
-            engineUri = "tcp://" + args[i]
+            engineUri = args[i]
             Log.Warn("Setted uri: " + engineUri)
         } else if args[i] == "--icomm-port" || args[i] == "-icp" {
             i++;
@@ -228,13 +307,14 @@ func main() {
     
     http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir(resourcePath))))
     http.HandleFunc("/radio/api/station/all", getAllHandler)
-    http.HandleFunc("/radio/api/engine/state/play", playHandler)
-    http.HandleFunc("/radio/api/engine/state/stop", stopHandler)
-    http.HandleFunc("/radio/api/station/set", setHandler)
-    http.HandleFunc("/radio/api/station/next", nextHandler)
-    http.HandleFunc("/radio/api/station/prev", prevHandler)
-    http.HandleFunc("/radio/api/station/remove", removeHandler)
+    http.HandleFunc("/radio/api/station/delete", deleteHandler)
     http.HandleFunc("/radio/api/station/put", putHandler)
+    http.HandleFunc("/radio/api/audio/set", setHandler)
+    http.HandleFunc("/radio/api/audio/get/station", getCurrentHandler)
+    http.HandleFunc("/radio/api/audio/play", playHandler)
+    http.HandleFunc("/radio/api/audio/stop", stopHandler)
+    http.HandleFunc("/radio/api/audio/next", nextHandler)
+    http.HandleFunc("/radio/api/audio/prev", prevHandler)
     http.HandleFunc("/radio", viewHandler)
 
     Log.Warn("serve uri: " + serveUri)
