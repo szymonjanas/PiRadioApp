@@ -106,7 +106,6 @@ namespace radio {
 
     void Audio::setStation(Station *station)
     {
-        if (station == nullptr) return;
         if (engine->getState() != audio::STATE::STOP)
             engine->stop();
         this->station = station;

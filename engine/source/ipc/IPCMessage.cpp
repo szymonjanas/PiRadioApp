@@ -1,4 +1,5 @@
 #include "ipc/IPCMessage.hpp"
+#include <iostream>
 
 namespace ipc {
     namespace message {
@@ -15,9 +16,13 @@ namespace ipc {
                 route = "fake";
             }
             try {
-                value = jmsg["value"];
+                value = nlohmann::json::parse(jmsg["value"].get<std::string>());
             } catch (nlohmann::json::exception& ex) {
-                value = nlohmann::json();
+                try {
+                    value = jmsg["value"];
+                } catch (nlohmann::json::exception& ex) {
+                    value = nlohmann::json();
+                }
             }
         }
 

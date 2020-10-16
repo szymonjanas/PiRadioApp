@@ -2,7 +2,6 @@
 
 #include <string>
 #include <memory>
-
 #include "zmq.hpp"
 
 namespace ipc {
@@ -16,7 +15,7 @@ namespace ipc {
         IPCService();
         ~IPCService();
 
-        void connect(std::string name);
+        void connect(std::string address);
 
         std::string recive();
         void send(std::string message);

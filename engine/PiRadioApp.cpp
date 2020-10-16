@@ -40,7 +40,7 @@ int main(int argc, char **argv)
             helpFlag = true;
             help("../help.json");
         }
-        else if ((args[i] == "--icomm-address" or args[i] == "-ic") && i + 1 < argvc)
+        else if ((args[i] == "--icomm-address" or args[i] == "-ica") && i + 1 < argvc)
         {
             serverArgs += args[i] + " ";
             serverArgs += args[++i] + " ";
@@ -129,7 +129,7 @@ int main(int argc, char **argv)
                     );
 
         if (!onlyFlag) {
-            std::string str = "go run ../server/*.go " + serverArgs + " &";
+            std::string str = "go run server/*.go " + serverArgs + " &";
             system(str.c_str());
         }
 

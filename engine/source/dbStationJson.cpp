@@ -68,8 +68,7 @@ namespace db {
         }   
         else if (database.size() == 1)
             return database.begin()->second.get();
-        else
-            return nullptr;
+        return nullptr;
      }
 
      radio::Station* StationsJson::getPrev(radio::Station* record)
@@ -86,8 +85,7 @@ namespace db {
         }
         else if (database.size() == 1)
             return database.begin()->second.get();
-        else
-            return nullptr;
+        return nullptr;
      }
 
     std::string StationsJson::toString()

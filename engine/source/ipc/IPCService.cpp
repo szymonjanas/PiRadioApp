@@ -1,9 +1,8 @@
 #include "ipc/IPCService.hpp"
-
 namespace ipc {
 
     IPCService::IPCService()
-    {
+    {        
         context = std::make_unique<zmq::context_t>(1);
         socket = std::make_unique<zmq::socket_t>(*context, ZMQ_PAIR);
     }
@@ -18,7 +17,7 @@ namespace ipc {
 
     void IPCService::connect(std::string address)
     {
-        socket->bind(address.c_str());
+        socket.get()->bind(address.c_str());
     }
 
     std::string IPCService::recive()
@@ -27,7 +26,7 @@ namespace ipc {
         while (requestData.size() == 0)
         {
             zmq::message_t request;
-            socket->recv(&request);
+            socket->recv(request);
             requestData = std::string(static_cast<char *>(request.data()), request.size());
 
             if (requestData == "0")
@@ -40,7 +39,7 @@ namespace ipc {
     {
         zmq::message_t messageData(message.size());
         memcpy(messageData.data(), static_cast<const void *>(message.c_str()), message.size());
-        socket->send(messageData);
+        socket->send(messageData, zmq::send_flags::none);
     }
 
 }

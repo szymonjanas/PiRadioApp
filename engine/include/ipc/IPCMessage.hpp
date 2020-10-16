@@ -34,6 +34,7 @@ namespace ipc {
 
             nlohmann::json toJson();
             std::string toString();
+
         };
 
     } // namespace message

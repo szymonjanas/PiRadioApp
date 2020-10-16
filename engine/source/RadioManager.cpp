@@ -42,7 +42,8 @@ namespace radio {
         Log::info("Starting...");
         while (true)
         {
-            std::string request = service->recive();
+            std::string request = service->recive(); 
+            Log::debug("REQUEST: " + request); 
             ipc::message::IPCRecived recived (request);
             ipc::message::IPCReply reply;
             routes->execute(recived, reply);

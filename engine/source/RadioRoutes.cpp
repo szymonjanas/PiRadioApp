@@ -53,6 +53,10 @@ namespace radio
         std::string id = station.getName();
         if (database->getByID(id) != nullptr)
         {
+            if (audio->getStation() != nullptr and audio->getStation()->getName() == id){
+                audio->setState(audio::STATE::STOP);
+                audio->setStation(nullptr);
+            }
             database->remove(id);
             reply.setCode(200);
             reply.setMessage("Station deleted: " + station.getName());
@@ -69,6 +73,8 @@ namespace radio
     void Routes::audio_switch_prev(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
     {
         if (database->getDatabase()->size() > 0){
+            if (audio->getStation() != nullptr)
+                audio->getStation()->setPlaying(false);
             audio->setStation(
                 database->getPrev(audio->getStation())
                 );
@@ -88,6 +94,8 @@ namespace radio
     {
         if (database->getDatabase()->size() > 0)
         {
+            if (audio->getStation() != nullptr)
+                audio->getStation()->setPlaying(false);
             audio->setStation(
                 database->getNext(audio->getStation()));
             reply.setCode(200);
@@ -127,12 +135,13 @@ namespace radio
             Log::debug("Cannot set given state: " + state);
         }
     }
-
     void Routes::audio_set_station(ipc::message::IPCRecived &recived, ipc::message::IPCReply &reply)
     {
         radio::Station station (recived.getValue());
         if (station.getName().size() > 0 && database->getByID(station.getName()) != nullptr)
         {
+            if (audio->getStation() != nullptr)
+                audio->getStation()->setPlaying(false);
             audio->setStation(database->getByID(station.getName()));
             reply.setCode(200);
             reply.setMessage("Station setted: " + audio->getStation()->getName());
