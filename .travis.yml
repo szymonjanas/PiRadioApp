@@ -7,9 +7,6 @@ compiler: g++
 
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.8
     packages:
       - gcc-6
       - g++-6
