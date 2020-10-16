@@ -12,15 +12,15 @@ struct TestValue {
 class TestDatabase : public db::Database<std::string, TestValue> {
 
     public:
-        virtual bool isLoad(){}
+        virtual bool isLoad(){return false;}
         virtual void load(){}
         virtual void save(){}
 
-        virtual TestValue* getNext(TestValue* record){}
-        virtual TestValue* getPrev(TestValue* record){}
+        virtual TestValue* getNext(TestValue* record){return nullptr;}
+        virtual TestValue* getPrev(TestValue* record){return nullptr;}
 
-        virtual std::string toString(){}
-        virtual nlohmann::json toJson(){}
+        virtual std::string toString(){return std::string();}
+        virtual nlohmann::json toJson(){return nlohmann::json();}
 
 };
 
