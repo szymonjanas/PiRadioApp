@@ -2,7 +2,7 @@
     "help": [
         {
             "set": "--icomm-address [ip:port]" ,
-            "short": "-ic [ip:port]",
+            "short": "-ica [ip:port]",
             "description": "Internal (server <-> engine) tcp communication address. Default: localhost:5555" 
         },
         {
