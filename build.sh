@@ -2,19 +2,21 @@
 
 echo "BUILD ###########################################"
 mkdir build
+cd build
 
 echo ""
 echo "CMAKE ###########################################"
-cmake -H. -Bbuild/
+cmake ..
 
 echo ""
 echo "MAKE ############################################"
-make -C build/
+make
 
 echo ""
 echo "GO ##############################################"
-go build -o build/server server/server.go server/log.go
+go build -o server ../server/server.go ../server/log.go
 
+cd ..
 
 echo ""
 echo "DONE ############################################"
