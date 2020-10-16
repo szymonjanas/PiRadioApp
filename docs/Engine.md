@@ -3,17 +3,40 @@ Communication
 > Communication is via IPC ( _Inter-Process Communication_ ).
 
 ## How does it works
-App which we want to communicate must be run from same path as engine, because communication is via file. File is automatically created by engine in current folder. 
+### **TCP Communication**
+Communication via tcp socket require specific ip and port. Allows to control engine in local network.
 
-Best option is to use ZMQ to communicate. 
+Best option is to use framework ZMQ to communicate. 
+
+
+
+## Routes and Requirements
+---
+#### Database routes
+1. `database/get/all` - return array of Stations
+2. `database/put` - put new or change exist Station, **require** Station in JSON value
+3. `database/delete` - delete Station, **require** only Station `name` in JSON value
+#### Audio Routes
+4. `audio/switch/prev` - previous station
+5. `audio/switch/next` - next station
+6. `audio/set/state` - set state **require** Engine State in JSON value
+7. `audio/set/station` - set station **require** Station in JSON value
+8. `audio/get/state` - return Engine State in JSON value
+9. `audio/get/current` - return current Station in JSON value
 
 ## Details
 ---
-### Path 
+### Default Path 
+```python
+tcp://127.0.0.1:5010
 ```
-ipc://piradio.app
-```
+
 ### Message Format - JSON - to engine
+<span style="color:red">
+<b>IMPORTANT</b>
+Messages must have JSON format, but they are sent and recive as string.
+</span>
+
 ```json
 {
     "route" : "example/route",
@@ -61,16 +84,3 @@ ipc://piradio.app
 }
 ```
 
-## Routes and Requirements
----
-#### Database routes
-1. `database/get/all` - return array of Stations
-2. `database/put` - put new or change exist Station, **require** Station in JSON value
-3. `database/delete` - delete Station, **require** only Station `name` in JSON value
-#### Audio Routes
-4. `audio/switch/prev` - previous station
-5. `audio/switch/next` - next station
-6. `audio/set/state` - set state **require** Engine State in JSON value
-7. `audio/set/station` - set station **require** Station in JSON value
-8. `audio/get/state` - return Engine State in JSON value
-9. `audio/get/current` - return current Station in JSON value
