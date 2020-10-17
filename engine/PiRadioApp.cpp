@@ -11,7 +11,19 @@
 #include "dbStationJson.hpp"
 #include "RadioRoutes.hpp"
 
+#include <stdio.h>
+#include <thread>
+#include <memory>
+
 void help(std::string);
+
+void getOutput(FILE *file)
+{
+    char path[2048];
+    while (fgets(path, sizeof(path), file) != NULL) {
+        printf("%s", path);
+  }
+}
 
 int main(int argc, char **argv)
 {
@@ -21,7 +33,7 @@ int main(int argc, char **argv)
     bool audioFlag = true;
 
     std::string siteAddress = "";
-    std::string internalCommunicationAddress = "ipc://piradio.app";
+    std::string internalCommunicationAddress = "tcp://127.0.0.1:7982";
     std::string databasePath = "../database.json";
 
     std::string serverArgs = "";
@@ -128,13 +140,26 @@ int main(int argc, char **argv)
                         routes
                     );
 
+        FILE* fileServer;
+        std::unique_ptr<std::thread> thread_ptr;
         if (!onlyFlag) {
-            std::string str = "go run server/*.go " + serverArgs + " &";
-            system(str.c_str());
+            fileServer = popen("./build/server --debug -col", "r");
+            if (fileServer == NULL) {
+                Log::err("Server did not start!");
+                return 1;
+            } else {
+                thread_ptr = std::make_unique<std::thread>(getOutput, fileServer);
+                thread_ptr.get()->detach();
+            }
         }
 
         manager->start();
+        if (fileServer != NULL){
+            int status = pclose(fileServer);
+            if (status == -1) Log::err("Server may be still runing!");
+        }
         delete manager;
+        
     }
     return 0;
 }

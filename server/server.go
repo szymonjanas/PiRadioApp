@@ -186,6 +186,27 @@ func nextHandler(w http.ResponseWriter, r *http.Request){
 	}
 } 
 
+func stateHandler(w http.ResponseWriter, r *http.Request){
+    type MessageFromServerState struct {
+        Code int `json:"code"`
+        Message string `json:"message"`
+        Value PlayingState `json:"value"`
+    }
+    var request MessageToServer
+    request.Route = "audio/get/state"
+    request.Value = ""
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServerState
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
+} 
+
 func setHandler(w http.ResponseWriter, r *http.Request){
     reqBody, _ := ioutil.ReadAll(r.Body)
     var name StationName
@@ -260,8 +281,7 @@ func main() {
 
     args := os.Args[1:]
 
-    // engineUri := "ipc://piradio.app"
-    engineUri := "tcp://127.0.0.1:5009"
+    engineUri := "tcp://127.0.0.1:7982"
     serveUri := ":8080"
     resourcePath := "../server/resources/"
 
@@ -315,6 +335,7 @@ func main() {
     http.HandleFunc("/radio/api/audio/stop", stopHandler)
     http.HandleFunc("/radio/api/audio/next", nextHandler)
     http.HandleFunc("/radio/api/audio/prev", prevHandler)
+    http.HandleFunc("/radio/api/audio/state", stateHandler)
     http.HandleFunc("/radio", viewHandler)
 
     Log.Warn("serve uri: " + serveUri)
