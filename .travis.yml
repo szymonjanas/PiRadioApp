@@ -43,7 +43,6 @@ script:
   - cd /usr/src/gtest
   - sudo cmake CMakeLists.txt
   - sudo make
-  - sudo cp *.a /usr/lib
   - cd /home/travis/build/PiRadioApp/PiRadioApp
 
   # COMPILE AND RUN
