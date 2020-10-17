@@ -50,5 +50,4 @@ script:
   - ./build.sh
   - ./build/PiRadioApp-engine-utests
 
-  - cd ..
   - python3 tests/
