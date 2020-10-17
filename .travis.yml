@@ -7,12 +7,9 @@ compiler: g++
 
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.8
     packages:
-      - gcc-6
-      - g++-6
+      - gcc
+      - g++
       - cmake
 
       - libgtest-dev
@@ -36,15 +33,11 @@ addons:
       - gstreamer1.0-pulseaudio
 
 install:
-  - "[ $CXX = g++ ] && export CXX=g++-6 || true"
   - go get github.com/pebbe/zmq4
   - pip3 install setuptools
   - pip3 install pyzmq flask termcolor
 
 script:
-  # NEW C++ COMPILER
-  - sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
-  - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
 
   # GTEST SETTING
   - cd /usr/src/gtest
