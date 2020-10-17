@@ -26,7 +26,7 @@ namespace ipc {
         while (requestData.size() == 0)
         {
             zmq::message_t request;
-            socket->recv(request);
+            socket->recv(&request);
             requestData = std::string(static_cast<char *>(request.data()), request.size());
 
             if (requestData == "0")
@@ -39,7 +39,7 @@ namespace ipc {
     {
         zmq::message_t messageData(message.size());
         memcpy(messageData.data(), static_cast<const void *>(message.c_str()), message.size());
-        socket->send(messageData, zmq::send_flags::none);
+        socket->send(messageData);
     }
 
 }
