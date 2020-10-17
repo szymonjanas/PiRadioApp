@@ -1,8 +1,7 @@
-Communication
-======
-> Communication is via IPC ( _Inter-Process Communication_ ).
+# Communication with Engine
 
-## How does it works
+> Communication with engine is via **TCP** socket.
+
 ### **TCP Communication**
 Communication via tcp socket require specific ip and port. Allows to control engine in local network.
 
@@ -12,18 +11,18 @@ Best option is to use framework ZMQ to communicate.
 
 ## Routes and Requirements
 ---
-#### Database routes
-1. `database/get/all` - return array of Stations
-2. `database/put` - put new or change exist Station, **require** Station in JSON value
-3. `database/delete` - delete Station, **require** only Station `name` in JSON value
-#### Audio Routes
-4. `audio/switch/prev` - previous station
-5. `audio/switch/next` - next station
-6. `audio/set/state` - set state **require** Engine State in JSON value
-7. `audio/set/station` - set station **require** Station in JSON value
-8. `audio/get/state` - return Engine State in JSON value
-9. `audio/get/current` - return current Station in JSON value
-
+| Route | [Request (value)](#message-format---json---to-engine) | [Reply](#message-format---json---from-engine) | Description |
+| --- | --- | --- | --- |
+| `database/get/all` | `route` | `status`, array of Stations | get all available Stations |
+| `database/put` | `route`, [Station JSON](#station-json-format---to-engine) | `status` | put new/change exist: Station uri by `name` |
+| `database/delete` | `route`, Station `name` in JSON | `status` | delete Station by `name` | 
+| `audio/switch/prev` | `route` | `status` | previous station |
+| `audio/switch/next` | `route` | `status` | next station |
+| `audio/set/state` | `route`, `state` in JSON value | `status` | set [state](#engine-state): `play`, `pause` or `stop` |
+| `audio/set/station` | `route` | `status`,Station `name` in JSON | set station by `name`| 
+| `audio/get/state` | `route` | `status`,  `state` in JSON value | return Audio Engine [state](#engine-state) | 
+| `audio/get/current` | `route` | `status`, return current Station in JSON value | return all detail about current station |
+`status` mean `code` and `message` about status of execution. [More Details](#message-format---json---from-engine)
 ## Details
 ---
 ### Default Path 
