@@ -24,6 +24,9 @@ class TestClass:
             ", all: " + str(self.allCase-1) + " | " + str(self.testNumber) + "  " + func.__name__)
             self.testNumber += 1
             self.caseNumber = 1
+        print("[  " + col("ALL TESTS PASSED", "green") + "  ]" + " " + \
+            "TESTS: " + str(self.testNumber-1) + "/" + str(self.testNumber-1) + \
+            ", CASES: " + str(self.allCase-1) + "/" + str(self.allCase-1))
 
     def check(self, funcName : str, state : bool, message : str):
         if state:
