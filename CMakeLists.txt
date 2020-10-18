@@ -53,6 +53,7 @@ set(engineSrc
     ${engineSrcPath}/Logs.cpp
     ${engineSrcPath}/dbStationJson.cpp
     ${engineSrcPath}/RadioRoutes.cpp
+    ${engineSrcPath}/Radio.cpp
 )
 add_library(${PROJECT_NAME}EngineLib SHARED ${engineSrc})
 set (engineLib ${PROJECT_NAME}EngineLib)
