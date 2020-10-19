@@ -66,6 +66,7 @@ namespace radio {
         void basic(std::string);
         void no_audio(std::string);
         void set_run_server_cmd(std::string cmd);
+        void set_resource_path(std::string path);
     };
 
     void Radio::all()
@@ -87,6 +88,8 @@ namespace radio {
         this->add("-na", &Radio::no_audio);
         this->add("--run-server-cmd", &Radio::set_run_server_cmd);
         this->add("-rsc", &Radio::set_run_server_cmd);
+        this->add("--resource", &Radio::set_resource_path);
+        this->add("-res", &Radio::set_resource_path);
     }
 
 } // namespace radio

@@ -1,29 +1,24 @@
 {
     "help": [
         {
-            "set": "--icomm-address [ip:port]" ,
-            "short": "-ica [ip:port]",
-            "description": "Internal (server <-> engine) tcp communication address. Default: localhost:5555" 
+            "set" : "--help",
+            "short" : "-h",
+            "description" : "show help"
         },
         {
-            "set": "--icomm-port [port]",
-            "short": "-icp [port]",
-            "description": "Internal (server <-> engine) tcp communication port. Default: 5555"
+            "set": "--internal-communication-address [addr]" ,
+            "short": "-ica [addr]",
+            "description": "Internal (server <-> engine) tcp communication address. Default: tcp://127.0.0.1:7982" 
         },
         {
-            "set": "--host-address [ip:port]",
-            "short": "-h [ip:port]",
-            "description": "Host site address. Default: localhost:8080"
-        },
-        {
-            "set": "--host-port [port]",
-            "short": "-hp [port]",
-            "description": "Host site port. Default: 8080"
+            "set": "--server-host-address [addr]",
+            "short": "-sha [addr]",
+            "description": "Host site address. Default: :8080"
         },
         {
             "set": "--resource [path]",
             "short": "-res [path]",
-            "description": "Resource path. Default: ../server/resources/"
+            "description": "Resource path. Default: server/resources/"
         },
         {
             "set": "--debug",
@@ -33,12 +28,7 @@
         {
             "set": "--only",
             "short": "",
-            "description": "Run only engine app"
-        },
-        {
-            "set": "--only-with-console",
-            "short": "",
-            "description": "Run only engine app with cmd control instead of internal communication tcp.  Mode for testing purpose."
+            "description": "Run without server"
         },
         {
             "set": "--database [path]",
@@ -46,19 +36,24 @@
             "description": "Set database path."
         },
         {
-            "set": "--cmd-colors",
+            "set": "--colors",
             "short": "-col",
-            "description": "Enable colors of console message."
+            "description": "Enable colors in console."
         },
         {
-            "set": "--basic-cmd",
-            "short": "-b",
-            "description": "Disable info and debug message."
+            "set": "--basic",
+            "short": "",
+            "description": "Shows only important message."
         },
         {
             "set": "--no-audio",
             "short": "-na",
-            "description": "Disable audio engine"
+            "description": "Disable audio in engine. Testing purpose."
+        },
+        {
+            "set" : "--run-server-cmd [cmd]",
+            "short" : "-rsc [cmd]",
+            "description" : "Set run server command. Default: ./build/server"
         }
     ]
 }

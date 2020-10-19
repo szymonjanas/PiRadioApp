@@ -1,3 +1,27 @@
+# Run Engine
+
+## Arguments
+Example
+```http
+    ./PiRadioApp -col -db test-database.json
+```
+
+Some arguments send to engine are also pass to server (if not `--only` mode).
+
+| Argument | Short | Description | Default | Example |
+| --- | --- | --- | --- | --- | --- |
+| `--help` | `-h` | only show help sheet | x | x |
+| `--internal-communication-address [addr]` | `-ica [addr]` | set address | `tcp://127.0.0.1:7982` | `-ica tcp://127.0.0.1:5000` |
+| `--server-host-address [addr]` | `-sha [addr]` | set host website/api | `:8080` | `-sha 127.0.0.1:8000` |
+| `--debug` | x | debug mode (shows debug message) | no debug | x |
+| `--only` | x | run only engine (without server) | run server | x | 
+| `--database [path]` | `-db [path]` | set database file path | `~/radio-database.json` | `-db test-database.json` |
+| `--colors` | `-col` | set colors in console [more](https://en.wikipedia.org/wiki/ANSI_escape_code#Colors) | no colors | x |
+| `--basic` | x | only important messages (warn, err) | all std msgs | x |
+| `--no-audio` | `-na` | no audio mode, mainly testing purpose | audio on | x | 
+| `--run-server-cmd [cmd]` | `-rsc [cmd]` | set run server cmd | `./build/server` | `-rsc ./server` |
+| `--resource [path]` | `-res [path]` | set server resource path ((!) without args) | `server/resources/` | `-res var/www` | 
+
 # Communication with Engine
 
 > Communication with engine is via **TCP** socket.
@@ -6,8 +30,6 @@
 Communication via tcp socket require specific ip and port. Allows to control engine in local network.
 
 Best option is to use framework ZMQ to communicate. 
-
-
 
 ## Routes and Requirements
 ---

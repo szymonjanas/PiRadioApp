@@ -176,4 +176,10 @@ namespace radio {
         runServerCmd = cmd;
     }
 
+    void Radio::set_resource_path(std::string path)
+    {
+        serverArgs.push_back("-res");
+        serverArgs.push_back(path);
+    }
+
 } // namespace radio
