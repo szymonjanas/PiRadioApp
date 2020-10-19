@@ -1,5 +1,7 @@
 [Main](README.md)
 
+# Server Module Documentation
+
 # Run Server
 ## Argumnets
 
