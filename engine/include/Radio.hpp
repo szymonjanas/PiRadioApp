@@ -25,7 +25,7 @@ namespace radio {
         void add(std::string arg, execArgFunc func);
 
         private:
-        std::string helpPath = "help.json";
+        std::string helpPath = "../help.json";
 
         bool onlyFlag = false;
         bool consoleFlag = false;
@@ -35,7 +35,7 @@ namespace radio {
         std::string siteAddress = "";
         std::string internalCommunicationAddress = "tcp://127.0.0.1:7982";
         std::string databasePath = "database.json";
-        std::string runServerCmd = "./build/server ";
+        std::string runServerCmd = "./server ";
 
         std::vector<std::string> serverArgs;
 

@@ -9,6 +9,13 @@ import (
     zmq "github.com/pebbe/zmq4"
 )
 
+type SettingsStruct struct {
+    Internal_Communication_Address string
+    Server_Host_Address string
+    Resource_Path string 
+}
+var Settings SettingsStruct
+
 type StationToEngine struct {
     Name string `json:"name"`
     Uri string `json:"uri"`
@@ -56,13 +63,13 @@ func SendRequest(request string) string {
         send request; recive, decode and return reply
     */
     (*client).SendMessage(request, 0)
-    Log.Info("send request: " + request)
+    Log.Debug("Send request: " + request)
     msg, err := (*client).RecvMessage(0)
     if err != nil {
-        Log.Err("send error: " + err.Error())
+        Log.Err("Sending error: " + err.Error())
     }
     reply := msg[0]
-    Log.Info("recive replay: " + reply)
+    Log.Debug("Secive replay: " + reply)
     return reply 
 }
 
@@ -281,51 +288,53 @@ func main() {
 
     args := os.Args[1:]
 
-    engineUri := "tcp://127.0.0.1:7982"
-    serveUri := ":8080"
-    resourcePath := "../server/resources/"
+    Settings.Internal_Communication_Address = "tcp://127.0.0.1:7982"
+    Settings.Server_Host_Address = ":8080"
+    Settings.Resource_Path = "server/resources"
 
     for i := 0; i < len(args); i++ {
-        if args[i] == "--cmd-colors" || args[i] == "-col" {
+        if args[i] == "-col" {
             ColorStatus = true
-        } else if args[i] == "--basic-cmd" || args[i] == "-b" {
+        } else if args[i] == "--basic" {
             Basic = true
-        } else if args[i] == "--icomm-address" || args[i] == "-ica" {
+        } else if args[i] == "-ica" {
             i++;
-            engineUri = args[i]
-            Log.Warn("Setted uri: " + engineUri)
-        } else if args[i] == "--icomm-port" || args[i] == "-icp" {
+            Settings.Internal_Communication_Address = args[i]
+        }  else if args[i] == "-sha" {
             i++;
-            engineUri = "tcp://localhost:" + args[i]
-            Log.Warn("Setted uri port: " + engineUri)
-        } else if args[i] == "--host-address" || args[i] == "-h" {
+            Settings.Server_Host_Address = args[i]
+        }  else if args[i] == "-res" {
             i++;
-            serveUri = args[i]
-            Log.Warn("Setted serve address: " + serveUri)
-        } else if args[i] == "--host-port" || args[i] == "-hp" {
-            i++;
-            serveUri = ":" + args[i]
-            Log.Warn("Setted serve port: " + serveUri)
-        } else if args[i] == "--resource" || args[i] == "-res" {
-            i++;
-            resourcePath = args[i]
-            Log.Warn("Setted resource path: " + resourcePath)
-        } else if args[i] == "--debug" || args[i] == "-d" {
-            
+            Settings.Resource_Path = args[i]
+        } else if args[i] == "--debug" {
+            DebugStatus = true
         }
+    }
+
+    Log.Warn("Internal Communication address: " + Settings.Internal_Communication_Address)
+    Log.Warn("Server Host Address: " + Settings.Server_Host_Address)
+    Log.Warn("Setted resource path: " + Settings.Resource_Path)
+    if DebugStatus {
+        Log.Warn("Debug mode on!")
+    }
+    if Basic {
+        Log.Warn("Basic mode on!")
+    }
+    if ColorStatus {
+        Log.Warn("Colors mode on!")
     }
 
     socket, errSocket := zmq.NewSocket(zmq.PAIR)
     client = socket
 
-    (*client).Connect(engineUri)
+    (*client).Connect(Settings.Internal_Communication_Address)
     if errSocket != nil {
-        Log.Err("error socket: " + errSocket.Error())
+        Log.Err("Error socket: " + errSocket.Error())
     } else {
-        Log.Warn("connected to server: " + engineUri)
+        Log.Warn("Internal connected to engine: " + Settings.Internal_Communication_Address)
     }
     
-    http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir(resourcePath))))
+    http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir(Settings.Resource_Path))))
     http.HandleFunc("/radio/api/station/all", getAllHandler)
     http.HandleFunc("/radio/api/station/delete", deleteHandler)
     http.HandleFunc("/radio/api/station/put", putHandler)
@@ -338,9 +347,9 @@ func main() {
     http.HandleFunc("/radio/api/audio/state", stateHandler)
     http.HandleFunc("/radio", viewHandler)
 
-    Log.Warn("serve uri: " + serveUri)
-    errServe := http.ListenAndServe(serveUri, nil)
+    Log.Info("Host running...")
+    errServe := http.ListenAndServe(Settings.Server_Host_Address, nil)
     if errServe != nil {
-        Log.Err("error serve: " + errServe.Error()) 
+        Log.Err("Error host: " + errServe.Error()) 
     }
 }

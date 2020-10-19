@@ -1,5 +1,21 @@
-# Communication with Server
+# Run Server
+## Argumnets
 
+<span style="color:red">
+<b>IMPORTANT</b>
+Arguments avaliable only when Engine run in `--only` mode, and you want to run server manually! [Mode details](docs/Engine.md)
+</span>
+
+| Argument | Description | Default | 
+| --- | --- | --- | 
+| `-col` | Colors in terminal | no colors |
+| `-ica [addr]` | Internal communication Address | `tcp://127.0.0.1:7982` | 
+| `-sha [addr]` | Server host address | `:8080` |
+| `--debug` | Show debug message | no debug msgs |
+| `--basic` | Only important message | all msgs (except debug) |
+| `-res [path]` | Resource path | `server/resource` |
+
+# Communication with Server
 > Communication with server is via **HTTP request**.
 
 > Default running address (index page): http://127.0.0.1:7982/radio

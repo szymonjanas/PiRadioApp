@@ -10,15 +10,13 @@ if __name__ == "__main__":
     runEngineFlag = True
     runServerFlag = True
     debugFlag = False
-    basicFlag = False
     testsFlag = True
     for arg in sys.argv:
         if arg == "--debug":
             debugFlag = True
         if arg == "--ipc-debug":
             test_engine_ipc.ipcFlag = True
-        if arg == "--basic":
-            basicFlag = True
+
         if arg == "--test_engine" or arg == "-te":
             testEngineFlag = True
             testServerFlag = False
@@ -38,12 +36,12 @@ if __name__ == "__main__":
 
     if testsFlag:
         pidEngine = None
-        addressTestEngine = 'tcp://127.0.0.1:5010'
+        addressTestEngine = 'tcp://127.0.0.1:7982'
         if runEngineFlag:
-            pidEngine = subprocess.Popen(['build/PiRadioApp', '--only', '-na', '-col', '-db', 'test-database.json', '--debug', '-ica', addressTestEngine])
+            pidEngine = subprocess.Popen(['build/PiRadioApp', '--only', '-na', '-col', '-db', 'test-database.json', '--debug'])
         time.sleep(3)
         if testEngineFlag:
-            test_engine_ipc.debugFlag =debugFlag
+            test_engine_ipc.debugFlag = debugFlag
             test_engine_ipc.connect(addressTestEngine)
             test_engine_ipc.test.start()
         if pidEngine != None:
@@ -52,15 +50,11 @@ if __name__ == "__main__":
             pidEngine.wait()
             pidEngine = None
         time.sleep(2)
-# ANCHOR TU działa albo dla pierwszego albo dla drugiego 
-# może warto przetestować dla ipc
+
         pidServer = None
         if testServerFlag:
-            if runEngineFlag:
-                pidEngine = subprocess.Popen(['build/PiRadioApp', '--only', '-na', '-col', '-db', 'test-database.json', '--debug', '-ica', 'tcp://127.0.0.1:5019'])
-            time.sleep(2)
             if runServerFlag:
-                pidServer = subprocess.Popen(['build/server', '-col', '--debug', '-ica', 'tcp://127.0.0.1:5019'])
+                pidEngine = subprocess.Popen(['build/PiRadioApp', '-na', '-col', '-db', 'test-database.json', '--debug', '-rsc', 'build/server', '-ica', 'tcp://127.0.0.1:5555'])
             time.sleep(2)
 
             if testServerFlag:

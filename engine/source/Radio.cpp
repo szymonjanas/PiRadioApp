@@ -64,8 +64,8 @@ namespace radio {
             std::string serverArgsStr;
             for (auto& astr : serverArgs)
                 serverArgsStr += astr + " ";
-            Log::warn("Server starting... " + runServerCmd + serverArgsStr);
-            fileServer = popen(std::string(runServerCmd + serverArgsStr).c_str(), "r");
+            Log::warn("Server starting... " + runServerCmd + " " + serverArgsStr);
+            fileServer = popen(std::string(runServerCmd + " " + serverArgsStr).c_str(), "r");
             if (fileServer == NULL) {
                 Log::err("Server did not start!");
             } else {
@@ -118,7 +118,7 @@ namespace radio {
                     << "   " << (*iter)["short"].get<std::string>() << (((*iter)["short"].get<std::string>()).size() == 0 ? "" : "\n") 
                     << "     " << (*iter)["description"].get<std::string>() << "\n"
                     << "\n";
-        throw std::string("HELP");
+        exit(0);
     }
 
     void Radio::debug(std::string)
@@ -126,6 +126,7 @@ namespace radio {
         serverArgs.push_back("--debug");
         Log::switches::debug(true);
         debugFlag = true;
+        Log::warn("Debug mode on!");
     }
 
     void Radio::only(std::string)
