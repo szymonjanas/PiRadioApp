@@ -1,9 +1,11 @@
+[Main](README.md)
+
 # Run Server
 ## Argumnets
 
 <span style="color:red">
 <b>IMPORTANT</b>
-Arguments avaliable only when Engine run in `--only` mode, and you want to run server manually! [Mode details](docs/Engine.md)
+Arguments avaliable only when Engine run in `--only` mode, and you want to run server manually! [More details](Engine.md)
 </span>
 
 | Argument | Description | Default | 
