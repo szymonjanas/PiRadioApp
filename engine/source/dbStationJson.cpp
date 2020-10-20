@@ -51,7 +51,7 @@ namespace db {
             Log::err("Database cannot be open: please check if json file exist: " + filePath);
             throw std::string("Database cannot be open: please check if json file exist: " + filePath);
         }
-        dbFile << toJson() << std::endl;
+        dbFile << toFile() << std::endl;
      }
 
      radio::Station* StationsJson::getNext(radio::Station* record)
@@ -99,6 +99,17 @@ namespace db {
         for (auto& record : database){
             jdata.push_back(record.second.get()->toJson());
         }
+        return jdata;
+    }
+
+    nlohmann::json StationsJson::toFile()
+    {
+        nlohmann::json jdata;
+        nlohmann::json jarr;
+        for (auto& record : database){
+            jarr.push_back(record.second.get()->toJson());
+        }
+        jdata["stations"] = jarr;
         return jdata;
     }
 

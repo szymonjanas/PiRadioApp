@@ -21,6 +21,8 @@ class TestDatabase : public db::Database<std::string, TestValue> {
 
         virtual std::string toString(){return std::string();}
         virtual nlohmann::json toJson(){return nlohmann::json();}
+        virtual nlohmann::json toFile(){return nlohmann::json();}
+
 
 };
 

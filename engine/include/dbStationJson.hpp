@@ -27,6 +27,8 @@ namespace db {
 
         virtual std::string toString();
         virtual nlohmann::json toJson();
+        virtual nlohmann::json toFile();
+
 
         virtual radio::Station* getNext(radio::Station* record);
         virtual radio::Station* getPrev(radio::Station* record);

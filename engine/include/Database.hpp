@@ -36,6 +36,8 @@ namespace db {
 
         virtual std::string toString() = 0;
         virtual nlohmann::json toJson() = 0;
+        virtual nlohmann::json toFile() = 0;
+
 
         RECORD* getByID(ID id);
 
@@ -69,11 +71,13 @@ namespace db {
         if (record == nullptr)
             return;
         database[id] = RECORDptr (record);
+        this->save();
     }
 
     template <typename ID, typename RECORD> 
     void Database<ID, RECORD>::put(ID id, RECORDptr record){
         database[id] = std::move(record);
+        this->save();
     }
 
     template<typename ID, typename RECORD>
@@ -85,6 +89,7 @@ namespace db {
     void Database<ID, RECORD>::remove(ID id){
         if (database.find(id) != database.end())
             database.erase(database.find(id));
+        this->save();
     }
 
     template<typename ID, typename RECORD>
