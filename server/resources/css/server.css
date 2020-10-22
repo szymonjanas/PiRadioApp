@@ -1,3 +1,6 @@
 body {
-    background-color: lightgrey;
+    max-width: 500pt;
+    width: 100%;
+    float: middle;
+    border: none;
 }

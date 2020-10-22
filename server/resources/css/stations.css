@@ -1,0 +1,17 @@
+#STATIONS_LIST {
+    max-width: 500pt;
+    width: 100%;
+    margin-top: 50pt;
+    margin-bottom: 70pt;
+    text-align: center;
+    text-align: left;
+    margin-left: 5%;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.Item {
+    background-color: lawngreen;
+}
