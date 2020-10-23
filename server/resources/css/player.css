@@ -1,18 +1,19 @@
 Footer {
-    border: none;
-    background: lightgrey;
+    border-top: 2pt solid #778888;
+    background: #334455;
     padding: 0;
-    text-align: center;
-    vertical-align: middle;
+    text-align: left;
+    vertical-align: left;
     line-height: normal;
     margin: 0;
+    margin-left: -0.5pt;
+    margin-right: 1.5%;
     position: fixed;
     bottom: 0px;
-    width: 100%;
+    width: 102%;
     height: 12%;
     max-height: 65pt;
     padding-top: 7pt;
-    padding-bottom: 4pt;
 }
 
 .Player {
@@ -22,14 +23,14 @@ Footer {
 /* PLAYER BUTTON */
 
 #button_state {
-    background-color: yellow;
+    background: transparent;
     padding: 0;
     text-align: center;
     vertical-align: middle;
     line-height: normal;
     margin: 0;
     position: fixed;
-    bottom: 17pt;
+    bottom: 3.6%;
     left: 80%;
 }
 
@@ -40,7 +41,9 @@ Footer {
 }
 
 #button_state_img {
-    border: none;
+    border-radius: 30%;
+    padding-bottom: 1%;
+    transform: translateY(15%);
     background-color: transparent;
     outline: none;
 }
@@ -59,30 +62,43 @@ Footer {
 
 /* PLAYER SUBTITLES */
 
-.Player_subtitles_tab {
-    background-color: violet;
-    width: 64%;
-    max-width: 90%;
-    margin-left: 10%;
-    margin-bottom: 0;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.Player {
+
 }
 
+#Player_head {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: table;
+    text-align: left; 
+    width: 60%;
+    margin-left: 10%;
+    /* max-width: 90%;
+    margin-left: 10%;
+    margin-bottom: 0;
+    */
+}
 
 #Player_name {
-    padding-left: 10pt;
+    background-color: transparent;
+    width: 100%;
+    margin: 0;
     font-weight: bold;
+    color: #bbeecc;
     font-size: 120%;
 }
 
 #Player_title {
-    padding-left: 10pt;
+    margin: 0;
+    width: 100%;
     font-size: 100%;
+    color: #bbddcc;   
 }
 
-#player_image {
+.Player_img {
     width: 20pt;
+    filter: invert(84%) sepia(30%) saturate(336%) hue-rotate(116deg) brightness(97%) contrast(86%);
+    margin-right: 4pt;
+    margin-bottom: 4pt;
 }

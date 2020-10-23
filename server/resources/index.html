@@ -25,28 +25,18 @@
 	<Header>
 		<p id="title_name">PiRadio</p>
 	</Header>
-
-	<ul id = "STATIONS_LIST">	
-	</ul>
+	<div id="LIST">
+		<ul id="STATIONS_LIST">
+		</ul>
+	</div>
 
 
 
 	<Footer>
-		<div class="Player">
-			<p class="Player_subtitles_tab">
-				<img id="player_image" src="radio/res/img/player_radio.png" />
-				<span id="Player_name">
-					ddddddddddddddddd dddddddddddd ddddddddddddddddddddddd ddddddddddddddddddddddddddddddd
-				</span>
-			</p>
-			<p class="Player_subtitles_tab">
-				<img id="player_image" src="radio/res/img/player_title.png" />
-				<span id="Player_title">
-					eeeeeeeeee eeeeeeeee eeeeeeeeeeeeeee eeeeeeeeeeee eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-				</span>
-			</p>
-
-			<button type="button" id="button_state" onclick="button_state()">
+		<div class="Player" id="Player_footer">
+			<ul id="Player_head">
+			</ul>
+			<button type="button" id="button_state" onclick="change_state()">
 				<img id="button_state_img" src="radio/res/img/play.png" />
 			</button>
 		</div>
