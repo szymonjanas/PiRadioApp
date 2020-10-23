@@ -158,7 +158,7 @@ namespace radio
     void Routes::audio_get_state(ipc::message::IPCRecived &recived, ipc::message::IPCReply &reply)
     {
         nlohmann::json jdata;
-        jdata["state"] = audio->getState();
+        jdata["state"] = audio->stateToString(audio->getState());
         reply.setCode(200);
         reply.setMessage("Station state");
         reply.setValue(jdata);
