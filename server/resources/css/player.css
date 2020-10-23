@@ -29,7 +29,7 @@ Footer {
     line-height: normal;
     margin: 0;
     position: fixed;
-    bottom: 10pt;
+    bottom: 17pt;
     left: 80%;
 }
 
@@ -37,7 +37,6 @@ Footer {
     border: none;
     background-color: transparent;
     outline: none; 
-    /* float: center; */
 }
 
 #button_state_img {
@@ -62,9 +61,9 @@ Footer {
 
 .Player_subtitles_tab {
     background-color: violet;
-    width: 70%;
+    width: 64%;
     max-width: 90%;
-    margin-left: 5%;
+    margin-left: 10%;
     margin-bottom: 0;
     text-align: left;
     white-space: nowrap;

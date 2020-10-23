@@ -1,7 +1,7 @@
 var state = 'stop'
 
-var play_img = "img/play.png"
-var stop_img = "img/stop.png"
+var play_img = "radio/res/img/play.png"
+var stop_img = "radio/res/img/stop.png"
 console.log(state)
 function button_state(){
     console.log("State: ")
@@ -16,21 +16,4 @@ function button_state(){
         btn_img.src = play_img;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
