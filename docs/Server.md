@@ -38,6 +38,7 @@ Arguments avaliable only when Engine run in `--only` mode, and you want to run s
 | `/radio/api/audio/next` | none | `status` | set next Station |
 | `/radio/api/audio/prev` | none | `status` | set previous Station |
 | `/radio/api/audio/state` | none | `status`, Audio `state` | get audio `state`: `play`, `stop` or `pause` |
+| `/radio/api/audio/get/station` | none | Station | return setted station |
 
 ## Example messages and JSON Bodies
 ---
