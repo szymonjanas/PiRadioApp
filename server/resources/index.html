@@ -6,6 +6,8 @@
 	<link rel="stylesheet" href="radio/res/css/stations.css">
 	<link rel="stylesheet" href="radio/res/css/player.css">
 	<link rel="stylesheet" href="radio/res/css/title.css">
+	<link rel="stylesheet" href="radio/res/css/add.css">
+
 	<link rel="icon" type="image/ico" href="radio/res/favicon.png">
 	<script type="text/javascript" src="radio/res/server.js"></script>
 
@@ -22,6 +24,12 @@
 	<p id="test_id"></p>
 	<Header>
 		<p id="title_name">PiRadio</p>
+		<button type="button" id="button_del" onclick="load_delete_station()">
+			<img id="button_del_img" src="radio/res/img/delete.png" />
+		</button>
+		<button type="button" id="button_add" onclick="load_add_station()">
+			<img id="button_add_img" src="radio/res/img/add.png" />
+		</button>
 	</Header>
 	<div id="LIST">
 		<ul id="STATIONS_LIST">
@@ -34,8 +42,14 @@
 		<div class="Player" id="Player_footer">
 			<ul id="Player_head">
 			</ul>
+			<button type="button" id="button_prev" onclick="prev()">
+				<img id="button_prev_img" src="/radio/res/img/prev.png" />
+			</button>
 			<button type="button" id="button_state" onclick="change_state()">
 				<img id="button_state_img" />
+			</button>
+			<button type="button" id="button_next" onclick="next()">
+				<img id="button_next_img" src="/radio/res/img/next.png" />
 			</button>
 		</div>
 

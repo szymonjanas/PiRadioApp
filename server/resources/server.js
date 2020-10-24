@@ -8,7 +8,14 @@ var stop_img = "radio/res/img/stop.png"
 
 let DEBUG = true;
 
-/* COLORS */
+/*
+ANCHOR
+
+########################
+####### COLORS #########
+########################
+
+*/
 var colors = class Colors {
     constructor(){
         this.col_background;
@@ -26,13 +33,50 @@ var colors = class Colors {
         
         this.col_player_play;
         this.col_player_stop;
+        this.col_player_next;
+        this.col_player_prev;
         this.col_player_img;
         this.col_player_name;
         this.col_player_title;
         this.col_player_background;
         this.col_player_border;
+
+        this.add_button_submit;  
+        this.add_button_clear;
+
+        this.col_delete_button;
     }
 };
+
+var language = class Language {
+    constructor(){
+        this.add_name_placeholder;
+        this.add_uri_placeholder;
+        this.add_button_submit;
+        this.add_button_clear;
+        this.add_wrong_data_warning;
+    }
+}
+
+function load_language(){
+    language.add_name_placeholder = "Name...";
+    language.add_uri_placeholder = "Url...";
+    language.add_button_submit = "Submit";
+    language.add_button_clear = "Clear";
+    language.add_wrong_data_warning = "Error! Wrong 'name' or 'url' given!";
+}
+
+var add_station_history = class AddStationHistory{
+    constructor() {
+        this.station;
+        this.uri;
+    }
+};
+
+function load_add_station_history() {
+    add_station_history.station = "";
+    add_station_history.uri = "";
+}
 
 function load_colors() {
 
@@ -57,6 +101,14 @@ function load_colors() {
     colors.col_player_background = "#334455";
     colors.col_player_border = "#778888";
 
+    colors.add_button_submit = "#0D5C23";  
+    colors.add_button_clear = "#90343E";
+
+    colors.col_player_next = "invert(49%) sepia(89%) saturate(630%) hue-rotate(352deg) brightness(90%) contrast(99%)";
+    colors.col_player_prev = colors.col_player_next;
+
+    colors.col_delete_button = "invert(16%) sepia(87%) saturate(6103%) hue-rotate(355deg) brightness(94%) contrast(106%)";
+
     document.body.style.setProperty("background", colors.col_background, "important");
 
     var header = document.getElementsByTagName("Header");
@@ -73,38 +125,35 @@ function load_colors() {
         player[i].style.borderColor = colors.col_player_border;
     }
 
-
 }
 
-/* COLORS END */
+/*
+ANCHOR 
+
+###########################
+####### COLORS END ######## 
+###########################
+
+*/
 
 window.onload = function() {
-    // if (resolution > 600) {
-    //     console.log("RESOL", resolution);
-    //     var list = document.getElementById("STATIONS_LIST");
-    //     var resPt = resolution*3/4;
-    //     var move = ((resPt - STATION_LIST_MAX_WIDTH_pt)/2)-5;
-    //     console.log ("TEST", move);
-    //     var transform = "translateX("+move+"pt)";
-    //     console.log(transform);
-    //     list.style.transform = transform;
-
-    // }
-
     document.getElementById("LIST").style.width = resolution + "px";
+    load_add_station_history();
     reload();
-
 };
 
 function reload() {
+    load_language();
     load_colors();
-    load();
+    load_stations_list();
     load_player_state();
 }
-
+var block = false;
 setInterval(function() {
-    load();
-}, 50000);
+    if (!block) {
+        load_stations_list();
+    }
+}, 5000);
 
 function getMaxStationNameLength(){
     var resol = resolution;
@@ -124,10 +173,16 @@ function cutText(text){
     return out;
 }
 
+/*
+ANCHOR
+################################################################
+
+*/
 
 var playingNumber = null;
-function load() {
+function load_stations_list(deleteStatus = false) {
     console.log("STR MAX", getMaxStationNameLength())
+    document.getElementById("button_add_img").style.filter = colors.col_player_stop; 
 
     var response = httpGet("/radio/api/station/all");
     var responseJson = JSON.parse(response);
@@ -147,21 +202,29 @@ function load() {
         var station_play_btn = document.createElement("BUTTON");
         station_play_btn.setAttribute("class", "Station_play_btn");
         station_play_btn.setAttribute("id", iter);
-        station_play_btn.setAttribute("onclick", "set_station(this.id)");
-        
-        if (Stations_List_Json[iter]["isPlaying"]) {
-            playingNumber = iter;
-            isPlayingSetted = true;
-            station_radio_img.style.filter = colors.col_station_radio_img_playing;
-            station_play_btn.style.backgroundImage = 'url("/radio/res/img/playing.png")';            
-            station_play_btn.style.filter = colors.col_station_playing;
+
+        if (deleteStatus) {
+            station_radio_img.style.filter = colors.col_delete_button;
+            station_play_btn.style.backgroundImage = 'url("/radio/res/img/delete_forever.png")';            
+            station_play_btn.style.filter = colors.col_delete_button;
+            station_play_btn.setAttribute("onclick", "delete_station(this.id)");
+
         } else {
-            station_play_btn.style.backgroundImage = 'url("/radio/res/img/play.png")';
-            station_play_btn.style.filter = colors.col_station_play;
-            station_radio_img.style.filter = colors.station_radio_img;
-        }      
-        if (!isPlayingSetted){
-            playingNumber = null;
+            station_play_btn.setAttribute("onclick", "set_station(this.id)");
+            if (Stations_List_Json[iter]["isPlaying"]) {
+                playingNumber = iter;
+                isPlayingSetted = true;
+                station_radio_img.style.filter = colors.col_station_radio_img_playing;
+                station_play_btn.style.backgroundImage = 'url("/radio/res/img/playing.png")';            
+                station_play_btn.style.filter = colors.col_station_playing;
+            } else {
+                station_play_btn.style.backgroundImage = 'url("/radio/res/img/play.png")';
+                station_play_btn.style.filter = colors.col_station_play;
+                station_radio_img.style.filter = colors.station_radio_img;
+            }      
+            if (!isPlayingSetted){
+                playingNumber = null;
+            }
         }
         item.appendChild(station_radio_img)
         item.appendChild(cutText(Stations_List_Json[iter]["name"]));
@@ -188,7 +251,11 @@ function set_station(id) {
 }
 
 function load_player_state(){
-    var player = document.getElementById("Player_footer");
+    document.getElementById("button_add_img").style.filter = colors.col_player_stop; 
+    document.getElementById("button_del_img").style.filter = colors.col_player_play;
+    document.getElementById("button_next_img").style.filter = colors.col_player_next;
+    document.getElementById("button_prev_img").style.filter = colors.col_player_prev;
+
     var stateBtn = document.getElementById("button_state_img");
     document.getElementById("Player_head").innerHTML = "";
     var PlayerList = document.getElementById("Player_head");
@@ -246,6 +313,150 @@ function change_state(){
     }
     reload(); 
 }
+
+var reveal_add = false;
+function load_add_station() {
+    deleteLoad = false;
+    if (!reveal_add){
+    block = true;
+    reveal_add = true;   
+    document.getElementById("button_add_img").style.filter = colors.col_player_play; 
+    document.getElementById("button_del_img").style.filter = colors.col_player_play;
+    document.getElementById("STATIONS_LIST").innerHTML = "";
+    var list = document.getElementById("STATIONS_LIST");    
+
+    var name = document.createElement("LI");
+    var uri = document.createElement("LI");
+    name.setAttribute("id", "add_name");
+    name.setAttribute("class", "Item");
+    name.style.backgroundColor = colors.col_station_card_background;
+    uri.setAttribute("id", "add_uri");
+    uri.setAttribute("class", "Item");
+    uri.style.backgroundColor = colors.col_station_card_background;
+    
+    var nameInput = document.createElement("INPUT");
+    nameInput.setAttribute("type", "text");
+    nameInput.setAttribute("id", "add_station_name");
+    nameInput.setAttribute("class", "add_input");
+    nameInput.setAttribute("autocomplete", "off");
+    nameInput.setAttribute("placeholder", language.add_name_placeholder);
+    nameInput.style.borderColor = colors.col_player_name;
+    nameInput.style.color = colors.col_player_title;
+    nameInput.value = add_station_history.station;
+    name.appendChild(nameInput);
+
+    var uriInput = document.createElement("INPUT");
+    uriInput.setAttribute("type", "text");
+    uriInput.setAttribute("id", "add_station_uri");
+    uriInput.setAttribute("class", "add_input");
+    uriInput.setAttribute("placeholder", language.add_uri_placeholder);
+    uriInput.style.borderColor = colors.col_player_name;
+    uriInput.style.color = colors.col_player_title;
+    uriInput.value = add_station_history.uri;
+    uriInput.setAttribute("autocomplete", "off");
+    uri.appendChild(uriInput);
+
+    var buttons = document.createElement("LI");
+    buttons.setAttribute("id", "buttons_add_rm");
+    buttons.setAttribute("class", "Item");
+
+    var add = document.createElement("BUTTON");
+    add.setAttribute("id", "button_add_add");
+    add.setAttribute("class", "Button_add");
+    add.setAttribute("type", "button");
+    add.setAttribute("onclick", "add_button_add()");
+    add.textContent = language.add_button_submit;
+    add.style.background = colors.add_button_submit;
+
+    var clear = document.createElement("BUTTON");
+    clear.setAttribute("id", "button_add_cancel");
+    clear.setAttribute("class", "Button_add");
+    clear.setAttribute("type", "button");
+    clear.textContent = language.add_button_clear;
+    clear.setAttribute("onclick", "add_button_clear()");
+    clear.style.background = colors.add_button_clear;
+
+    buttons.appendChild(clear);
+    buttons.appendChild(add);
+
+    list.appendChild(name);
+    list.appendChild(uri);
+    list.appendChild(buttons);
+
+    } else {
+        block = false;
+        document.getElementById("button_add_img").style.filter = colors.col_player_stop; 
+        if (document.getElementById("add_station_name").value == null) {add_station_history.station = "";}
+        else { add_station_history.station = document.getElementById("add_station_name").value; }
+        if (document.getElementById("add_station_uri").value == null) { add_station_history.uri = "";}
+        else { add_station_history.uri  = document.getElementById("add_station_uri").value; }
+        reveal_add = false;
+        reload();
+    }
+}   
+
+function add_button_clear(){
+    add_station_history.station = "";
+    add_station_history.uri = "";
+    document.getElementById("add_station_name").value = add_station_history.station;
+    document.getElementById("add_station_uri").value = add_station_history.uri;
+}
+
+function add_button_add(){
+    var station_name = document.getElementById("add_station_name");
+    var station_uri = document.getElementById("add_station_uri");
+    if (station_name.value == null || station_uri.value == null ||
+        station_name.value.length == 0 || station_uri.value.length == 0) {
+        alert(language.add_wrong_data_warning)
+        return;
+    }
+    var bodyJson = JSON.parse('{"name": "", "uri": ""}');
+    bodyJson["name"] = station_name.value;
+    bodyJson["uri"] = station_uri.value;
+    var replySet = JSON.parse(httpPost("/radio/api/station/put", JSON.stringify(bodyJson)));
+    alert(replySet["message"]);
+    add_button_clear();
+}
+
+var deleteLoad = false;
+function load_delete_station(){
+    reveal_add = false;
+    if (!deleteLoad) {
+        block = true;
+        document.getElementById("button_del_img").style.filter = colors.col_delete_button;
+        load_stations_list(true);
+        deleteLoad = true;
+    } else {
+        document.getElementById("button_del_img").style.filter = colors.col_player_play;
+        load_stations_list();
+        deleteLoad = false;
+        block = false;
+    }
+}
+
+function delete_station(id){
+    var nameJson = JSON.parse('{"name":""}');
+    nameJson["name"] = Stations_List_Json[id]["name"];
+    alert(nameJson);
+    var reply = JSON.parse(httpPost("/radio/api/station/delete", JSON.stringify(nameJson)));
+    alert(reply["message"]);
+    deleteLoad = false;
+    reload();
+}
+
+function next(){
+    httpGet("/radio/api/audio/next");
+    httpGet("/radio/api/audio/play");
+    reload();
+}
+
+function prev(){
+    httpGet("/radio/api/audio/prev");
+    httpGet("/radio/api/audio/play");
+    reload();
+}
+
+/* ANCHOR HTTP REQUEST */
 
 function httpGet(theUrl)
 {

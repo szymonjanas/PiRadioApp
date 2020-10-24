@@ -19,3 +19,65 @@ Header {
     padding-left: 7%;
     font-size: xx-large;
 }
+
+#button_add {
+    width: 28pt;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 9pt;
+    margin-bottom: 0;
+    left: 83%;
+    border: none;
+    outline: none; 
+}
+
+#button_add:focus {
+    border: none;
+    background: transparent;
+    outline: none; 
+}
+
+#button_add_img {
+    width: 100%;
+    text-align: right;
+    outline: none; 
+}
+
+#button_add_img:focus {
+    border: none;
+    background: transparent;
+    outline: none; 
+}
+
+#button_del {
+    width: 28pt;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 8pt;
+    margin-bottom: 0;
+    left: 70%;
+    border: none;
+    outline: none; 
+}
+
+#button_del:focus {
+    border: none;
+    background: transparent;
+    outline: none; 
+}
+
+#button_del_img {
+    width: 100%;
+    text-align: right;
+    outline: none; 
+}
+
+#button_del_img:focus {
+    border: none;
+    background: transparent;
+    outline: none; 
+}
