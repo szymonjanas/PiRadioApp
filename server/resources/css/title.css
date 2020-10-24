@@ -20,6 +20,15 @@ Header {
     font-size: xx-large;
 }
 
+#version {
+    text-align: left;
+    padding-left: 16%;
+    font-size: medium;
+    position: absolute;
+    top: 30pt;
+    color:#596A7A;
+}
+
 #button_add {
     width: 28pt;
     background: transparent;
@@ -81,3 +90,37 @@ Header {
     background: transparent;
     outline: none; 
 }
+
+/* VIEW */
+
+#button_view {
+    width: 28pt;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 8pt;
+    margin-bottom: 0;
+    left: 57%;
+    border: none;
+    outline: none; 
+}
+
+#button_view:focus {
+    border: none;
+    background: transparent;
+    outline: none; 
+}
+
+#button_view_img {
+    width: 100%;
+    text-align: right;
+    outline: none; 
+}
+
+#button_view_img:focus {
+    border: none;
+    background: transparent;
+    outline: none; 
+}
+

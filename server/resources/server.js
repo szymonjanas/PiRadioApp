@@ -45,6 +45,8 @@ var colors = class Colors {
         this.add_button_clear;
 
         this.col_delete_button;
+
+        this.col_view_button;
     }
 };
 
@@ -109,6 +111,8 @@ function load_colors() {
 
     colors.col_delete_button = "invert(16%) sepia(87%) saturate(6103%) hue-rotate(355deg) brightness(94%) contrast(106%)";
 
+    colors.col_view_button = "invert(20%) sepia(81%) saturate(1673%) hue-rotate(206deg) brightness(86%) contrast(90%)";
+
     document.body.style.setProperty("background", colors.col_background, "important");
 
     var header = document.getElementsByTagName("Header");
@@ -155,18 +159,18 @@ setInterval(function() {
     }
 }, 5000);
 
-function getMaxStationNameLength(){
-    var resol = resolution;
-    if (resol > 400) { resol = 400; }
-    if (resol < 340) { resol -= 100; }
+function getMaxStationNameLength(min = 800){
+    var resol = resolution; 
+    if (resol > min) { resol = min; }
+    else if (resol <= 320) { resol -= 100; }
     var ratio = 400/26;
     return parseInt(resol/ratio);
 }
 
-function cutText(text){
+function cutText(text, min = 800){
     var out;
-    if (text.length > getMaxStationNameLength() ) {
-        out  = document.createTextNode(text.slice(0,getMaxStationNameLength()-3) + "...");
+    if (text.length > getMaxStationNameLength(min) ) {
+        out  = document.createTextNode(text.slice(0,getMaxStationNameLength(min)-3) + "...");
     } else {
         out = document.createTextNode(text);;
     }
@@ -227,7 +231,11 @@ function load_stations_list(deleteStatus = false) {
             }
         }
         item.appendChild(station_radio_img)
-        item.appendChild(cutText(Stations_List_Json[iter]["name"]));
+        if (view_url){
+            item.appendChild(cutText(Stations_List_Json[iter]["uri"]));
+        } else {
+            item.appendChild(cutText(Stations_List_Json[iter]["name"]));
+        }
         item.appendChild(station_play_btn);
         document.getElementById("STATIONS_LIST").appendChild(item);    
     }
@@ -255,6 +263,7 @@ function load_player_state(){
     document.getElementById("button_del_img").style.filter = colors.col_player_play;
     document.getElementById("button_next_img").style.filter = colors.col_player_next;
     document.getElementById("button_prev_img").style.filter = colors.col_player_prev;
+    document.getElementById("button_view_img").style.filter = colors.col_view_button;
 
     var stateBtn = document.getElementById("button_state_img");
     document.getElementById("Player_head").innerHTML = "";
@@ -282,9 +291,9 @@ function load_player_state(){
     var current = JSON.parse(httpGet("/radio/api/audio/get/station"));
     if (current["code"] == 200){
         current = current["value"];
-        name.appendChild(cutText(current["name"]));
+        name.appendChild(cutText(current["name"], 321));
         if (current["title"].length == 0) {current["title"] = "title";}
-        title.appendChild(cutText(current["title"]));
+        title.appendChild(cutText(current["title"], 340));
     } else {
         name.appendChild(document.createTextNode("station"));
         title.appendChild(document.createTextNode("title"));
@@ -454,6 +463,18 @@ function prev(){
     httpGet("/radio/api/audio/prev");
     httpGet("/radio/api/audio/play");
     reload();
+}
+
+var view_url = false;
+function view_url_station(){
+    if (!view_url) {
+        view_url = true;
+        reload();
+    } else {
+        view_url = false;
+        reload();
+    }
+
 }
 
 /* ANCHOR HTTP REQUEST */
