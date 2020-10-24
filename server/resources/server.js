@@ -8,6 +8,76 @@ var stop_img = "radio/res/img/stop.png"
 
 let DEBUG = true;
 
+/* COLORS */
+var colors = class Colors {
+    constructor(){
+        this.col_background;
+        
+        this.col_title_background;
+        this.col_title_name;
+        this.col_title_border;
+        
+        this.col_station_card_background;
+        this.col_station_radio_img_playing;
+        this.col_station_radio_img;
+        this.col_station_name;
+        this.col_station_play;
+        this.col_station_playing;
+        
+        this.col_player_play;
+        this.col_player_stop;
+        this.col_player_img;
+        this.col_player_name;
+        this.col_player_title;
+        this.col_player_background;
+        this.col_player_border;
+    }
+};
+
+function load_colors() {
+
+    colors.col_background = "#333344";
+        
+    colors.col_title_background = "#113344";
+    colors.col_title_name = "#bbeecc";
+    colors.col_title_border = "#445577";
+    
+    colors.col_station_card_background = "#334455";
+    colors.col_station_radio_img_playing = "invert(45%) sepia(66%) saturate(845%) hue-rotate(310deg) brightness(90%) contrast(93%)";
+    colors.station_radio_img = "invert(56%) sepia(6%) saturate(625%) hue-rotate(131deg) brightness(92%) contrast(87%)";
+    colors.col_station_name = "#bbddcc";
+    colors.col_station_play = "invert(78%) sepia(48%) saturate(625%) hue-rotate(353deg) brightness(88%) contrast(95%)";
+    colors.col_station_playing = "invert(45%) sepia(66%) saturate(845%) hue-rotate(310deg) brightness(90%) contrast(93%)";
+    
+    colors.col_player_play = "invert(45%) sepia(66%) saturate(845%) hue-rotate(310deg) brightness(90%) contrast(93%)";
+    colors.col_player_stop = "invert(64%) sepia(9%) saturate(2912%) hue-rotate(14deg) brightness(93%) contrast(85%)";
+    colors.col_player_img = "invert(84%) sepia(30%) saturate(336%) hue-rotate(116deg) brightness(97%) contrast(86%)";
+    colors.col_player_name = "#bbeecc";
+    colors.col_player_title = "#bbeecc";
+    colors.col_player_background = "#334455";
+    colors.col_player_border = "#778888";
+
+    document.body.style.setProperty("background", colors.col_background, "important");
+
+    var header = document.getElementsByTagName("Header");
+    for (var i = 0; i < header.length; i++) {
+        header[i].style.background = colors.col_title_background;
+        header[i].style.borderColor = colors.col_title_border;
+    }
+
+    document.getElementById("title_name").style.color = colors.col_title_name;
+
+    var player = document.getElementsByTagName("Footer");
+    for (var i = 0; i < player.length; i++) {
+        player[i].style.background = colors.col_player_background;
+        player[i].style.borderColor = colors.col_player_border;
+    }
+
+
+}
+
+/* COLORS END */
+
 window.onload = function() {
     // if (resolution > 600) {
     //     console.log("RESOL", resolution);
@@ -27,6 +97,7 @@ window.onload = function() {
 };
 
 function reload() {
+    load_colors();
     load();
     load_player_state();
 }
@@ -67,7 +138,8 @@ function load() {
         var item = document.createElement("LI");
         item.setAttribute("class", "Item");
         item.setAttribute("id", iter);
-
+        item.style.backgroundColor = colors.col_station_card_background;
+        item.style.color = colors.col_station_name;
         var station_radio_img = document.createElement("img");
         station_radio_img.setAttribute("src", "/radio/res/img/player_radio.png")
         station_radio_img.setAttribute("class", "Station_radio_img")
@@ -80,17 +152,17 @@ function load() {
         if (Stations_List_Json[iter]["isPlaying"]) {
             playingNumber = iter;
             isPlayingSetted = true;
-            station_radio_img.style.filter = "invert(45%) sepia(66%) saturate(845%) hue-rotate(310deg) brightness(90%) contrast(93%)";
+            station_radio_img.style.filter = colors.col_station_radio_img_playing;
             station_play_btn.style.backgroundImage = 'url("/radio/res/img/playing.png")';            
-            station_play_btn.style.filter = "invert(45%) sepia(66%) saturate(845%) hue-rotate(310deg) brightness(90%) contrast(93%)";
+            station_play_btn.style.filter = colors.col_station_playing;
         } else {
             station_play_btn.style.backgroundImage = 'url("/radio/res/img/play.png")';
-            station_play_btn.style.filter = "invert(78%) sepia(48%) saturate(625%) hue-rotate(353deg) brightness(88%) contrast(95%)";
+            station_play_btn.style.filter = colors.col_station_play;
+            station_radio_img.style.filter = colors.station_radio_img;
         }      
         if (!isPlayingSetted){
             playingNumber = null;
         }
-
         item.appendChild(station_radio_img)
         item.appendChild(cutText(Stations_List_Json[iter]["name"]));
         item.appendChild(station_play_btn);
@@ -115,34 +187,6 @@ function set_station(id) {
     reload();
 }
 
-
-
-function button_state(){
-
-    var Station; 
-    var btn_img = document.getElementById("button_state_img");
-    var title = document.getElementById("Player_title");
-    var name = document.getElementById("Player_name");
-
-    if (playingNumber != null){ 
-        Station = Stations_List_Json[playingNumber];
-        console.log("Station", Station["name"]);
-        title.textContent = Station["title"];
-        name.textContent = Station["name"];
-        if (Station["isPlaying"]) {
-            btn_img.src = stop_img;
-            btn_img.style.filter = "invert(45%) sepia(66%) saturate(845%) hue-rotate(310deg) brightness(90%) contrast(93%)";
-        } else {
-            btn_img.src = play_img;
-            btn_img.style.filter = "invert(64%) sepia(9%) saturate(2912%) hue-rotate(14deg) brightness(93%) contrast(85%)";    
-        }
-    } else {
-        title.textContent = "title";
-        btn_img.src = play_img;
-        btn_img.style.filter = "invert(64%) sepia(9%) saturate(2912%) hue-rotate(14deg) brightness(93%) contrast(85%)";    
-    }
-}
-
 function load_player_state(){
     var player = document.getElementById("Player_footer");
     var stateBtn = document.getElementById("button_state_img");
@@ -151,16 +195,20 @@ function load_player_state(){
 
     var title = document.createElement("li");
     title.setAttribute("id", "Player_title");
+    title.style.color = colors.col_player_title;
     var title_img = document.createElement("img");
     title_img.setAttribute("class", "Player_img");
     title_img.src = "radio/res/img/player_title.png";
+    title_img.style.filter = colors.col_player_img;
     title.appendChild(title_img);
 
     var name = document.createElement("li");
     name.setAttribute("id", "Player_name");
+    name.style.color = colors.col_player_name;
     var name_img = document.createElement("img");
     name_img.setAttribute("class", "Player_img");
     name_img.src = "radio/res/img/player_radio.png";
+    name_img.style.filter = colors.col_player_img;
     name.appendChild(name_img);
 
     var state = JSON.parse(httpGet("/radio/api/audio/state"))["value"]["state"];
@@ -177,14 +225,15 @@ function load_player_state(){
 
     if (state == "play") {
         stateBtn.src = stop_img;
-        stateBtn.style.filter = "invert(45%) sepia(66%) saturate(845%) hue-rotate(310deg) brightness(90%) contrast(93%)";
+        stateBtn.style.filter = colors.col_player_play;
     } else {
         stateBtn.src = play_img;
-        stateBtn.style.filter = "invert(64%) sepia(9%) saturate(2912%) hue-rotate(14deg) brightness(93%) contrast(85%)";    
+        stateBtn.style.filter = colors.col_player_stop;    
     }
 
     PlayerList.appendChild(name);
     PlayerList.appendChild(title);
+
 }
 
 function change_state(){

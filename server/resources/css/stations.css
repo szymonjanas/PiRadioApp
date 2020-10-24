@@ -8,7 +8,6 @@
 }
 
 .Item {
-    background-color: #334455;
     margin: 0;
     margin-bottom: 10pt;
     max-width: 400pt;
@@ -16,7 +15,6 @@
     margin-left: 3pt;
     width: 95%;
     font-size: 14pt;
-    color: #bbddcc;
     padding-left: 4pt;
     height: 30pt;
     transform: translateX(-4%);
@@ -49,11 +47,9 @@
 .Station_radio_img {
     width: 20pt;
     float: left;
-    filter: invert(56%) sepia(6%) saturate(625%) hue-rotate(131deg) brightness(92%) contrast(87%);
     margin-right: 5pt;
     margin-left: 4pt;
 }
-
 
 .Station_playing_img {
     width: 30pt;

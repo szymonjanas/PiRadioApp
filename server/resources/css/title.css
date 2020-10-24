@@ -1,5 +1,4 @@
 Header {
-    background: #113344;
     padding: 0;
     margin: 0;
     text-align: center;
@@ -11,7 +10,7 @@ Header {
     height: 46pt;
     padding-top: 7pt;
     padding-bottom: 4pt;
-    border-bottom: 2pt groove #445577;
+    border-bottom: 2pt groove;
 
 }
 
@@ -19,7 +18,4 @@ Header {
     text-align: left;
     padding-left: 7%;
     font-size: xx-large;
-    color: #bbeecc;
 }
-
-

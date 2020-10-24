@@ -1,6 +1,5 @@
 Footer {
-    border-top: 2pt solid #778888;
-    background: #334455;
+    border-top: 2pt solid;
     padding: 0;
     text-align: left;
     vertical-align: left;
@@ -14,10 +13,6 @@ Footer {
     height: 12%;
     max-height: 65pt;
     padding-top: 7pt;
-}
-
-.Player {
-
 }
 
 /* PLAYER BUTTON */
@@ -62,10 +57,6 @@ Footer {
 
 /* PLAYER SUBTITLES */
 
-.Player {
-
-}
-
 #Player_head {
     margin: 0;
     padding: 0;
@@ -74,10 +65,6 @@ Footer {
     text-align: left; 
     width: 60%;
     margin-left: 10%;
-    /* max-width: 90%;
-    margin-left: 10%;
-    margin-bottom: 0;
-    */
 }
 
 #Player_name {
@@ -85,7 +72,6 @@ Footer {
     width: 100%;
     margin: 0;
     font-weight: bold;
-    color: #bbeecc;
     font-size: 120%;
 }
 
@@ -93,12 +79,10 @@ Footer {
     margin: 0;
     width: 100%;
     font-size: 100%;
-    color: #bbddcc;   
 }
 
 .Player_img {
     width: 20pt;
-    filter: invert(84%) sepia(30%) saturate(336%) hue-rotate(116deg) brightness(97%) contrast(86%);
     margin-right: 4pt;
     margin-bottom: 4pt;
 }
