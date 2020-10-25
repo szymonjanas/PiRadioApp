@@ -30,19 +30,8 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 
-## IPC LIBS ############################################
+## IPC and ENGINE LIBS ############################################
 set (ipcSrcPath ${enginePath}/source/ipc)
-set(ipcSrc
-    ${ipcSrcPath}/IPCMessage.cpp
-    ${ipcSrcPath}/IPCService.cpp
-    ${ipcSrcPath}/IPCRoutes.cpp
-)
-add_library(${PROJECT_NAME}IPClib SHARED ${ipcSrc})
-set (ipcLib ${PROJECT_NAME}IPClib)
-target_link_libraries(${ipcLib} zmq)
-
-
-## ENGINE LIBS ############################################
 include_directories(${enginePath}/include)
 set (engineSrcPath ${enginePath}/source)
 set(engineSrc
@@ -54,10 +43,14 @@ set(engineSrc
     ${engineSrcPath}/dbStationJson.cpp
     ${engineSrcPath}/RadioRoutes.cpp
     ${engineSrcPath}/Radio.cpp
+
+    ${ipcSrcPath}/IPCMessage.cpp
+    ${ipcSrcPath}/IPCService.cpp
+    ${ipcSrcPath}/IPCRoutes.cpp
 )
 add_library(${PROJECT_NAME}EngineLib SHARED ${engineSrc})
 set (engineLib ${PROJECT_NAME}EngineLib)
-target_link_libraries(${engineLib} ${ipcLib})
+target_link_libraries(${engineLib} zmq)
 
 
 ## APP EXECUTABLE #########################################
@@ -66,10 +59,10 @@ set(engineSrcMain ${enginePath}/PiRadioApp.cpp)
 add_executable(${PROJECT_NAME} ${engineSrcMain})
 target_link_libraries(
     ${PROJECT_NAME}
-    ${ipcLib}
     ${engineLib}
     ${GST_LIBRARIES}
     pthread
+    zmq
 )
 
 
@@ -89,9 +82,10 @@ add_executable(${project_name_engine_utests} ${engineTestsSrc})
 target_link_libraries(
     ${project_name_engine_utests}
     ${GTEST_LIBRARIES}
-    ${ipcLib}
     ${engineLib}
     ${GST_LIBRARIES}
     pthread
 )
 add_test(unitTest ${project_name_engine_utests})
+
+

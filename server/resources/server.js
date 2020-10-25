@@ -155,7 +155,7 @@ function reload() {
 var block = false;
 setInterval(function() {
     if (!block) {
-        load_stations_list();
+        load_player_state();
     }
 }, 5000);
 
@@ -193,6 +193,7 @@ function load_stations_list(deleteStatus = false) {
     Stations_List_Json = responseJson["value"];
     document.getElementById("STATIONS_LIST").innerHTML = "";
     var isPlayingSetted = false;
+    if (Stations_List_Json == null){return;}
     for (var iter = 0; iter < Stations_List_Json.length; ++iter) {
         var item = document.createElement("LI");
         item.setAttribute("class", "Item");
