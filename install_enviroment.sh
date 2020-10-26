@@ -30,4 +30,12 @@ pip3 install termcolor pyzmq
 echo ""
 echo ""
 
+echo "gtest"
+apt-get install libgtest-dev
+cd /usr/src/gtest
+cmake CMakeLists.txt
+make
+echo ""
+echo ""
+
 echo "DONE! ENVIROMENT INSTALLED." 
