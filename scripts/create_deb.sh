@@ -15,7 +15,7 @@ cd build
 cp -v PiRadioApp ../linuxconfig/usr/bin/piradio
 cp -v libPiRadioAppEngineLib.so ../linuxconfig/usr/bin/piradio
 cp -v server ../linuxconfig/usr/bin/piradio
-cd -v ..
+cd ..
 
 dpkg-deb -v --build linuxconfig
 mkdir -v out
