@@ -37,4 +37,6 @@ install deb
 ## Authors:
 | | responsibilities |
 | --- | --- |
-| @szymonjanas | |
+| @szymonjanas | engine, server |
+| | |
+| | |
