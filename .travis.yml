@@ -46,7 +46,9 @@ script:
   - cd /home/travis/build/PiRadioApp/PiRadioApp
 
   # COMPILE AND RUN
-  - ./build.sh
+  - cd scripts
+  - ./scripts/build.sh
+  - cd ..
   - ./build/PiRadioApp-engine-utests
 
   - python3 tests/
