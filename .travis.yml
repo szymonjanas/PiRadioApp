@@ -47,7 +47,7 @@ script:
 
   # COMPILE AND RUN
   - cd scripts
-  - ./scripts/build.sh
+  - ./build.sh
   - cd ..
   - ./build/PiRadioApp-engine-utests
 
