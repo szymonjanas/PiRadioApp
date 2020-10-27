@@ -15,6 +15,7 @@ var coloredID string =  "\033" + "[1;32m" + ID + "\033" + "[0m"
 var ColorStatus bool = false
 var Basic bool = false
 var LogFilePath string = "client.txt"
+var DebugStatus = false
 
 func getTime() string {
     t := time.Now()
@@ -52,7 +53,7 @@ type log string
 var Log log = "log"
 
 func (l *log) Debug(message string){
-	if Basic {
+	if !DebugStatus {
 		return
 	} 
 	msg := record{

@@ -1,19 +1,51 @@
-#include "Station.hpp"
-
+#include "RadioStation.hpp"
+#include "Logs.hpp"
 using namespace radio;
+
+Station::Station()
+{}
 
 Station::Station(std::string name, std::string uri) :
     name(name), uri(uri)
 {}
 
-std::string Station::getName() 
+Station::~Station()
+{}
+
+Station::Station(nlohmann::json jstation)
+{
+    try {
+        name = jstation["name"].get<std::string>();
+    } catch (nlohmann::json::exception& err) {
+        name = "NULL";
+    }
+    try {
+        uri = jstation["uri"].get<std::string>();
+    } catch (nlohmann::json::exception& err) {
+        uri = "";
+    }
+}
+
+std::string Station::getName() const
 {
     return name;
 }
 
-std::string Station::getUri() 
+std::string Station::getUri() const
 {
     return uri;
+}
+
+void Station::setPlaying(bool state)
+{
+    this->isPlaying = state;
+    if (state == false)
+        this->title = "";
+}
+
+void Station::setTitle(std::string title)
+{
+    this->title = title;
 }
 
 void Station::setName(std::string name) 
@@ -63,4 +95,15 @@ std::string Station::getUri(Station* station)
         return station->getUri();
     else
         return "StationDoesNotExist";
+}
+
+nlohmann::json Station::toJson()
+{
+    if (name.size() == 0 or uri.size() == 0) return nlohmann::json();
+    nlohmann::json jdata;
+    jdata["name"] = name;
+    jdata["uri"] = uri;
+    jdata["isPlaying"] = isPlaying;
+    jdata["title"] = title;
+    return jdata;
 }

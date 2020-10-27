@@ -2,7 +2,35 @@
 
 namespace radio {
 
-    Audio::Audio(audio::Engine* engine)
+    /*
+        STATICS CONVERTERS
+    */
+
+    std::string Audio::stateToString(audio::STATE state)
+    {
+        switch(state){
+            case audio::STATE::PLAY: return "play";
+            case audio::STATE::PAUSE: return "pause";
+            case audio::STATE::STOP: return "stop";
+            case audio::STATE::ERR: return "err";
+            default: return "wrong state";
+        }
+    }
+
+    audio::STATE Audio::stringToState(std::string state)
+    {
+        if (state == "play") return audio::STATE::PLAY;
+        if (state == "pause") return audio::STATE::PAUSE;
+        if (state == "stop") return audio::STATE::STOP;
+        return audio::STATE::ERR;
+    } 
+
+
+    /*
+        AUDIO MANAGER
+    */
+
+    Audio::Audio(audio::EngineInterface* engine)
     {
         this->engine = engine;
     }
@@ -14,54 +42,28 @@ namespace radio {
 
     void Audio::play()
     {
-        if (station != nullptr)
-            if (engine->getState() == audio::STATE::STOP)
-                engine->play(station->getUri());
-            else
-                engine->play();
+        if (station == nullptr) return;
+        if (engine->getState() == audio::STATE::STOP)
+            engine->play(station->getUri());
+        else
+            engine->play();
+        station->setPlaying(true);
+        
     }
 
     void Audio::pause()
     {
+        if (station == nullptr) return;
         if (engine->getState() == audio::STATE::PLAY)
             engine->pause();
     }
 
     void Audio::stop()
     {
-        if (engine->getState() != audio::STATE::STOP)
+        if (station == nullptr) return;
+        if (engine->getState() != audio::STATE::STOP){
             engine->stop();
-    }
-
-    std::string Audio::getDetails(std::string type)
-    {
-        if (type == "state")
-        {
-            switch (engine->getState())
-            {
-                case audio::STATE::PLAY:
-                    return "play";
-                case audio::STATE::PAUSE:
-                    return "pause";
-                case audio::STATE::STOP:
-                    return "stop";
-            }
-        }
-        else if (type == "title")
-        {
-            return engine->getTitle();
-        }
-        else if (type == "uri")
-        {
-            return Station::getUri(station);
-        }
-        else if (type == "name")
-        {
-            return Station::getName(station);
-        }
-        else
-        {
-            return "error! wrong command!";
+            station->setPlaying(false);
         }
     }
 
@@ -81,33 +83,25 @@ namespace radio {
         }
     }
 
-    bool Audio::canSetState(std::string state)
+    void Audio::setState(audio::STATE state)
     {
-        if (getState() == state)
-            return false;
-        else if (getState() == "stop" && state == "play" && station != nullptr)
-            return true;
-        else if (getState() == "play" && state == "stop")
-            return true;
-        return false;
+        switch(state) {
+            case audio::STATE::PLAY: this->play(); break;
+            case audio::STATE::PAUSE: this->pause(); break;
+            case audio::STATE::STOP: this->stop(); break;
+        }
     }
 
-    std::string Audio::toString()
+    bool Audio::canSetState(std::string state)
     {
-        std::string str;
-        if (station != nullptr)
-        {
-            str += station->getName() + " ";
-            str += engine->getTitle() + " ";
-            str += station->getUri();
-        }
-        else
-        {
-            str += "unknown ";
-            str += "unknown ";
-            str += "unknown";
-        }
-        return str;
+        std::string currState = radio::Audio::stateToString(getState());
+        if (currState == state)
+            return false;
+        else if (currState == "stop" && state == "play" && station != nullptr)
+            return true;
+        else if (currState == "play" && state == "stop")
+            return true;
+        return false;
     }
 
     void Audio::setStation(Station *station)
@@ -122,18 +116,10 @@ namespace radio {
         return station;
     }
 
-    std::string Audio::getState()
+    audio::STATE Audio::getState()
     {
         audio::STATE state = engine->getState();
-        switch (state)
-        {
-            case audio::STATE::PLAY:
-                return "play";
-            case audio::STATE::PAUSE:
-                return "pause";
-            case audio::STATE::STOP:
-                return "stop";
-        }
+        return state;
     }
 
-}
+} // namespace radio

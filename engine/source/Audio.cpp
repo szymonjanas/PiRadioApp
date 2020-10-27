@@ -22,7 +22,7 @@ void Engine::debugMessage()
                 gst_message_parse_tag(msg, &tags);
                 GValue *value;
                 gchar *strTags = gst_tag_list_to_string(tags);
-                log::info("Tag list: " + std::string(strTags));
+                Log::info("Tag list: " + std::string(strTags));
 
                 gboolean size =
                         gst_tag_list_get_tag_size(tags, GST_TAG_TITLE);
@@ -31,7 +31,7 @@ void Engine::debugMessage()
                 {
                     gchar *title;
                     gst_tag_list_get_string(tags, GST_TAG_TITLE, &title);
-                    log::info("VALUE: " + std::string(title));
+                    Log::info("VALUE: " + std::string(title));
                 }
         }
 }
@@ -98,20 +98,20 @@ void Engine::play(std::string url)
 void Engine::play()
 {
     gst_element_set_state(pipeline, GST_STATE_PLAYING);
-    log::warn("Running...");
+    Log::warn("Running...");
     state = STATE::PLAY;
 }
 
 void Engine::pause()
 {
     gst_element_set_state(pipeline, GST_STATE_PAUSED);
-    log::warn("Paused.");
+    Log::warn("Paused.");
     state = STATE::PAUSE;
 }
 
 void Engine::stop()
 {
-    log::warn("Returned, stopping playback.");
+    Log::warn("Returned, stopping playback.");
     gst_element_set_state(pipeline, GST_STATE_NULL);
     gst_object_unref(pipeline);
     state = STATE::STOP;

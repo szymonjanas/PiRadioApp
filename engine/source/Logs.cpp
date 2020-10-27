@@ -31,7 +31,7 @@ static bool colorStatus = false;
 static std::string filePath = "";
 static bool fileStatus = false;
 
-static bool debugStatus = true;
+static bool debugStatus = false;
 static bool basicView = false;
 
 static const std::string ID = "engine: ";
@@ -64,7 +64,7 @@ namespace logSave
             if (out.fail() || !out.good())
             {
                 fileStatus = false;
-                log::err("Cannot save log to file!");
+                Log::err("Cannot save Log to file!");
             }
             else
             {
@@ -96,87 +96,87 @@ namespace logSave
         }
     };
 
-    void saveLog(std::string log){
+    void saveLog(std::string Log){
         if (!debugStatus)
             return;
         if (fileStatus && filePath.size() > 0)
-            append(log);
+            append(Log);
     }
 
-    void printLog(Log &log){
+    void printLog(Log &Log){
         if (consoleStatus)
             if (colorStatus)
-                std::cout << log.toStringColored() << std::endl;
+                std::cout << Log.toStringColored() << std::endl;
             else
-                std::cout << log.toString() << std::endl;
-        saveLog(log.toString());
+                std::cout << Log.toString() << std::endl;
+        saveLog(Log.toString());
     }
 
-    void printClrLog(Log &log){
+    void printClrLog(Log &Log){
         if (consoleStatus)
-            std::cout << log.toStringClr() << std::endl;
-        saveLog(log.toStringClr());
+            std::cout << Log.toStringClr() << std::endl;
+        saveLog(Log.toStringClr());
     }
 
 } // namespace logSave
 
-namespace log {
+namespace Log {
 
     void debug(std::string message)
     {
-        if (basicView) return;
-        logSave::Log log = {
+        if (!debugStatus) return;
+        logSave::Log Log = {
             getTime(),
             "DEBUG",
             color::c_cyan_light,
             message
         };
-        logSave::printLog(log);
+        logSave::printLog(Log);
     }
 
     void info(std::string message)
     {
         if (basicView) return;
-        logSave::Log log = {
+        logSave::Log Log = {
             getTime(),
             "INFO",
             color::c_blue_light,
             message
         };
-        logSave::printLog(log);
+        logSave::printLog(Log);
     }
 
     void msg(std::string message)
     {
-        logSave::Log log = {
+        logSave::Log Log = {
             getTime(),
             "INFO",
             color::c_blue_light,
             message
         };
-        logSave::printClrLog(log);
+        logSave::printClrLog(Log);
     }
 
     void warn(std::string message)
     {
-        logSave::Log log = {
+        logSave::Log Log = {
             getTime(),
             "WARN",
             color::c_yellow,
             message
         };
-        logSave::printLog(log);
+        logSave::printLog(Log);
     }
 
     void err(std::string message)
     {
-        logSave::Log log = {
+        logSave::Log Log = {
             getTime(),
             "(!) ERROR",
             color::c_red,
             message
         };
-        logSave::printLog(log);
+        logSave::printLog(Log);
     }
 
     namespace switches
@@ -233,4 +233,4 @@ namespace log {
         }
 
     } // namespace switches
-} // namespace log
+} // namespace Log

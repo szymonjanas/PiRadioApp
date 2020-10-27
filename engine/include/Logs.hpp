@@ -7,7 +7,7 @@
 #include <fstream>
 #include <algorithm>
 
-namespace log
+namespace Log
 {
     void debug(std::string message);
     /*
@@ -83,4 +83,4 @@ namespace log
 
     } // namespace switches
 
-} // namespace log
+} // namespace Log

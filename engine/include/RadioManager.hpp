@@ -1,33 +1,39 @@
 #pragma once
 
+#include <string>
+#include "json.hpp"
 #include "Database.hpp"
-#include "dbStationTxt.hpp"
-#include "Communication.hpp"
+#include "dbStationJson.hpp"
 #include "Logs.hpp"
+#include "RadioStation.hpp"
 #include "AudioManager.hpp"
+#include "ipc/IPCService.hpp"
+#include "ipc/IPCRoutes.hpp"
+
+// #include <stdlib.h>
 
 namespace radio {
 
     class Manager
     {
 
-        db::Database<radio::Station, std::string> *database;
+        db::Database<std::string, radio::Station> *database;
         radio::Audio *audio;
-        comm::Engine *communication;
+        ipc::IPCService *service;
+        ipc::IPCRoutes *routes;
 
-    public:
-        Manager(db::Database<radio::Station, std::string> *database,
-                     radio::Audio *audio,
-                     comm::Engine *communication);
+        public:
+        Manager(db::Database<std::string, radio::Station> *database,
+                radio::Audio *audio,
+                ipc::IPCService *service,
+                ipc::IPCRoutes *routes);
         ~Manager();
 
-        void setDatabase(db::Database<Station, std::string> *database);
+        void setDatabase(db::Database<std::string, radio::Station> *database);
         void setAudio(radio::Audio *audioEngineManager);
-        void setCommunication(comm::Engine *communication);
-        std::string execute(std::vector<std::string> command);
+        void setService(ipc::IPCService *service);
+        void setRoutes(ipc::IPCRoutes *routes);
         void start();
     };
-
-
 
 }

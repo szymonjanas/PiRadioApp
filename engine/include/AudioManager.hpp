@@ -3,15 +3,14 @@
 #include "Audio.hpp"
 #include "Logs.hpp"
 #include "Database.hpp"
-#include "Station.hpp"
-#include "Communication.hpp"
+#include "RadioStation.hpp"
 
 namespace radio {
 
     class Audio
     {
 
-        audio::Engine* engine;
+        audio::EngineInterface* engine;
         radio::Station *station = nullptr;
 
         void play();
@@ -19,7 +18,7 @@ namespace radio {
         void stop();
 
     public:
-        Audio(audio::Engine* engine);
+        Audio(audio::EngineInterface* engine);
         ~Audio();
         Audio(Audio const &) = delete;
         void operator=(Audio const &) = delete;
@@ -27,13 +26,15 @@ namespace radio {
         void setStation(radio::Station *station);
         radio::Station *getStation();
 
-        std::string getState();
-        std::string getDetails(std::string type);
+        audio::STATE getState();
 
+        void setState(audio::STATE state);
         void setState(std::string state);
         bool canSetState(std::string state);
+        
+        static std::string stateToString(audio::STATE state);
+        static audio::STATE stringToState(std::string state);
 
-        std::string toString();
     };
 
-}
+} // namespace radio

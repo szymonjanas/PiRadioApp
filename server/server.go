@@ -1,51 +1,76 @@
 package main
 
 import (
-    "html/template"
     "net/http"
     "os"
+    "encoding/json"
+    "io/ioutil"
+    "fmt"
     zmq "github.com/pebbe/zmq4"
 )
 
+type SettingsStruct struct {
+    Internal_Communication_Address string
+    Server_Host_Address string
+    Resource_Path string 
+}
+var Settings SettingsStruct
+
+type StationToEngine struct {
+    Name string `json:"name"`
+    Uri string `json:"uri"`
+}
+
+type StationFromEngine struct {
+    Name string `json:"name"`
+    Uri string `json:"uri"`
+    IsPlaying bool `json:"isPlaying"`    
+    Title string `json:"title"`
+}
+
+type MessageToServer struct {
+    Route string `json:"route"`
+    Value string `json:"value"`
+}
+
+type MessageFromServer struct {
+    Code int `json:"code"`
+    Message string `json:"message"`
+    Value string `json:"value"`
+}
+
+type StationName struct {
+    Name string `json:"name"`
+}
+
+type StationsArray struct {
+    Stations []StationFromEngine
+}
+
+type PlayingState struct {
+    State string `json:"state"`
+}
+
+
+/*
+    Internal communication
+*/
+var checkedStation string
+
 var client *zmq.Socket
-var checkedStation string = "none"
-var DEBUG bool = true
-
-type Message struct {
-    Message string
-    Type bool
-}
-
-var informMessage Message 
-
-type StationsName struct {
-    Name string
-}
-
-type StationsPageData struct {
-    Stations []StationsName
-}
-
-type PlayingDetails struct {
-    Station string
-    Title string
-    Url string
-}
-
-type ViewPageData struct {
-    StationsData StationsPageData
-    PlayingData PlayingDetails
-    Msg Message
-    State bool
-}
-
-func getStations() []StationsName {
-    var stations []StationsName
-    strStations := Comm.SendRequest("station get all")
-    for i := range strStations {
-        stations = append(stations, StationsName{strStations[i]})
+func SendRequest(request string) string {
+    /*
+        send request; recive, decode and return reply
+    */
+    (*client).SendMessage(request, 0)
+    Log.Debug("Send request: " + request)
+    msg, err := (*client).RecvMessage(0)
+    if err != nil {
+        Log.Err("Sending error: " + err.Error())
     }
-    return stations
+    reply := msg[0]
+    Log.Debug("Secive replay: " + reply)
+    return reply 
 }
 
 /* 
@@ -53,162 +78,278 @@ func getStations() []StationsName {
 */
 
 func viewHandler(w http.ResponseWriter, r *http.Request){
-    Log.Debug("main page")
-    tmpl, err := template.ParseFiles("../server/resources/server.html")
-    if err != nil {
-        Log.Err("Error occure: " + err.Error())
-        w.WriteHeader(http.StatusInternalServerError)
-        return
-    }
-    
-    current := Comm.SendRequest("station get current")
-    var StateFlag bool = false
-    StateChecker := Comm.SendRequest("isWorking")[0]
-    Log.Warn("StateChecker: " + StateChecker)
-    if  StateChecker == "working" {
-        StateFlag = true
-    } 
-    details := ViewPageData {
-        StationsData: StationsPageData{
-            Stations: getStations(),
-        },
-        PlayingData: PlayingDetails {
-            Station: current[0],
-            Title: current[1],
-            Url: current[2],
-        },
-        Msg: informMessage,
-        State: StateFlag,
-    }
+    fmt.Fprintf(w, "Welcome to the HomePage!")
+}
 
+func getAllHandler(w http.ResponseWriter, r *http.Request){
+    type MessageFromServerArr struct {
+        Code int `json:"code"`
+        Message string `json:"message"`
+        Value []StationFromEngine `json:"value"`
+    }
+    var request MessageToServer
+    request.Route = "database/get/all"
+    request.Value = ""
+    reqJson, _ := json.Marshal(request)
+    got := SendRequest(string(reqJson))
+    var reply MessageFromServerArr
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
+}
 
-    tmpl.Execute(w, details)
+func getCurrentHandler(w http.ResponseWriter, r *http.Request){
+    type MessageFromServerCurr struct {
+        Code int `json:"code"`
+        Message string `json:"message"`
+        Value StationFromEngine `json:"value"`
+    }
+    var request MessageToServer
+    request.Route = "audio/get/current"
+    request.Value = ""
+    reqJson, _ := json.Marshal(request)
+    got := SendRequest(string(reqJson))
+    var reply MessageFromServerCurr
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
 }
 
 func playHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("engine state set play")
-    Log.Info("play ")
-    http.Redirect(w, r, "/radio/", http.StatusFound)
+    var state PlayingState 
+    state.State = "play"
+    stateJson, _ := json.Marshal(state)
+    var request MessageToServer
+    request.Route = "audio/set/state"
+    request.Value = string(stateJson)
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
 } 
 
 func stopHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("engine state set stop")
-    Log.Info("stop")
-    http.Redirect(w, r, "/radio/", http.StatusFound)
+    var state PlayingState 
+    state.State = "stop"
+    stateJson, _ := json.Marshal(state)
+    var request MessageToServer
+    request.Route = "audio/set/state"
+    request.Value = string(stateJson)
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
 } 
 
 func prevHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("station switch prev")
-    Log.Info("prev")
-    http.Redirect(w, r, "/radio/", http.StatusFound)
+    var request MessageToServer
+    request.Route = "audio/switch/prev"
+    request.Value = ""
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
 } 
 
 func nextHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("station switch next")
-    Log.Info("next")
-    http.Redirect(w, r, "/radio/", http.StatusFound)
+    var request MessageToServer
+    request.Route = "audio/switch/next"
+    request.Value = ""
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
+} 
+
+func stateHandler(w http.ResponseWriter, r *http.Request){
+    type MessageFromServerState struct {
+        Code int `json:"code"`
+        Message string `json:"message"`
+        Value PlayingState `json:"value"`
+    }
+    var request MessageToServer
+    request.Route = "audio/get/state"
+    request.Value = ""
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageFromServerState
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
 } 
 
 func setHandler(w http.ResponseWriter, r *http.Request){
-    body := r.FormValue("Stations")
-    checkedStation = body
-    Log.Info("checked " + checkedStation)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var name StationName
+    if err := json.Unmarshal([]byte(reqBody), &name); err != nil {
+        Log.Err(err.Error())
+    }
+    nameJson, _ := json.Marshal(name)
+    var request MessageToServer
+    request.Route = "audio/set/station"
+    request.Value = string(nameJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
+		Log.Err(err.Error())
+    }
+}
+
+func deleteHandler(w http.ResponseWriter, r *http.Request){
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var name StationName
+    if err := json.Unmarshal([]byte(reqBody), &name); err != nil {
+        Log.Err(err.Error())
+    }
+    nameJson, _ := json.Marshal(name)
+    var request MessageToServer
+    request.Route = "database/delete"
+    request.Value = string(nameJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
+		Log.Err(err.Error())
+    }
 } 
 
-func submitHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("station set " + checkedStation)
-    Comm.SendRequest("engine state set play")
-    Log.Info("submit " + checkedStation)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
+func putHandler(w http.ResponseWriter, r *http.Request){
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var station StationToEngine
+    if err := json.Unmarshal([]byte(reqBody), &station); err != nil {
+        Log.Err(err.Error())
+    }
+    stationJson, _ := json.Marshal(station)
+    var request MessageToServer
+    request.Route = "database/put"
+    request.Value = string(stationJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
+		Log.Err(err.Error())
+    }
 } 
 
-func setsubmitHandler(w http.ResponseWriter, r *http.Request){
-    body := r.FormValue("Stations")
-    checkedStation = body
-    Comm.SendRequest("station set " + checkedStation)
-    Comm.SendRequest("engine state set play")
-    Log.Info("checked and submit " + checkedStation)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
-} 
-
-func removeHandler(w http.ResponseWriter, r *http.Request){
-    Comm.SendRequest("station remove " + checkedStation)
-    Log.Info("remove " + checkedStation)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
-} 
-
-func addHandler(w http.ResponseWriter, r *http.Request){
-    name := r.FormValue("stationName")
-    uri := r.FormValue("stationUri")
-    Comm.SendRequest("station new " + name + " " + uri)
-    Log.Info("add new " + name + " " + uri)
-    http.Redirect(w, r, "/radio/", http.StatusFound)
-} 
+/*
+    MAIN
+*/
 
 func main() {
 
     args := os.Args[1:]
 
-    engineUri := "ipc://piradio.app"
-    serveUri := ":8080"
-    resourcePath := "../server/resources/"
+    Settings.Internal_Communication_Address = "tcp://127.0.0.1:7982"
+    Settings.Server_Host_Address = ":8080"
+    Settings.Resource_Path = "server/resources"
 
     for i := 0; i < len(args); i++ {
-        if args[i] == "--cmd-colors" || args[i] == "-col" {
+        if args[i] == "-col" {
             ColorStatus = true
-        } else if args[i] == "--basic-cmd" || args[i] == "-b" {
+        } else if args[i] == "--basic" {
             Basic = true
-        } else if args[i] == "--icomm-address" || args[i] == "-ic" {
+        } else if args[i] == "-ica" {
             i++;
-            engineUri = "tcp://" + args[i]
-            Log.Warn("Setted uri: " + engineUri)
-        } else if args[i] == "--icomm-port" || args[i] == "-icp" {
+            Settings.Internal_Communication_Address = args[i]
+        }  else if args[i] == "-sha" {
             i++;
-            engineUri = "tcp://localhost:" + args[i]
-            Log.Warn("Setted uri port: " + engineUri)
-        } else if args[i] == "--host-address" || args[i] == "-h" {
+            Settings.Server_Host_Address = args[i]
+        }  else if args[i] == "-res" {
             i++;
-            serveUri = args[i]
-            Log.Warn("Setted serve address: " + serveUri)
-        } else if args[i] == "--host-port" || args[i] == "-hp" {
-            i++;
-            serveUri = ":" + args[i]
-            Log.Warn("Setted serve port: " + serveUri)
-        } else if args[i] == "--resource" || args[i] == "-res" {
-            i++;
-            resourcePath = args[i]
-            Log.Warn("Setted resource path: " + resourcePath)
-        } else if args[i] == "--debug" || args[i] == "-d" {
-            
+            Settings.Resource_Path = args[i]
+        } else if args[i] == "--debug" {
+            DebugStatus = true
         }
+    }
+
+    Log.Warn("Internal Communication address: " + Settings.Internal_Communication_Address)
+    Log.Warn("Server Host Address: " + Settings.Server_Host_Address)
+    Log.Warn("Setted resource path: " + Settings.Resource_Path)
+    if DebugStatus {
+        Log.Warn("Debug mode on!")
+    }
+    if Basic {
+        Log.Warn("Basic mode on!")
+    }
+    if ColorStatus {
+        Log.Warn("Colors mode on!")
     }
 
     socket, errSocket := zmq.NewSocket(zmq.PAIR)
     client = socket
 
-    (*client).Connect(engineUri)
+    (*client).Connect(Settings.Internal_Communication_Address)
     if errSocket != nil {
-        Log.Err("error socket: " + errSocket.Error())
+        Log.Err("Error socket: " + errSocket.Error())
     } else {
-        Log.Warn("connected to server: " + engineUri)
+        Log.Warn("Internal connected to engine: " + Settings.Internal_Communication_Address)
     }
     
-    http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir(resourcePath))))
-    http.HandleFunc("/radio/api/play", playHandler)
-    http.HandleFunc("/radio/api/stop", stopHandler)
-    http.HandleFunc("/radio/api/set", setHandler)
-    http.HandleFunc("/radio/api/next", nextHandler)
-    http.HandleFunc("/radio/api/prev", prevHandler)
-    http.HandleFunc("/radio/api/submit", submitHandler)
-    http.HandleFunc("/radio/api/setsubmit", setsubmitHandler)
-    http.HandleFunc("/radio/api/remove", removeHandler)
-    http.HandleFunc("/radio/api/add", addHandler)
-    http.HandleFunc("/radio/", viewHandler)
+    http.Handle("/radio/res/", http.StripPrefix("/radio/res/", http.FileServer(http.Dir(Settings.Resource_Path))))
+    http.HandleFunc("/radio/api/station/all", getAllHandler)
+    http.HandleFunc("/radio/api/station/delete", deleteHandler)
+    http.HandleFunc("/radio/api/station/put", putHandler)
+    http.HandleFunc("/radio/api/audio/set", setHandler)
+    http.HandleFunc("/radio/api/audio/get/station", getCurrentHandler)
+    http.HandleFunc("/radio/api/audio/play", playHandler)
+    http.HandleFunc("/radio/api/audio/stop", stopHandler)
+    http.HandleFunc("/radio/api/audio/next", nextHandler)
+    http.HandleFunc("/radio/api/audio/prev", prevHandler)
+    http.HandleFunc("/radio/api/audio/state", stateHandler)
+    http.HandleFunc("/radio", viewHandler)
 
-    Log.Warn("serve uri: " + serveUri)
-    errServe := http.ListenAndServe(serveUri, nil)
+    Log.Info("Host running...")
+    errServe := http.ListenAndServe(Settings.Server_Host_Address, nil)
     if errServe != nil {
-        Log.Err("error serve: " + errServe.Error()) 
+        Log.Err("Error host: " + errServe.Error()) 
     }
 }

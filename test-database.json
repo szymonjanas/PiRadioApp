@@ -1,0 +1,12 @@
+{
+    "stations" : [
+        {
+            "name" : "Test Radio One",
+            "uri" : "http://testradio.one/stream"
+        },
+        {
+            "name" : "Test Radio Two",
+            "uri"  : "http://testradio.two/player?mp3"
+        }
+    ]
+}

@@ -1,26 +1,31 @@
-# PiRadio App
-
+# PiRadio
+[![Build Status](https://travis-ci.com/PiRadioApp/PiRadioApp.svg?branch=master)](https://travis-ci.com/PiRadioApp/PiRadioApp)
 ## Description
 ```
 Simple embedded radio player.
-Play online radio from given stream URL on Linux (e.g. Raspberry Pi).
+Control device radio via local website and play online radio from given stream URL on Linux (e.g. Raspberry Pi).
 ```
 ## Features:
-- playing radio from any radio stream,
-- remote control through web: local website, http rest api, 
-- managing radio stations (add/remove/change),
-- storeging radio stations in simple database (txt file),
+- playing radio from any audio stream,
+- remote control and manage through web: local website, http rest api, 
+- database in json file -> easy to manage,
+
+## Whats more:
+- colorfull console logs from engine and server,
+- logs saved to file,
 
 ## Technology
-### Engine:
-- C/C++
-- Gstreamer - audio engine,
-- ZMQ - ipc communication,
-- CMake,
-### Server
-- Golang - host website,
-- ZMQ - ipc communication,
-- html/css/js,
+| Engine | Server | Tests |
+| :-: | :-: | :-: |
+| C/C++ | Golang | C++/Python |
+
+### External frameworks and Libs
+| Engine | Server | Tests |
+| :-: | :-: | :-: |
+| gstreamer | zmq | gtest |
+| zmq |  | termcolor |
+| nlohmann::json | | pyzmq |
+
 
 ## How to use
 ### Simple user manual:
@@ -29,5 +34,4 @@ Play online radio from given stream URL on Linux (e.g. Raspberry Pi).
 3. plug raspberry to audio device (speakers),
 4. play and enjoy your favourite online radio, and control it through the website.
 
-More about deploy and use you can read in `wiki`.
-### Install and Run
+## [More about deploy and use you can read here.](docs/README.md)

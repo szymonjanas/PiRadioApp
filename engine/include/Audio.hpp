@@ -1,8 +1,10 @@
 #pragma once
 
-#include <gst/gst.h>
 #include <string>
-#include "Station.hpp"
+
+#include <gst/gst.h>
+
+#include "RadioStation.hpp"
 #include "Logs.hpp"
 
 namespace audio
@@ -11,11 +13,58 @@ namespace audio
     {
         PLAY,
         PAUSE,
-        STOP
+        STOP,
+        ERR
     };
 
-    class Engine
+    class EngineInterface 
     {
+
+    public:
+        virtual ~EngineInterface(){}
+        virtual void play(std::string url) = 0;
+        virtual void play() = 0;
+        virtual void pause() = 0;
+        virtual void stop() = 0;
+        virtual void debugMessage() = 0;
+        virtual std::string getTitle() = 0;
+        virtual void setVolume(double volume) = 0;
+        virtual STATE getState() = 0;
+
+    };
+
+    class EngineFake : public EngineInterface 
+    {
+        /*
+            Fake class for developing and testing purpose
+        */
+
+       STATE state = STATE::STOP;
+
+    public:
+
+        void play(std::string url) override {play();}
+        void play() override {state = STATE::PLAY;}
+        void pause() override {state = STATE::PAUSE;}
+        void stop() override {state = STATE::STOP;}
+        void debugMessage() override {}
+        std::string getTitle() override {return "Title Test Text";}
+        void setVolume(double volume) override {}
+        STATE getState() override {return state;}
+
+    };
+
+    class Engine : public EngineInterface
+    {
+        /*
+            Engine class is a simple player.
+            To play audio you must pass uri to source (web stream, local file, etc).
+            Audio can be manipulated by: play(), pause(), stop().
+            To get information about current music (in web stream): getTitle(), 
+                but there is no guarantee to get title (can be unavaliable or unknown).
+            Audio player is playing stream on separate thread.
+        */
+
         GstElement *pipeline;
         GstBus *bus;
         GstMessage *msg;
@@ -28,14 +77,14 @@ namespace audio
     public:
         Engine();
         ~Engine();
-        void play(std::string url);
-        void play();
-        void pause();
-        void stop();
-        void debugMessage();
-        std::string getTitle();
-        void setVolume(double volume);
-        STATE getState();
+        void play(std::string url) override;
+        void play() override;
+        void pause() override;
+        void stop() override;
+        void debugMessage() override;
+        std::string getTitle() override;
+        void setVolume(double volume) override;
+        STATE getState() override;
     };
 
 } // namespace audio
