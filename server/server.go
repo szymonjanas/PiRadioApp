@@ -5,7 +5,7 @@ import (
     "os"
     "encoding/json"
     "io/ioutil"
-    "fmt"
+    "html/template"
     zmq "github.com/pebbe/zmq4"
 )
 
@@ -78,7 +78,15 @@ func SendRequest(request string) string {
 */
 
 func viewHandler(w http.ResponseWriter, r *http.Request){
-    fmt.Fprintf(w, "Welcome to the HomePage!")
+    tmpl, err := template.ParseFiles("../server/resources/index.html")
+    if err != nil {
+        Log.Err("Error occur: " + err.Error())
+        w.WriteHeader(http.StatusInternalServerError)
+        return
+    }
+    type Fake struct {}
+    var obj Fake
+    tmpl.Execute(w, obj)
 }
 
 func getAllHandler(w http.ResponseWriter, r *http.Request){

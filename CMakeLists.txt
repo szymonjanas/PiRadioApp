@@ -37,10 +37,6 @@ set(ipcSrc
     ${ipcSrcPath}/IPCService.cpp
     ${ipcSrcPath}/IPCRoutes.cpp
 )
-add_library(${PROJECT_NAME}IPClib SHARED ${ipcSrc})
-set (ipcLib ${PROJECT_NAME}IPClib)
-target_link_libraries(${ipcLib} zmq)
-
 
 ## ENGINE LIBS ############################################
 include_directories(${enginePath}/include)
@@ -55,9 +51,9 @@ set(engineSrc
     ${engineSrcPath}/RadioRoutes.cpp
     ${engineSrcPath}/Radio.cpp
 )
-add_library(${PROJECT_NAME}EngineLib SHARED ${engineSrc})
+add_library(${PROJECT_NAME}EngineLib SHARED ${engineSrc} ${ipcSrc})
 set (engineLib ${PROJECT_NAME}EngineLib)
-target_link_libraries(${engineLib} ${ipcLib})
+target_link_libraries(${engineLib} zmq)
 
 
 ## APP EXECUTABLE #########################################

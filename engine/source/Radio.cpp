@@ -2,7 +2,7 @@
 
 namespace radio {
 
-    void Radio::add(std::string arg, execArgFunc func)
+    void Radio::add(std::string arg, execArgFunc func) 
     {
         ExecArgs::add(arg, (execArgsFuncPtr)(func));
     }
