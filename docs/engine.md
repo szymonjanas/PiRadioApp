@@ -47,8 +47,15 @@ Best option is to use framework ZMQ to communicate.
 | `audio/set/station` | `route` | `status`,Station `name` in JSON | set station by `name`| 
 | `audio/get/state` | `route` | `status`,  `state` in JSON value | return Audio Engine [state](#engine-state) | 
 | `audio/get/current` | `route` | `status`, return current Station in JSON value | return all detail about current station |
+| `audio/volume/get` | `route` | `status` with `volume` | return volume level |
+| `audio/volume/set` | `route`, `volume` | `status` with `volume` | set volume specific level, return volume level |
+| `audio/volume/mute` | `route` | `status` with `volume` | set volume to off, or set previous level |
+| `audio/volume/up` | `route` with `volume` | `status` with `volume` | increase volume with given `value` |
+| `audio/volume/down` | `route` with `volue` | `status` with `volume` | decrease volume with given `value` |
 
 `status` mean `code` and `message` about status of execution. [More Details](#message-format---json---from-engine)
+More info about `volume` [here](server.md)
+
 ## Details
 ---
 ### Default Path 

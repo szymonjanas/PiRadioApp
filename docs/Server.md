@@ -40,6 +40,11 @@ Arguments avaliable only when Engine run in `--only` mode, and you want to run s
 | `/radio/api/audio/state` | none | `status`, Audio `state` | get audio `state`: `play`, `stop` or `pause` |
 | `/radio/api/audio/get/station` | none | Station | return setted station |
 | `/radio/res/` | specific resource | resource | access to resource (css/js/assets etc.) |
+| `/radio/api/volume/up` | `volume` | `volume` level | Increase volume level with given value [more](#volume) |
+| `/radio/api/volume/down` | `volume` | `volume` level | Decrease volume level with given value [more](#volume) |
+| `/radio/api/volume/mute` | none | `volume` level | Mute [more](#volume) |
+| `/radio/api/volume/get` | none | `volume` level | set specific volume level [more](#volume) | 
+| `/radio/api/volume/set` | `volume` level | `volume` level | get volume level [more](#volume) |
 
 ## Example messages and JSON Bodies
 ---
@@ -93,6 +98,12 @@ Arguments avaliable only when Engine run in `--only` mode, and you want to run s
     "state" : "play"
 }
 ```
-
-
-
+### Volume 
+Volume will be increased/decreased by given value or set specific value, depends on route.
+```json
+{
+    "volume" : 20
+}
+```
+Volume range is integer `0 - 100`, and `-1` when `mute`. Any other value return error!
+Volume can be increased/decreased only with positive numbers. Max possible increase/decrease is `100`, that value and any higher always set `max/min` volume depends on route. Negative numbers are forbidden! 
