@@ -31,6 +31,12 @@ namespace radio
             this->add("audio/set/station", &Routes::audio_set_station);
             this->add("audio/get/state", &Routes::audio_get_state);
             this->add("audio/get/current", &Routes::audio_get_current);
+
+            this->add("audio/volume/set", &Routes::audio_volume_set);
+            this->add("audio/volume/get", &Routes::audio_volume_get);
+            this->add("audio/volume/up", &Routes::audio_volume_up);
+            this->add("audio/volume/down", &Routes::audio_volume_down);
+            this->add("audio/volume/mute", &Routes::audio_volume_mute);
         }
 
         void add(std::string route, MemberRoutesMethod function)
@@ -48,5 +54,11 @@ namespace radio
         void audio_switch_next(ipc::message::IPCRecived &, ipc::message::IPCReply &);
         void audio_set_state(ipc::message::IPCRecived &, ipc::message::IPCReply &);
         void audio_get_state(ipc::message::IPCRecived &, ipc::message::IPCReply &);
+
+        void audio_volume_set(ipc::message::IPCRecived &, ipc::message::IPCReply &);
+        void audio_volume_get(ipc::message::IPCRecived &, ipc::message::IPCReply &);
+        void audio_volume_up(ipc::message::IPCRecived &, ipc::message::IPCReply &);
+        void audio_volume_down(ipc::message::IPCRecived &, ipc::message::IPCReply &);
+        void audio_volume_mute(ipc::message::IPCRecived &, ipc::message::IPCReply &);
     };
 } // namespace radio

@@ -181,4 +181,44 @@ namespace radio
         }
     }
 
+    void Routes::audio_volume_set(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
+    {
+        Log::warn("AUDIO VOLUME SET " + std::to_string(recive.getValue()["volume"]));
+        reply.setCode(200);
+        reply.setMessage("OK");
+        reply.setValue(nlohmann::json("{\"volume\": 50}"))
+    }
+
+    void Routes::audio_volume_get(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
+    {
+        Log::warn("AUDIO VOLUME GET");
+        reply.setCode(200);
+        reply.setMessage("OK");
+        reply.setValue(nlohmann::json("{\"volume\": 50}"))
+    }
+
+    void Routes::audio_volume_up(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
+    {
+        Log::warn("AUDIO VOLUME UP " + std::to_string(recive.getValue()["volume"]));
+        reply.setCode(200);
+        reply.setMessage("OK");
+        reply.setValue(nlohmann::json("{\"volume\": 50}"))
+    }
+
+    void Routes::audio_volume_down(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
+    {
+        Log::warn("AUDIO VOLUME DOWN " + std::to_string(recive.getValue()["volume"]));
+        reply.setCode(200);
+        reply.setMessage("OK");
+        reply.setValue(nlohmann::json("{\"volume\": 50}"))
+    }
+
+    void Routes::audio_volume_mute(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
+    {
+        Log::warn("AUDIO VOLUME MUTE");
+        reply.setCode(200);
+        reply.setMessage("OK");
+        reply.setValue(nlohmann::json("{\"volume\": 50}"))
+    }
+
 } // namespace radio
