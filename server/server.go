@@ -289,7 +289,128 @@ func putHandler(w http.ResponseWriter, r *http.Request){
 } 
 
 /*
-    MAIN
+
+    ANCHOR VOLUME ######################################################
+
+*/
+
+type Volume struct {
+    Volume int `json:"volume"`
+}
+
+type MessageVolumeToServer struct {
+    Route string `json:"route"`
+    Value Volume `json:"value"`
+}
+
+type MessageVolumeFromServer struct {
+    Code int `json:"code"`
+    Message string `json:"message"`
+    Value Volume `json:"value"`
+}
+
+func volumeUpHandler(w http.ResponseWriter, r *http.Request){
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var volume Volume
+    if err := json.Unmarshal([]byte(reqBody), &volume); err != nil {
+        Log.Err(err.Error())
+    }
+    volumeJson, _ := json.Marshal(volume)
+    var request MessageToServer
+    request.Route = "audio/volume/up"
+    request.Value = string(volumeJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageVolumeFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
+		Log.Err(err.Error())
+    }
+}
+
+func volumeDownHandler(w http.ResponseWriter, r *http.Request){
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var volume Volume
+    if err := json.Unmarshal([]byte(reqBody), &volume); err != nil {
+        Log.Err(err.Error())
+    }
+    volumeJson, _ := json.Marshal(volume)
+    var request MessageToServer
+    request.Route = "audio/volume/down"
+    request.Value = string(volumeJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageVolumeFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
+		Log.Err(err.Error())
+    }
+}
+
+func volumeMuteHandler(w http.ResponseWriter, r *http.Request){
+    var request MessageToServer
+    request.Route = "audio/volume/mute"
+    request.Value = ""
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageVolumeFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
+}
+
+func volumeGetHandler(w http.ResponseWriter, r *http.Request){
+    var request MessageToServer
+    request.Route = "audio/volume/get"
+    request.Value = ""
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageVolumeFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
+}
+
+func volumeSetHandler(w http.ResponseWriter, r *http.Request){
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var volume Volume
+    if err := json.Unmarshal([]byte(reqBody), &volume); err != nil {
+        Log.Err(err.Error())
+    }
+    volumeJson, _ := json.Marshal(volume)
+    var request MessageToServer
+    request.Route = "audio/volume/set"
+    request.Value = string(volumeJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageVolumeFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
+		Log.Err(err.Error())
+    }
+}
+
+/*
+
+    ANCHOR MAIN #####################################################
+
 */
 
 func main() {
@@ -353,6 +474,11 @@ func main() {
     http.HandleFunc("/radio/api/audio/next", nextHandler)
     http.HandleFunc("/radio/api/audio/prev", prevHandler)
     http.HandleFunc("/radio/api/audio/state", stateHandler)
+    http.HandleFunc("/radio/api/volume/up", volumeUpHandler)
+    http.HandleFunc("/radio/api/volume/down", volumeDownHandler)
+    http.HandleFunc("/radio/api/volume/mute", volumeMuteHandler)
+    http.HandleFunc("/radio/api/volume/get", volumeGetHandler)
+    http.HandleFunc("/radio/api/volume/set", volumeSetHandler)
     http.HandleFunc("/radio", viewHandler)
 
     Log.Info("Host running...")
