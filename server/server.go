@@ -77,6 +77,10 @@ func SendRequest(request string) string {
     HANDLERS: api 
 */
 
+func redirectView(w http.ResponseWriter, r *http.Request){
+    http.Redirect(w, r, "/radio", http.StatusFound)
+}
+
 func viewHandler(w http.ResponseWriter, r *http.Request){
     tmpl, err := template.ParseFiles("../server/resources/index.html")
     if err != nil {
@@ -417,6 +421,7 @@ func main() {
     http.HandleFunc("/radio/api/volume/get", volumeGetHandler)
     http.HandleFunc("/radio/api/volume/set", volumeSetHandler)
     http.HandleFunc("/radio", viewHandler)
+    http.HandleFunc("/radio/", redirectView)
 
     Log.Info("Host running...")
     errServe := http.ListenAndServe(Settings.Server_Host_Address, nil)
