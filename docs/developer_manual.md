@@ -80,6 +80,21 @@ With that you are able to build flexible directory tree with plenty of files, wh
 
 If server, or engine do not respond you can find out logs in file: `client.txt`
 
+## Simple deploy
+Create folder with all dependencies, and shell file `run.sh` to run app from diffrent directory.
+```Cpp
+cd scripts/ 
+sh create_simple_app.sh
+```
+If everything went good, you can test build with default values: `-res resources -sha :8081`,
+with 
+```Cpp
+sh ../deploy/PiRadioApp/run.sh
+```
+If you want change settings, just change flags in `deploy/PiRadioApp/run.sh` file.
+
+Created folder `PiRadioApp` you can copy wherether you want, and always run app with `run.sh` script inside. It is a base place for nginx, and system service.
+
 ## NGINX
 <!-- TODO -->
 

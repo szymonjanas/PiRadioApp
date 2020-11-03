@@ -82,7 +82,7 @@ func redirectView(w http.ResponseWriter, r *http.Request){
 }
 
 func viewHandler(w http.ResponseWriter, r *http.Request){
-    tmpl, err := template.ParseFiles("../server/resources/index.html")
+    tmpl, err := template.ParseFiles(Settings.Resource_Path + "/index.html")
     if err != nil {
         Log.Err("Error occur: " + err.Error())
         w.WriteHeader(http.StatusInternalServerError)
@@ -363,7 +363,7 @@ func main() {
 
     Settings.Internal_Communication_Address = "tcp://127.0.0.1:7982"
     Settings.Server_Host_Address = ":8080"
-    Settings.Resource_Path = "server/resources"
+    Settings.Resource_Path = "../server/resources"
 
     for i := 0; i < len(args); i++ {
         if args[i] == "-col" {
