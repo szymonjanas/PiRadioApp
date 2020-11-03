@@ -34,7 +34,7 @@ namespace radio {
 
         std::string siteAddress = "";
         std::string internalCommunicationAddress = "tcp://127.0.0.1:7982";
-        std::string databasePath = "database.json";
+        std::string databasePath = "radio-database.json";
         std::string runServerCmd = "./server ";
 
         std::vector<std::string> serverArgs;

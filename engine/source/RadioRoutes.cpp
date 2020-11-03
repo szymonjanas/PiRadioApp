@@ -16,15 +16,13 @@ namespace radio
         }
         catch (std::string str)
         {
-            std::string homedir = getenv("HOME");
-            Log::info("HOMEDIR " + homedir);
             delete database;
-            homedir += "/radio-database.json";
-            database = new db::StationsJson(homedir);
+            std::string dbDir = "radio-database.json";
+            database = new db::StationsJson(dbDir);
             database->save();
             reply.setCode(206);
-            reply.setMessage("Cannot load database: " + str + ". Created new database: " + homedir);
-            Log::warn("Cannot load database: " + str + ". CREATED NEW DATABASE: " + homedir);
+            reply.setMessage("Cannot load database: " + str + ". Created new database: " + dbDir);
+            Log::warn("Cannot load database: " + str + ". CREATED NEW DATABASE: " + dbDir);
         }
     }
  
