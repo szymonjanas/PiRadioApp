@@ -61,7 +61,7 @@ void Engine::setVolume(int volume)
 {
     if (volume > 100) volume = 100;
     else if (volume < 0) volume = 0;
-    g_object_set(G_OBJECT(pipeline), "volume", static_cast<gdouble>(volume/100), NULL);
+    g_object_set(G_OBJECT(pipeline), "volume", (gdouble)(((double)volume)/100), NULL);
 }
 
 int Engine::getVolume(){
