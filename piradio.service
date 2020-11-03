@@ -6,7 +6,7 @@ User=root
 Type=simple
 
 [Service]
-ExecStart=sh /usr/bin/piradio/run.sh
+ExecStart=sh ~/PiRadioApp/run.sh
 Restart=always
 StandardOutput=piradiolog
 StandardError=piradioerrlog
