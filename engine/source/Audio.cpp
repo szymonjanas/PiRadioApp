@@ -61,14 +61,12 @@ void Engine::setVolume(int volume)
 {
     if (volume > 100) volume = 100;
     else if (volume < 0) volume = 0;
-    GstElement *pulseSink = gst_bin_get_by_name(GST_BIN(pipeline), "pulsesink1");
-    g_object_set(G_OBJECT(pulseSink), "volume", static_cast<gdouble>(volume/100), NULL);
+    g_object_set(G_OBJECT(pipeline), "volume", static_cast<gdouble>(volume/100), NULL);
 }
 
 int Engine::getVolume(){
     gdouble volume;
-    GstElement *pulseSink = gst_bin_get_by_name(GST_BIN(pipeline), "pulsesink1");
-    g_object_get (G_OBJECT(pulseSink), "volume", &volume, NULL);
+    g_object_get (G_OBJECT(pipeline), "volume", &volume, NULL);
     return static_cast<int>(volume * 100);
 }
 
