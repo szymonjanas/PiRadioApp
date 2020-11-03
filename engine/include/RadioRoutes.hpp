@@ -34,9 +34,6 @@ namespace radio
 
             this->add("audio/volume/set", &Routes::audio_volume_set);
             this->add("audio/volume/get", &Routes::audio_volume_get);
-            this->add("audio/volume/up", &Routes::audio_volume_up);
-            this->add("audio/volume/down", &Routes::audio_volume_down);
-            this->add("audio/volume/mute", &Routes::audio_volume_mute);
         }
 
         void add(std::string route, MemberRoutesMethod function)

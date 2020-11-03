@@ -122,4 +122,17 @@ namespace radio {
         return state;
     }
 
+    void Audio::setVolume(int volume)
+    {
+        if (engine != nullptr)
+            engine->setVolume(volume);
+    }
+
+    int Audio::getVolume()
+    {
+        if (engine != nullptr)
+            return engine->getVolume();
+        return -1;
+    }
+
 } // namespace radio

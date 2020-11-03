@@ -181,51 +181,24 @@ namespace radio
 
     void Routes::audio_volume_set(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
     {
-        Log::warn("AUDIO VOLUME SET " + std::to_string(recive.getValue()["volume"].get<int>()));
+        int volume = recive.getValue()["volume"].get<int>();
+        Log::debug("volume set: " + std::to_string(volume));
+        audio->setVolume(volume);
         reply.setCode(200);
         reply.setMessage("OK");
         nlohmann::json data;
-        data["volume"] = 50;
+        data["volume"] = volume;
         reply.setValue(data);
     }
 
     void Routes::audio_volume_get(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
     {
-        Log::warn("AUDIO VOLUME GET");
+        int volume = audio->getVolume();
+        Log::debug("volume get: " + volume);
         reply.setCode(200);
         reply.setMessage("OK");
         nlohmann::json data;
-        data["volume"] = 50;
-        reply.setValue(data);
-    }
-
-    void Routes::audio_volume_up(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
-    {
-        Log::warn("AUDIO VOLUME UP " + std::to_string(recive.getValue()["volume"].get<int>()));
-        reply.setCode(200);
-        reply.setMessage("OK");
-        nlohmann::json data;
-        data["volume"] = 50;
-        reply.setValue(data);
-    }
-
-    void Routes::audio_volume_down(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
-    {
-        Log::warn("AUDIO VOLUME DOWN " + std::to_string(recive.getValue()["volume"].get<int>()));
-        reply.setCode(200);
-        reply.setMessage("OK");
-        nlohmann::json data;
-        data["volume"] = 50;
-        reply.setValue(data);
-    }
-
-    void Routes::audio_volume_mute(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
-    {
-        Log::warn("AUDIO VOLUME MUTE");
-        reply.setCode(200);
-        reply.setMessage("OK");
-        nlohmann::json data;
-        data["volume"] = 50;
+        data["volume"] = volume;
         reply.setValue(data);
     }
 

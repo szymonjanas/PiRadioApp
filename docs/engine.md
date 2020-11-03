@@ -49,9 +49,6 @@ Best option is to use framework ZMQ to communicate.
 | `audio/get/current` | `route` | `status`, return current Station in JSON value | return all detail about current station |
 | `audio/volume/get` | `route` | `status` with `volume` | return volume level |
 | `audio/volume/set` | `route`, `volume` | `status` with `volume` | set volume specific level, return volume level |
-| `audio/volume/mute` | `route` | `status` with `volume` | set volume to off, or set previous level |
-| `audio/volume/up` | `route` with `volume` | `status` with `volume` | increase volume with given `value` |
-| `audio/volume/down` | `route` with `volue` | `status` with `volume` | decrease volume with given `value` |
 
 `status` mean `code` and `message` about status of execution. [More Details](#message-format---json---from-engine)
 More info about `volume` [here](server.md)
@@ -116,3 +113,10 @@ Messages must have JSON format, but they are sent and recive as string.
 }
 ```
 
+### Volume 
+Volume will be increased/decreased by given value or set specific value, depends on route.
+```json
+{
+    "volume" : 20
+}
+```
