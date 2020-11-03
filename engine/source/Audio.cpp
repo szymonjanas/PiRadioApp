@@ -68,7 +68,7 @@ void Engine::setVolume(int volume)
 int Engine::getVolume(){
     gdouble volume;
     GstElement *pulseSink = gst_bin_get_by_name(GST_BIN(pipeline), "pulsesink1");
-    g_object_get (pulseSink, "volume", &volume, NULL);
+    g_object_get (G_OBJECT(pulseSink), "volume", &volume, NULL);
     return static_cast<int>(volume * 100);
 }
 
