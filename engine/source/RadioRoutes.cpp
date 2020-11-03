@@ -187,7 +187,7 @@ namespace radio
         reply.setCode(200);
         reply.setMessage("OK");
         nlohmann::json data;
-        data["volume"] = volume;
+        data["volume"] = audio->getVolume();
         reply.setValue(data);
     }
 
