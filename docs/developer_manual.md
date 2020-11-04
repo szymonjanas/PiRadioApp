@@ -98,8 +98,20 @@ Created folder `PiRadioApp` you can copy wherether you want, and always run app 
 ## NGINX
 <!-- TODO -->
 
+## Create tar.gz package
+---
+With using automated script in folder `scripts`:
+```Cpp
+    sh tar-deploy.sh
+```
+Script will build project and create tar.gz file in `deploy/` directory.
+
+Script is using also files from `scripts/helpers/tar` and docs `docs/deploy/tar`.
+
 ## Create deb package
 ---
+**WARNING!!! THAT WILL BE CHANGED IN NEXT PULL REQUEST!
+IF YOU SEE THIS MESSAGE DO NOT USE IT!**
 With using automated script in folder `scripts`:
 ```
 sh create_deb.sh

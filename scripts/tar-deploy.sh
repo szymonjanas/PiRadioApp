@@ -15,10 +15,10 @@ cp -v PiRadioApp ../deploy/piradio/PiRadioApp
 cp -v libPiRadioAppEngineLib.so ../deploy/piradio/PiRadioApp
 cp -v server ../deploy/piradio/PiRadioApp
 cd ..
-cp -v scripts/helpers/simple-deploy/run.sh deploy/piradio/PiRadioApp
-cp -v scripts/helpers/simple-deploy/piradio.service deploy/piradio/PiRadioApp
-cp -v scripts/helpers/simple-deploy/INSTALL.sh deploy/piradio
-cp -v docs/deploy/README.txt deploy/piradio/PiRadioApp
+cp -v scripts/helpers/tar/run.sh deploy/piradio/PiRadioApp
+cp -v scripts/helpers/tar/piradio.service deploy/piradio/PiRadioApp
+cp -v scripts/helpers/tar/INSTALL.sh deploy/piradio
+cp -v docs/deploy/tar/README.txt deploy/piradio/PiRadioApp
 
 cd deploy
 tar -czvf piradio.tar.gz piradio
