@@ -1,0 +1,16 @@
+[Unit]
+Description=PiRadioApp
+After=syslog.target
+After=network.target
+
+[Service]
+User=pi
+Type=simple
+ExecStart=/opt/PiRadioApp/run.sh
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=piradio
+
+[Install]
+WantedBy=multi-user.target

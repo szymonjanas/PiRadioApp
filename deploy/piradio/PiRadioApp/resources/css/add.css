@@ -1,0 +1,41 @@
+#add_name {
+}
+
+.add_input {
+    width: 90%;
+    margin-left: 4%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid;
+    outline: none;
+}
+
+.add_input:focus {
+    background: transparent;
+}
+
+#add_station_name {
+
+}
+
+.Button_add {
+    width: 40%;
+    margin-left: 6%;
+    border: none;
+
+
+}
+
+#buttons_add_rm {
+    background: transparent;
+}
+
+#button_add_add {
+    border-radius: 5pt;
+    outline: none;
+}
+
+#button_add_cancel {
+    border-radius: 5pt;
+    outline: none;
+}

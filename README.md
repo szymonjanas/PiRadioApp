@@ -51,9 +51,8 @@ sudo apt-get install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstream
    ```
 3. Install:
    ```Cpp
-        sh INSTALL.sh
+        sudo sh INSTALL.sh
    ```
-   Password for sudo is needed!
 4. If everything went good, you can remove downloaded files.
    ```Cpp
         rm piradio.tar
@@ -91,8 +90,7 @@ sudo apt-get install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstream
     ```
         sudo systemctl daemon-reload
     ```
-
-
+    
 --- 
 
 ### [Developer manual](docs/developer_manual.md)

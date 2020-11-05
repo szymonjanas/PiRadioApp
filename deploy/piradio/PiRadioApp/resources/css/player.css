@@ -1,0 +1,163 @@
+Footer {
+    border-top: 2pt solid;
+    padding: 0;
+    text-align: left;
+    vertical-align: left;
+    line-height: normal;
+    margin: 0;
+    margin-left: -0.5pt;
+    margin-right: 1.5%;
+    position: fixed;
+    bottom: 0px;
+    width: 102%;
+    height: 12%;
+    max-height: 65pt;
+    padding-top: 7pt;
+}
+
+/* PLAYER BUTTON */
+
+#button_state {
+    background: transparent;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    line-height: normal;
+    margin: 0;
+    position: fixed;
+    bottom: 3.6%;
+    left: 76%;
+}
+
+#button_state {
+    border: none;
+    background-color: transparent;
+    outline: none; 
+}
+
+#button_state_img {
+    border-radius: 30%;
+    padding-bottom: 1%;
+    transform: translateY(15%);
+    background-color: transparent;
+    outline: none;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#button_state:focus {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#button_state_img:focus {
+    border: none;
+    outline: none;
+    background-color: transparent;
+ }
+
+/* NEXT PREV ################### */
+
+#button_next {
+    width: 26pt;
+    background: transparent;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    line-height: normal;
+    margin: 0;
+    position: fixed;
+    bottom: 3.6%;
+    left: 88%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#button_next:focus {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#button_next_img {
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#button_next_img:focus {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#button_prev {
+    width: 26pt;
+    background: transparent;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    line-height: normal;
+    margin: 0;
+    position: fixed;
+    bottom: 3.6%;
+    left: 67%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#button_prev:focus {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#button_prev_img {
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#button_prev_img:focus {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+/* PLAYER SUBTITLES */
+
+#Player_head {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: table;
+    text-align: left; 
+    width: 60%;
+    margin-left: 10%;
+}
+
+#Player_name {
+    background-color: transparent;
+    width: 100%;
+    margin: 0;
+    font-weight: bold;
+    font-size: 120%;
+}
+
+#Player_title {
+    margin: 0;
+    width: 100%;
+    font-size: 100%;
+}
+
+.Player_img {
+    width: 20pt;
+    margin-right: 4pt;
+    margin-bottom: 4pt;
+}

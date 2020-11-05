@@ -17,7 +17,7 @@ git clone git@github.com:PiRadioApp/PiRadioApp.git
 ### Build
 ```Cpp
 cd PiRadioApp/scripts
-sh install_enviroment.sh
+sudo sh install_enviroment.sh
 sh build.sh
 ```
 Password for sudo will be needed!
@@ -38,8 +38,9 @@ Compilators require (tested): gcc-9 g++-9 (C++14 support)
 Golang: 1.13
 
 ### Build
+in `scripts/`
 ```Cpp
-sh scripts/build.sh
+sh build.sh
 ```
 
 ### Link Front-End

@@ -1,0 +1,59 @@
+{
+    "help": [
+        {
+            "set" : "--help",
+            "short" : "-h",
+            "description" : "show help"
+        },
+        {
+            "set": "--internal-communication-address [addr]" ,
+            "short": "-ica [addr]",
+            "description": "Internal (server <-> engine) tcp communication address. Default: tcp://127.0.0.1:7982" 
+        },
+        {
+            "set": "--server-host-address [addr]",
+            "short": "-sha [addr]",
+            "description": "Host site address. Default: :8080"
+        },
+        {
+            "set": "--resource [path]",
+            "short": "-res [path]",
+            "description": "Resource path. Default: server/resources/"
+        },
+        {
+            "set": "--debug",
+            "short": "-d",
+            "description": "Debug mode."
+        },
+        {
+            "set": "--only",
+            "short": "",
+            "description": "Run without server"
+        },
+        {
+            "set": "--database [path]",
+            "short": "-db [path]",
+            "description": "Set database path."
+        },
+        {
+            "set": "--colors",
+            "short": "-col",
+            "description": "Enable colors in console."
+        },
+        {
+            "set": "--basic",
+            "short": "",
+            "description": "Shows only important message."
+        },
+        {
+            "set": "--no-audio",
+            "short": "-na",
+            "description": "Disable audio in engine. Testing purpose."
+        },
+        {
+            "set" : "--run-server-cmd [cmd]",
+            "short" : "-rsc [cmd]",
+            "description" : "Set run server command. Default: ./build/server"
+        }
+    ]
+}
