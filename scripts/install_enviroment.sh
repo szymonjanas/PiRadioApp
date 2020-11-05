@@ -19,6 +19,8 @@ echo ""
 
 echo "Golang"
 apt-get install -y golang
+echo ""
+echo "go get zmq4"
 go get github.com/pebbe/zmq4
 echo ""
 echo ""

@@ -17,6 +17,7 @@ cp -v server ../deploy/piradio/PiRadioApp
 cd ..
 cp -v scripts/helpers/tar/run.sh deploy/piradio/PiRadioApp
 cp -v scripts/helpers/tar/piradio.service deploy/piradio/PiRadioApp
+cp -v scripts/helpers/tar/piradio.conf deploy/piradio/PiRadioApp
 cp -v scripts/helpers/tar/INSTALL.sh deploy/piradio
 cp -v docs/deploy/tar/README.txt deploy/piradio/PiRadioApp
 
