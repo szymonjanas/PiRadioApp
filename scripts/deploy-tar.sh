@@ -23,7 +23,7 @@ cp -v scripts/helpers/piradio.conf deploy/tar/piradio/PiRadioApp
 cp -v scripts/helpers/tar/INSTALL.sh deploy/tar/piradio
 cp -v docs/deploy/tar/README.txt deploy/tar/piradio/PiRadioApp
 
-cd deploy
+cd deploy/tar
 tar -czvf PiRadioApp-$VER.tar.gz piradio
 
 echo ""
