@@ -3,9 +3,9 @@
 ## https://github.com/PiRadioApp/PiRadioApp ##
 ##############################################
 
-## INSTALL
-To install run script INSTALL:
-> sudo sh INSTALL.sh
+## Dependencies
+to make sure every format will be working install:
+> sudo apt install gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-ugly
 
 ## RUN
 If application not working please run commands:

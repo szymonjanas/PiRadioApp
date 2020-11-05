@@ -17,9 +17,10 @@ git clone git@github.com:PiRadioApp/PiRadioApp.git
 ### Build
 ```Cpp
 cd PiRadioApp/scripts
-sudo sh install_enviroment.sh
-sudo sh build.sh
+sh install_enviroment.sh
+sh build.sh
 ```
+Password for sudo will be needed!
 ### Example run
 ```Cpp
 unix@raspberrypi:~/PiRadioApp/build$ ./PiRadioApp -res ../server/resources/ -db ../test-database.json -col -na
@@ -51,16 +52,16 @@ Directory required resource structure:
 ```
 All you put in resources will be delivered by server ([more](server.md))
 
-Example resource structure:
+In case example resources structure:
 ```Shell
-- resources/
++ resources/
     - index.html
     - favicon.png
-    - css/
+    + css/
         - example.css
-    - js/
+    + js/
         - example.js
-    - img/
+    + img/
         - example.jpg
     - supportfile.txt
 ```
@@ -80,29 +81,17 @@ With that you are able to build flexible directory tree with plenty of files, wh
 
 If server, or engine do not respond you can find out logs in file: `client.txt`
 
-## Simple deploy
-Create folder with all dependencies, and shell file `run.sh` to run app from diffrent directory.
-```Cpp
-cd scripts/ 
-sh create_simple_app.sh
-```
-If everything went good, you can test build with default values: `-res resources -sha :8081`,
-with 
-```Cpp
-sh ../deploy/PiRadioApp/run.sh
-```
-If you want change settings, just change flags in `deploy/PiRadioApp/run.sh` file.
-
-Created folder `PiRadioApp` you can copy wherether you want, and always run app with `run.sh` script inside. It is a base place for nginx, and system service.
+# Deploy
 
 ## NGINX
+---
 <!-- TODO -->
 
 ## Create tar.gz package
 ---
 With using automated script in folder `scripts`:
 ```Cpp
-    sh tar-deploy.sh
+    sh deploy-tar.sh
 ```
 Script will build project and create tar.gz file in `deploy/` directory.
 
@@ -110,24 +99,22 @@ Script is using also files from `scripts/helpers/tar` and docs `docs/deploy/tar`
 
 ## Create deb package
 ---
-**WARNING!!! THAT WILL BE CHANGED IN NEXT PULL REQUEST!
-IF YOU SEE THIS MESSAGE DO NOT USE IT!**
 With using automated script in folder `scripts`:
 ```
-sh create_deb.sh
+    sh deploy-deb.sh
 ```
-Script will create folder `linuxconfig` and copy all files needed to create deb package, then with `dpkg-deb` tool  create `.deb` package in directory `out/`.
+Script will create folder `deploy/deb/piradio` and copy all files needed to create deb package, then with `dpkg-deb` tool  create `.deb` package in directory `deploy/deb`.
 
-`linuxconfig` can be removed when `.deb` is created.
+`piradio` can be removed when `.deb` is created.
 
-Files needed in `linuxconfig`:
-```Cpp
-+ linuxconfig/
+Files needed in `piradio`:
+```
++ piradio/
     + DEBIAN/
         - control
-    + usr/
+    + opt/
         + bin/
-            + piradio/
+            + PiRadioApp/
                 - help.json
                 - resources/
                 - server
@@ -137,6 +124,8 @@ Files needed in `linuxconfig`:
         + systemd/
             + system/
                 - piradio.service
+        + ld.so.conf.d/
+            - piradio.conf
 ```
 
 Thats file are needed, but directory tree can be diffrent depends on deploy method.
