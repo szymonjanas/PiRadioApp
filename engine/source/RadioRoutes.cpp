@@ -16,15 +16,13 @@ namespace radio
         }
         catch (std::string str)
         {
-            std::string homedir = getenv("HOME");
-            Log::info("HOMEDIR " + homedir);
             delete database;
-            homedir += "/radio-database.json";
-            database = new db::StationsJson(homedir);
+            std::string dbDir = "radio-database.json";
+            database = new db::StationsJson(dbDir);
             database->save();
             reply.setCode(206);
-            reply.setMessage("Cannot load database: " + str + ". Created new database: " + homedir);
-            Log::warn("Cannot load database: " + str + ". CREATED NEW DATABASE: " + homedir);
+            reply.setMessage("Cannot load database: " + str + ". Created new database: " + dbDir);
+            Log::warn("Cannot load database: " + str + ". CREATED NEW DATABASE: " + dbDir);
         }
     }
  
@@ -179,6 +177,29 @@ namespace radio
             reply.setMessage("No station loaded!");
             Log::debug("No station loaded!");
         }
+    }
+
+    void Routes::audio_volume_set(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
+    {
+        int volume = recive.getValue()["volume"].get<int>();
+        Log::debug("volume set: " + std::to_string(volume));
+        audio->setVolume(volume);
+        reply.setCode(200);
+        reply.setMessage("OK");
+        nlohmann::json data;
+        data["volume"] = audio->getVolume();
+        reply.setValue(data);
+    }
+
+    void Routes::audio_volume_get(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
+    {
+        int volume = audio->getVolume();
+        Log::debug("volume get: " + volume);
+        reply.setCode(200);
+        reply.setMessage("OK");
+        nlohmann::json data;
+        data["volume"] = volume;
+        reply.setValue(data);
     }
 
 } // namespace radio

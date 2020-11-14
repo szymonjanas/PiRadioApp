@@ -40,6 +40,8 @@ Arguments avaliable only when Engine run in `--only` mode, and you want to run s
 | `/radio/api/audio/state` | none | `status`, Audio `state` | get audio `state`: `play`, `stop` or `pause` |
 | `/radio/api/audio/get/station` | none | Station | return setted station |
 | `/radio/res/` | specific resource | resource | access to resource (css/js/assets etc.) |
+| `/radio/api/volume/get` | none | `volume` level | get volume level in range integer `0 - 100` | 
+| `/radio/api/volume/set` | `volume` level | `volume` level | set volume level in range integer `0 - 100` |
 
 ## Example messages and JSON Bodies
 ---
@@ -93,6 +95,10 @@ Arguments avaliable only when Engine run in `--only` mode, and you want to run s
     "state" : "play"
 }
 ```
-
-
-
+### Volume 
+Volume will be increased/decreased by given value or set specific value, depends on route.
+```json
+{
+    "volume" : 20
+}
+```

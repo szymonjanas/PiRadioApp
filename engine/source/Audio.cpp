@@ -57,10 +57,17 @@ std::string Engine::getTitle()
     return "unknown";
 }
 
-void Engine::setVolume(double volume)
+void Engine::setVolume(int volume)
 {
-    GstElement *pulseSink = gst_bin_get_by_name(GST_BIN(pipeline), "pulsesink1");
-    g_object_set(G_OBJECT(pulseSink), "volume", (gdouble)volume, NULL);
+    if (volume > 100) volume = 100;
+    else if (volume < 0) volume = 0;
+    g_object_set(G_OBJECT(pipeline), "volume", (gdouble)(((double)volume)/100), NULL);
+}
+
+int Engine::getVolume(){
+    gdouble volume;
+    g_object_get (G_OBJECT(pipeline), "volume", &volume, NULL);
+    return static_cast<int>(volume * 100);
 }
 
 STATE Engine::getState()

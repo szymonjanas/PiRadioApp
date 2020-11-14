@@ -28,7 +28,8 @@ namespace audio
         virtual void stop() = 0;
         virtual void debugMessage() = 0;
         virtual std::string getTitle() = 0;
-        virtual void setVolume(double volume) = 0;
+        virtual void setVolume(int volume) = 0;
+        virtual int getVolume() = 0;
         virtual STATE getState() = 0;
 
     };
@@ -39,8 +40,8 @@ namespace audio
             Fake class for developing and testing purpose
         */
 
-       STATE state = STATE::STOP;
-
+        STATE state = STATE::STOP;
+        int volume = 100;
     public:
 
         void play(std::string url) override {play();}
@@ -49,9 +50,9 @@ namespace audio
         void stop() override {state = STATE::STOP;}
         void debugMessage() override {}
         std::string getTitle() override {return "Title Test Text";}
-        void setVolume(double volume) override {}
+        void setVolume(int volume) override {this->volume = volume;}
         STATE getState() override {return state;}
-
+        int getVolume() override {return volume;}
     };
 
     class Engine : public EngineInterface
@@ -71,7 +72,6 @@ namespace audio
         guint busWatchID;
         static gboolean my_bus_callback(GstBus *bus, GstMessage *message, gpointer data);
         STATE state = STATE::STOP;
-
         void deletePipeline();
 
     public:
@@ -83,7 +83,8 @@ namespace audio
         void stop() override;
         void debugMessage() override;
         std::string getTitle() override;
-        void setVolume(double volume) override;
+        void setVolume(int volume) override;
+        int getVolume() override;
         STATE getState() override;
     };
 

@@ -22,9 +22,9 @@ sudo sh build.sh
 ```
 ### Example run
 ```Cpp
-cd ../build
-./PiRadioApp -res ../server/resource -db ../test-database.json
+unix@raspberrypi:~/PiRadioApp/build$ ./PiRadioApp -res ../server/resources/ -db ../test-database.json -col -na
 ```
+`resource` path should be set to provide web UI, `database` if there is existing database somewhere
 
 ## Manual setup
 ---
