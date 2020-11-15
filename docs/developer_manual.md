@@ -23,7 +23,11 @@ sh build.sh
 Password for sudo will be needed!
 ### Example run
 ```Cpp
-unix@raspberrypi:~/PiRadioApp/build$ ./PiRadioApp -res ../server/resources/ -db ../test-database.json -col -na
+    cd ../build
+```
+from `build` directory:
+```Cpp
+./PiRadioApp -res ../server/resources -db ../test-database.json -col -na
 ```
 `resource` path should be set to provide web UI, `database` if there is existing database somewhere
 
