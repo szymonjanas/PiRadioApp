@@ -1,0 +1,8 @@
+#Footer_object {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0px !important;
+    margin: 0;
+    padding: 0;
+    background-color: black !important;
+}
