@@ -1,56 +1,76 @@
-#STATIONS_LIST {
-    max-width: 700pt;
-    width: 100%;
-    margin-top: 60pt;
-    margin-bottom: 70pt;
+#ContentStationsListContainer {
+    width: 90%;
+    margin: auto;
+}
+
+#ContentStationList {
     list-style-type: none;
-    display: table;
-}
-
-.Item {
     margin: 0;
+    padding: 0;
+}
+
+.ContentStationCard {
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+    justify-content: left;
+    align-items: center;
     margin-bottom: 10pt;
-    max-width: 700pt;
-    padding-top: 4pt;
-    margin-left: 3pt;
-    width: 95%;
-    font-size: 14pt;
-    padding-left: 4pt;
-    height: 30pt;
-    transform: translateX(-4%);
-    border-radius: 4pt;
 }
 
-
-.Station_play_btn {
-    border: none;
+.cardRadioLeft {
+    padding: 0;
+    margin: 0;
     background-color: transparent;
-    outline: none;
-    display: inline; 
+    width: 80%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.cardRadioRight {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardRadioImgSmall {
+    padding: 0;
+    margin: 0;
+    width: 20pt;
     height: 20pt;
-    width: 20pt;
-    background-size: 22pt auto;
-    background-repeat: no-repeat;
-    float: right;
-    margin-right: 4%;
-    vertical-align: middle;
-    position: relative;
-    transform: translateY(-10%);
-}
-
-.Station_play_btn:focus {
-    border: none;
-    background-color: transparent;
-    outline: none; 
-}
-
-.Station_radio_img {
-    width: 20pt;
     float: left;
-    margin-right: 5pt;
-    margin-left: 4pt;
+    margin-right: 4pt;
+    margin-bottom: 2pt;
 }
 
-.Station_playing_img {
-    width: 30pt;
+.cardRadioText {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+    margin-right: 4pt;
+    border: none;
+    font-family: inherit;
+}
+
+.cardFavouriteImgSmall {
+    padding: 0;
+    margin: 0;
+    width: 20pt;
+    height: 20pt;
+}
+
+.cardCheckImgSmall {
+    padding: 0;
+    margin: 0;
+    width: 20pt;
+    height: 20pt;
+    margin-left: 8pt;
 }

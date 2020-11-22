@@ -1,0 +1,11 @@
+#volumeControl
+{
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 20pt;
+    height: 60%;
+    position: fixed;
+    right: 20pt;
+    top: 15%;
+    display: none;
+}

@@ -1,0 +1,35 @@
+#Application {
+    background-color: transparent;
+    width: 100%;
+    max-width: 400pt;
+    height: 100%;
+    margin: auto;
+    font-family: Raleway;
+}
+
+#Header {
+    background-color: transparent;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 50pt;
+    width: 100%;
+}
+
+#Content {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    margin-top: 55pt;
+    margin-bottom: 110pt;
+    width: 100%;
+}
+
+#Footer {
+    background-color: transparent;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    height: 100pt;
+    width: 100%;
+}
