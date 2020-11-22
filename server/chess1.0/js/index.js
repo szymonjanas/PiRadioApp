@@ -16,7 +16,9 @@ setInterval(function() {
 
 STATIONS_LIST = []
 
-/* ANCHOR FLAGS */
+/* 
+    ANCHOR FLAGS #################################
+*/
 var MODE_DELETE = false;
 var MODE_VIEW_URL = false;
 var PAGE_NEW = false;
@@ -179,11 +181,6 @@ function displayVolume() {
     document.getElementById("ContentNewStationContainer").style.display = "none";
     document.getElementById("volumeControl").style.display = "inline";
 }
-
-/* TODO displayDelete */
-/* TODO displayUrl */
-/* TODO displayVolume */
-
 
 /* 
     ANCHOR Get new objects ####################
