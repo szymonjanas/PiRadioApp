@@ -18,11 +18,16 @@ git clone git@github.com:PiRadioApp/PiRadioApp.git
 ```Cpp
 cd PiRadioApp/scripts
 sudo sh install_enviroment.sh
-sudo sh build.sh
+sh build.sh
 ```
+Password for sudo will be needed!
 ### Example run
 ```Cpp
-unix@raspberrypi:~/PiRadioApp/build$ ./PiRadioApp -res ../server/resources/ -db ../test-database.json -col -na
+    cd ../build
+```
+from `build` directory:
+```Cpp
+./PiRadioApp -res ../server/resources -db ../test-database.json -col -na
 ```
 `resource` path should be set to provide web UI, `database` if there is existing database somewhere
 
@@ -37,8 +42,9 @@ Compilators require (tested): gcc-9 g++-9 (C++14 support)
 Golang: 1.13
 
 ### Build
+in `scripts/`
 ```Cpp
-sh scripts/build.sh
+sh build.sh
 ```
 
 ### Link Front-End
@@ -51,16 +57,16 @@ Directory required resource structure:
 ```
 All you put in resources will be delivered by server ([more](server.md))
 
-Example resource structure:
+In case example resources structure:
 ```Shell
-- resources/
++ resources/
     - index.html
     - favicon.png
-    - css/
+    + css/
         - example.css
-    - js/
+    + js/
         - example.js
-    - img/
+    + img/
         - example.jpg
     - supportfile.txt
 ```
@@ -80,27 +86,40 @@ With that you are able to build flexible directory tree with plenty of files, wh
 
 If server, or engine do not respond you can find out logs in file: `client.txt`
 
+# Deploy
+
 ## NGINX
+---
 <!-- TODO -->
+
+## Create tar.gz package
+---
+With using automated script in folder `scripts`:
+```Cpp
+    sh deploy-tar.sh
+```
+Script will build project and create tar.gz file in `deploy/` directory.
+
+Script is using also files from `scripts/helpers/tar` and docs `docs/deploy/tar`.
 
 ## Create deb package
 ---
 With using automated script in folder `scripts`:
 ```
-sh create_deb.sh
+    sh deploy-deb.sh
 ```
-Script will create folder `linuxconfig` and copy all files needed to create deb package, then with `dpkg-deb` tool  create `.deb` package in directory `out/`.
+Script will create folder `deploy/deb/piradio` and copy all files needed to create deb package, then with `dpkg-deb` tool  create `.deb` package in directory `deploy/deb`.
 
-`linuxconfig` can be removed when `.deb` is created.
+`piradio` can be removed when `.deb` is created.
 
-Files needed in `linuxconfig`:
-```Cpp
-+ linuxconfig/
+Files needed in `piradio`:
+```
++ piradio/
     + DEBIAN/
         - control
-    + usr/
+    + opt/
         + bin/
-            + piradio/
+            + PiRadioApp/
                 - help.json
                 - resources/
                 - server
@@ -110,6 +129,8 @@ Files needed in `linuxconfig`:
         + systemd/
             + system/
                 - piradio.service
+        + ld.so.conf.d/
+            - piradio.conf
 ```
 
 Thats file are needed, but directory tree can be diffrent depends on deploy method.

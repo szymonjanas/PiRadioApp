@@ -8,6 +8,7 @@
 3. [Engine description](engine.md)
 4. [Server description](server.md)
 ---
+
 ## Technology
 | Engine | Server | Tests |
 | :-: | :-: | :-: |
@@ -19,5 +20,6 @@
 | gstreamer | zmq | gtest |
 | zmq |  | termcolor |
 | nlohmann::json | | pyzmq |
+
 Simple app scheme:
 ![Diagra](img/Diagram.png)

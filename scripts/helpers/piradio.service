@@ -1,15 +1,15 @@
 [Unit]
 Description=PiRadioApp
 After=syslog.target
-After=network.target[Service]
-User=root
-Type=simple
+After=network.target
 
 [Service]
-ExecStart=sh /usr/bin/piradio/run.sh
+User=pi
+Type=simple
+ExecStart=/bin/bash /opt/PiRadioApp/run.sh
 Restart=always
-StandardOutput=piradiolog
-StandardError=piradioerrlog
+StandardOutput=syslog
+StandardError=syslog
 SyslogIdentifier=piradio
 
 [Install]
