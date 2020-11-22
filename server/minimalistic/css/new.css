@@ -1,0 +1,81 @@
+#ContentNewStationContainer {
+    margin-top: 60pt;
+}
+
+#ContentNewStationList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.contentNewStationInput {
+    width: 75%;
+    margin-left: 2%;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-bottom: 1pt solid;
+}
+
+/* ANCHOR NEW STATION NAME  */
+
+#ContentNewStationName {
+    width: 100%;
+    text-align: center;
+    padding-top: 10pt;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ContentNewStationRadioImg {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+#ContentNewStationNameInput {
+
+}
+
+/* ANCHOR NEW STATION URI  */
+
+#ContentNewStationUri {
+    width: 100%;
+    text-align: center;
+    padding-top: 10pt;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ContentNewStationLinkImg {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+#ContentNewStationUriInput {
+
+}
+
+/* ANCHOR NEW STATION BUTTONS  */
+
+#ContentNewStationButtons {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    margin-top: 10pt;
+}
+
+#ContentNewStationBtnADD {
+    margin: 0;
+    padding: 0;
+    margin-right: 15%;
+}
+
+#ContentNewStationBtnCLEAR {
+    margin: 0;
+    padding: 0;
+    margin-left: 15%;
+}

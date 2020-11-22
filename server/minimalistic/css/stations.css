@@ -1,0 +1,76 @@
+#ContentStationsListContainer {
+    width: 90%;
+    margin: auto;
+}
+
+#ContentStationList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ContentStationCard {
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 10pt;
+}
+
+.cardRadioLeft {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    width: 80%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.cardRadioRight {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardRadioImgSmall {
+    padding: 0;
+    margin: 0;
+    width: 20pt;
+    height: 20pt;
+    float: left;
+    margin-right: 4pt;
+    margin-bottom: 2pt;
+}
+
+.cardRadioText {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+    margin-right: 4pt;
+    border: none;
+    font-family: inherit;
+}
+
+.cardFavouriteImgSmall {
+    padding: 0;
+    margin: 0;
+    width: 20pt;
+    height: 20pt;
+}
+
+.cardCheckImgSmall {
+    padding: 0;
+    margin: 0;
+    width: 20pt;
+    height: 20pt;
+    margin-left: 8pt;
+}

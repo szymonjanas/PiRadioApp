@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>PiRadio</title>
+
+    <link rel="stylesheet" href="radio/res/css/index.css">
+    <link rel="stylesheet" href="radio/res/css/header.css">
+    <link rel="stylesheet" href="radio/res/css/footer.css">
+    <link rel="stylesheet" href="radio/res/css/buttons.css">
+    <link rel="stylesheet" href="radio/res/css/new.css">
+    <link rel="stylesheet" href="radio/res/css/stations.css">
+    <link rel="stylesheet" href="radio/res/css/volume.css">
+
+    <script type="text/javascript" src="radio/res/js/index.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+	<link rel="icon" type="image/ico" href="radio/res/favicon.png">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+<div id="Application">
+    <div id="Header">
+        <div id="HeaderContainer">
+            <div id="HeaderTitle">
+                <p id="HeaderTitleNameText">PiRadio</p>
+                <p id="HeaderTitleVersionText">chess v1.0</p>
+            </div>
+            <div id="HeaderButtons">
+                <img class="btnSmall" id="HeaderView" onclick="onClickView()" src="radio/res/img/preview.png"/>
+                <img class="btnSmall" id="HeaderDelete" onclick="onClickDeletePage()" src="radio/res/img/delete.png"/>
+                <img class="btnSmall" id="HeaderNew" onclick="onClickNew()" src="radio/res/img/new_page.png"/>
+            </div>
+        </div>
+    </div>
+
+    <div id="Content">
+        <div id="ContentContainer">
+            <div id="ContentStationsListContainer">
+                <ul id="ContentStationList">
+                    <li class="ContentStationCard">
+                        <dev class="cardRadioLeft">
+                            <img class="cardRadioImgSmall" src="radio/res/img/radio.png"/>
+                            <p class="cardRadioText">Station example name very long</p>
+                        </dev>
+                        <dev class="cardRadioRight">
+                            <img class="cardFavouriteImgSmall" src="radio/res/img/favourite_full_love.png"/>
+                            <img class="cardCheckImgSmall" src="radio/res/img/check.png"/>
+                        </dev>
+                    </li>
+
+                    <li class="ContentStationCard">
+                        <dev class="cardRadioLeft">
+                            <img class="cardRadioImgSmall" src="radio/res/img/radio.png"/>
+                            <p class="cardRadioText">Station example name very long</p>
+                        </dev>
+                        <dev class="cardRadioRight">
+                            <img class="cardFavouriteImgSmall" src="radio/res/img/favourite_full_love.png"/>
+                            <img class="cardCheckImgSmall" src="radio/res/img/check.png"/>
+                        </dev>
+                    </li>
+
+                    
+                    <li class="ContentStationCard">
+                        <dev class="cardRadioLeft">
+                            <img class="cardRadioImgSmall" src="radio/res/img/radio.png"/>
+                            <input class="cardRadioText" value="Station example name very long"></input>
+                        </dev>
+                        <dev class="cardRadioRight">
+                            <img class="cardFavouriteImgSmall" src="radio/res/img/favourite_full_love.png"/>
+                            <img class="cardCheckImgSmall" src="radio/res/img/check.png"/>
+                        </dev>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="ContentNewStationContainer" style="display: none;">
+                <ul id="ContentNewStationList">
+                    <li id="ContentNewStationName">
+                        <img class="btnSmall" id="ContentNewStationRadioImg" src="radio/res/img/radio.png"/>
+                        <input class="contentNewStationInput" id="ContentNewStationNameInput" type="text" placeholder="Station name..."/>
+                    </li>
+                    <li id="ContentNewStationUri">
+                        <img class="btnSmall" id="ContentNewStationLinkImg" src="radio/res/img/link.png"/>
+                        <input class="contentNewStationInput" id="ContentNewStationUriInput" type="text" placeholder="Station uri..."/>
+                    </li>
+                    <li id="ContentNewStationButtons">
+                        <img class="btnMedium" id="ContentNewStationBtnADD" onclick="onClickNewAdd()" src="radio/res/img/new_add.png"/>
+                        <img class="btnMedium" id="ContentNewStationBtnCLEAR" onclick="onClickNewClear()" src="radio/res/img/new_clear.png"/>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="Footer">
+        <div id="FooterBorder"></div>
+        <div id="FooterContainer">
+            <div id="FooterStationDescriptions">
+                <p id="FooterStationNameText">Station Name</p>
+                <p id="FooterStationTitleText">Station Title</p>
+            </div>
+            <div id="FooterButtons">
+                <div id="FooterFavoriteContainer">
+                    <img class="btnXSmall" id="FooterFavorite" src="radio/res/img/favourite_full_love.png"/>
+                </div>
+                <div id="FooterPlayerContainer">
+                    <img class="btnMedium" id="FooterPrev" onclick="onClickPrev()" src="radio/res/img/Prev.png"/>
+                    <img class="btnLarge" id="FooterState" src="radio/res/img/play.png"/>
+                    <img class="btnMedium" id="FooterNext" onclick="onClickNext()" src="radio/res/img/Next.png"/>
+                </div>
+                <div id="FooterVolumeContainer">
+                    <img class="btnXSmall" id="FooterVolume" onclick="onClickVolume()" src="radio/res/img/volume_more.png"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="volumeControl" orient="vertical" type="range" min="0" max="100" step="1" oninput="onClickSetVolume(this.value)" onchange="onClickSetVolume(this.value)"></input>
+    
+
+</body>
+</html>
