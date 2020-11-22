@@ -137,13 +137,23 @@ function onClickPrev() {
 function onClickVolume() {
     PAGE_VOLUME = !PAGE_VOLUME;
     if (PAGE_VOLUME) {
+        if (PAGE_NEW){
+            document.getElementById("ContentNewStationContainer").style.display = "none";
+        } else {
+            document.getElementById("ContentStationsListContainer").style.display = "none";
+        }
+        document.getElementById("volumeControl").style.display = "inline";
         document.getElementById("FooterVolume").style.filter = colorFilter_grey;
-        var volume = requestForVolumeLevelReturnInt();
-        document.getElementById("volumeControl").value = volume;
-        displayVolume();
+        var value = requestForVolumeLevelReturnInt();
+        document.getElementById("volumeControl").value = value;
     } else {
+        document.getElementById("volumeControl").style.display = "none";
         document.getElementById("FooterVolume").style.filter = colorFilter_black;
-        displayAll();
+        if (PAGE_NEW) {
+            document.getElementById("ContentNewStationContainer").style.display = "inline";
+        } else {
+            document.getElementById("ContentStationsListContainer").style.display = "inline";
+        }
     }
 }
 
@@ -165,9 +175,6 @@ function displayAll() {
 }
 
 function displayStations() {
-    document.getElementById("ContentStationsListContainer").style.display = "inline";
-    document.getElementById("ContentNewStationContainer").style.display = "none";
-    document.getElementById("volumeControl").style.display = "none";
     var htmlStationList = document.getElementById("ContentStationList");
     htmlStationList.innerHTML = "";
     var stationsList = requestForStationsListReturnArray();
@@ -195,12 +202,6 @@ function displayPlayer() {
         document.getElementById("FooterStationNameText").innerText = "Station not checked!";
         document.getElementById("FooterStationTitleText").innerText = "Please, click choosen station to play radio.";
     }
-}
-
-function displayVolume() {
-    document.getElementById("ContentStationsListContainer").style.display = "none";
-    document.getElementById("ContentNewStationContainer").style.display = "none";
-    document.getElementById("volumeControl").style.display = "inline";
 }
 
 /* 
@@ -265,8 +266,7 @@ function getNewCard(station, id) {
 
 function requestForStationsListReturnArray() {
     var stationsList = httpGet("/radio/api/station/all");
-    var stationsListJSON = JSON.parse(stationsList);
-    stationsListJSON = stationsListJSON["value"];
+    var stationsListJSON = stationsList["value"];
     STATIONS_LIST = [];
     if (stationsListJSON == null) return STATIONS_LIST;
     for (var iter = 0; iter < stationsListJSON.length; ++iter) {
@@ -282,21 +282,18 @@ function requestForStationsListReturnArray() {
 
 function requestForStationReturnStation() {
     var station = httpGet("/radio/api/audio/get/station");
-    var stationJSON = JSON.parse(station);
-    stationJSON = stationJSON["value"];
-    station = new Station(
+    var stationJSON = station["value"];
+    return new Station(
         stationJSON["name"],
         stationJSON["uri"],
         stationJSON["isPlaying"],
         stationJSON["title"]
-    )    
-    return station;
+    );    
 }
 
 function requestForStationAddReturnBool(name, uri) {
     var station = new Station(name, uri);
     var replySet = httpPost("/radio/api/station/put", station.getJsonStrNameAndUri());
-    replySet = JSON.parse(replySet);
     var status = new Status(
         replySet["code"],
         replySet["message"]);
@@ -306,7 +303,6 @@ function requestForStationAddReturnBool(name, uri) {
 function requestForStationDeleteReturnBool(name) {
     var station = new Station(name, null);
     var replySet = httpPost("/radio/api/station/delete", station.getJsonStrName());
-    replySet = JSON.parse(replySet);
     var status = new Status(
         replySet["code"],
         replySet["message"]);
@@ -316,7 +312,6 @@ function requestForStationDeleteReturnBool(name) {
 function requestForStationSetReturnBool(name) {
     var station = new Station(name, null);
     var replySet = httpPost("/radio/api/audio/set", station.getJsonStrName());
-    replySet = JSON.parse(replySet);
     var status = new Status(
         replySet["code"],
         replySet["message"]);
@@ -325,15 +320,12 @@ function requestForStationSetReturnBool(name) {
 
 function requestForStatusReturnBool() {
     var status = httpGet("/radio/api/audio/state");
-    var statusJson = JSON.parse(status);
-    statusJson = statusJson["value"];
-    if (statusJson["state"] == "play") {return true;}
+    if (status["value"]["state"] == "play") {return true;}
     return false;
 }
 
 function requestForPlayReturnBool() {
     var reply = httpGet("/radio/api/audio/play");
-    reply = JSON.parse(reply);
     var status = new Status(
         reply["code"],
         reply["message"]);
@@ -342,7 +334,6 @@ function requestForPlayReturnBool() {
 
 function requestForStopReturnBool() {
     var reply = httpGet("/radio/api/audio/stop");
-    reply = JSON.parse(reply);
     var status = new Status(
         reply["code"],
         reply["message"]);
@@ -351,7 +342,6 @@ function requestForStopReturnBool() {
 
 function requestForNextReturnBool() {
     var reply = httpGet("/radio/api/audio/next");
-    reply = JSON.parse(reply);
     var status = new Status(
         reply["code"],
         reply["message"]);
@@ -360,7 +350,6 @@ function requestForNextReturnBool() {
 
 function requestForPrevReturnBool() {
     var reply = httpGet("/radio/api/audio/prev");
-    reply = JSON.parse(reply);
     var status = new Status(
         reply["code"],
         reply["message"]);
@@ -369,18 +358,17 @@ function requestForPrevReturnBool() {
 
 function requestForVolumeLevelReturnInt() {
     var reply = httpGet("/radio/api/volume/get");
-    reply = JSON.parse(reply);
     var status = new Status(
         reply["code"],
         reply["message"]);
-    return reply["value"]["volume"];
+    status.check();
+    return parseInt(reply["value"]["volume"]);
 }
 
 function requestForVolumeSetLevelReturnBool(volume) {
     var volumeJson = JSON.parse('{"volume": "" }');
     volumeJson["volume"] = parseInt(volume);
     var reply = httpPost("/radio/api/volume/set", JSON.stringify(volumeJson));
-    reply = JSON.parse(reply);
     var status = new Status(
         reply["code"],
         reply["message"]);
@@ -436,7 +424,10 @@ function httpGet(theUrl)
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
-    return xmlHttp.responseText;
+    var text = xmlHttp.responseText;
+    if (text == null || text.length == 0) {return null;} 
+    var reply = JSON.parse(xmlHttp.responseText);
+    return reply;
 }
 
 function httpPost(theUrl, body)
@@ -444,9 +435,11 @@ function httpPost(theUrl, body)
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
     xmlHttp.send( body );
-    return xmlHttp.responseText;
+    var text = xmlHttp.responseText;
+    if (text == null || text.length == 0) {return null;} 
+    var reply = JSON.parse(xmlHttp.responseText);
+    return reply;
 }
-
 
 /*
     ANCHOR Colors #############################################
