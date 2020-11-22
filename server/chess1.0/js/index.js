@@ -9,7 +9,7 @@ setInterval(function() {
 setInterval(function() {
     if (!PAGE_VOLUME_BLOCK && PAGE_VOLUME) {
         PAGE_VOLUME = false;
-        displayPage();
+        displayStations();
     }
     PAGE_VOLUME_BLOCK = false;
 }, 5000);
@@ -49,7 +49,12 @@ function onClickUncheck() {
 
 function onClickDeletePage() {
     MODE_DELETE = !MODE_DELETE;
-    displayPage();
+    if (MODE_DELETE) {
+        document.getElementById("HeaderDelete").style.filter = colorFilter_grey;
+    } else {
+        document.getElementById("HeaderDelete").style.filter = colorFilter_black;
+    }
+    displayStations();
 }
 
 function onClickDelete(id) {
@@ -64,12 +69,31 @@ function onClickStop() {
 
 function onClickView() {
     MODE_VIEW_URL = !MODE_VIEW_URL;
-    displayPage();
+    if (MODE_VIEW_URL) {
+        document.getElementById("HeaderView").style.filter = colorFilter_grey;
+    } else {
+        document.getElementById("HeaderView").style.filter = colorFilter_black;
+    }
+    displayStations();
 }
 
 function onClickNew() {
     PAGE_NEW = !PAGE_NEW;
-    displayPage();
+    if (PAGE_NEW) {
+        document.getElementById("HeaderNew").style.filter = colorFilter_grey;
+        document.getElementById("ContentNewStationContainer").style.display = "inline";
+        document.getElementById("ContentStationsListContainer").style.display = "none";
+        document.getElementById("volumeControl").style.display = "none";
+        document.getElementById("HeaderView").style.display = "none";
+        document.getElementById("HeaderDelete").style.display = "none";
+    } else {
+        document.getElementById("HeaderNew").style.filter = colorFilter_black;
+        document.getElementById("ContentNewStationContainer").style.display = "none";
+        document.getElementById("ContentStationsListContainer").style.display = "inline";
+        document.getElementById("HeaderView").style.display = "inline";
+        document.getElementById("HeaderDelete").style.display = "inline";
+        document.getElementById("volumeControl").style.display = "none";
+    }
 }
 
 function onClickNewAdd() {
@@ -79,14 +103,14 @@ function onClickNewAdd() {
         alert("New station: " + name + "  " + uri);
     }
     PAGE_NEW = false;
-    displayPage();
+    displayStations();
 }
 
 function onClickNewClear() {
     document.getElementById("ContentNewStationNameInput").value = "";
     document.getElementById("ContentNewStationUriInput").value = "";
     PAGE_NEW = false;
-    displayPage();
+    displayStations();
 }
 
 
@@ -112,9 +136,15 @@ function onClickPrev() {
 
 function onClickVolume() {
     PAGE_VOLUME = !PAGE_VOLUME;
-    var volume = requestForVolumeLevelReturnInt();
-    document.getElementById("volumeControl").value = volume;
-    displayPage();
+    if (PAGE_VOLUME) {
+        document.getElementById("FooterVolume").style.filter = colorFilter_grey;
+        var volume = requestForVolumeLevelReturnInt();
+        document.getElementById("volumeControl").value = volume;
+        displayVolume();
+    } else {
+        document.getElementById("FooterVolume").style.filter = colorFilter_black;
+        displayAll();
+    }
 }
 
 function onClickSetVolume(volume) {
@@ -130,29 +160,20 @@ function onClickSetVolume(volume) {
 */
 
 function displayAll() {
-    displayPage();
+    displayStations();
     displayPlayer();
 }
 
-function displayPage() {
-    if (PAGE_VOLUME) {
-        displayVolume();
-    }
-    else if (PAGE_NEW) {
-        document.getElementById("ContentNewStationContainer").style.display = "inline";
-        document.getElementById("ContentStationsListContainer").style.display = "none";
-        document.getElementById("volumeControl").style.display = "none";
-    } else {
-        document.getElementById("ContentStationsListContainer").style.display = "inline";
-        document.getElementById("ContentNewStationContainer").style.display = "none";
-        document.getElementById("volumeControl").style.display = "none";
-        var htmlStationList = document.getElementById("ContentStationList");
-        htmlStationList.innerHTML = "";
-        var stationsList = requestForStationsListReturnArray();
-        for (var id = 0; id < stationsList.length; ++id) {
-            var card = getNewCard(stationsList[id], id);
-            htmlStationList.appendChild(card);
-        }
+function displayStations() {
+    document.getElementById("ContentStationsListContainer").style.display = "inline";
+    document.getElementById("ContentNewStationContainer").style.display = "none";
+    document.getElementById("volumeControl").style.display = "none";
+    var htmlStationList = document.getElementById("ContentStationList");
+    htmlStationList.innerHTML = "";
+    var stationsList = requestForStationsListReturnArray();
+    for (var id = 0; id < stationsList.length; ++id) {
+        var card = getNewCard(stationsList[id], id);
+        htmlStationList.appendChild(card);
     }
 }
 
@@ -425,3 +446,11 @@ function httpPost(theUrl, body)
     xmlHttp.send( body );
     return xmlHttp.responseText;
 }
+
+
+/*
+    ANCHOR Colors #############################################
+*/
+// Filters
+var colorFilter_grey = "invert(59%) sepia(0%) saturate(170%) hue-rotate(222deg) brightness(87%) contrast(77%)";
+var colorFilter_black = "invert(0%) sepia(96%) saturate(18%) hue-rotate(302deg) brightness(98%) contrast(104%)";
