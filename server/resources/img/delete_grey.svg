@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="delete_grey.svg"
+   version="1.1"
+   height="23.856106"
+   width="24.294769"
+   id="body_1">
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs9">
+    <linearGradient
+       osb:paint="solid"
+       id="linearGradient840">
+      <stop
+         id="stop838"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     fit-margin-bottom="0"
+     fit-margin-right="0"
+     fit-margin-left="0"
+     fit-margin-top="0"
+     inkscape:current-layer="body_1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:cy="58.206865"
+     inkscape:cx="-27.174178"
+     inkscape:zoom="2.279661"
+     showgrid="false"
+     id="namedview7"
+     inkscape:window-height="705"
+     inkscape:window-width="1366"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <g
+     id="g4"
+     transform="matrix(1.333333,0,0,1.333333,-1.2317991,-0.79313488)" />
+  <g
+     transform="translate(-6.0570779,-7.8117223)"
+     style="stroke:#737678;stroke-opacity:1"
+     id="g1042">
+    <ellipse
+       style="fill:none;fill-rule:evenodd;stroke:#737678;stroke-width:2.019;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path13"
+       cx="18.204462"
+       cy="19.739775"
+       rx="11.137884"
+       ry="10.918552" />
+  </g>
+  <rect
+     y="11.050731"
+     x="5.3481259"
+     height="2.1933086"
+     width="13.598513"
+     id="rect1033"
+     style="fill:#737678;stroke-width:2.019;stroke-miterlimit:4;stroke-dasharray:none;stroke:none;stroke-opacity:1;fill-opacity:1" />
+</svg>
