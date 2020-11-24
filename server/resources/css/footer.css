@@ -1,0 +1,110 @@
+/* 
+    FooterContainer is inside Footer,
+    is helping to center, and limits Footer content,
+    where Footer is full width.
+*/
+
+#FooterContainer {
+    width: 100%;
+    max-width: 400pt;
+    margin: auto;
+    border: none;
+}
+
+/* 
+    FooterBorder shows line (top border) at the top of FooterContainer
+*/
+
+#FooterBorder {
+    width: 80%;
+    max-width: 300pt;
+    margin: auto;
+    border-top: solid;
+}
+
+/* 
+    FOOTER NAME AND TITLE ANCHOR 
+    contains current station name, and title if there is access to it.
+*/
+
+#FooterStationDescriptions {
+    margin: auto;
+}
+
+#FooterStationNameText {
+    margin: auto;
+    margin-top: 8pt;
+    background-color: transparent;
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+}
+
+#FooterStationTitleText{
+    margin: auto;
+    margin-top: 4pt;
+    background-color: transparent;
+    text-align: center;
+    font-size: medium;
+    font-weight: lighter;
+}
+
+/* 
+    FOOTER BUTTONS ANCHOR 
+    buttons: 
+        prev 
+        status (play/stop) 
+        next
+*/
+
+#FooterFavoriteContainer {
+    background-color: transparent;
+    width: fit-content;
+    text-align: center;
+}
+
+#FooterPlayerContainer {
+    background-color: transparent;
+    width: 80%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#FooterVolumeContainer {
+    background-color: transparent;
+    width: fit-content;
+    text-align: center;
+}
+
+#FooterButtons{
+    padding: 0;
+    margin: 0;
+    margin-top: 4pt;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#FooterFavorite {
+    padding: 0;
+    margin: 0;
+}
+
+#FooterPrev {
+}
+
+#FooterState {
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+#FooterNext {
+}
+
+#FooterVolume {
+    padding: 0;
+    margin: 0;
+}

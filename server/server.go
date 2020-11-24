@@ -77,8 +77,12 @@ func SendRequest(request string) string {
     HANDLERS: api 
 */
 
+func redirectView(w http.ResponseWriter, r *http.Request){
+    http.Redirect(w, r, "/radio", http.StatusFound)
+}
+
 func viewHandler(w http.ResponseWriter, r *http.Request){
-    tmpl, err := template.ParseFiles("../server/resources/index.html")
+    tmpl, err := template.ParseFiles(Settings.Resource_Path + "/index.html")
     if err != nil {
         Log.Err("Error occur: " + err.Error())
         w.WriteHeader(http.StatusInternalServerError)
@@ -289,7 +293,68 @@ func putHandler(w http.ResponseWriter, r *http.Request){
 } 
 
 /*
-    MAIN
+
+    ANCHOR VOLUME ######################################################
+
+*/
+
+type Volume struct {
+    Volume int `json:"volume"`
+}
+
+type MessageVolumeToServer struct {
+    Route string `json:"route"`
+    Value Volume `json:"value"`
+}
+
+type MessageVolumeFromServer struct {
+    Code int `json:"code"`
+    Message string `json:"message"`
+    Value Volume `json:"value"`
+}
+
+func volumeGetHandler(w http.ResponseWriter, r *http.Request){
+    var request MessageToServer
+    request.Route = "audio/volume/get"
+    request.Value = ""
+    requestJson, _ := json.Marshal(request)
+    got := SendRequest(string(requestJson))
+    var reply MessageVolumeFromServer
+    if err := json.Unmarshal([]byte(got), &reply); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(reply); err != nil {
+		Log.Err(err.Error())
+	}
+}
+
+func volumeSetHandler(w http.ResponseWriter, r *http.Request){
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var volume Volume
+    if err := json.Unmarshal([]byte(reqBody), &volume); err != nil {
+        Log.Err(err.Error())
+    }
+    volumeJson, _ := json.Marshal(volume)
+    var request MessageToServer
+    request.Route = "audio/volume/set"
+    request.Value = string(volumeJson)
+    requestJson, _ := json.Marshal(request)
+    replay := SendRequest(string(requestJson))
+    var replayMessage MessageVolumeFromServer
+    if err := json.Unmarshal([]byte(replay), &replayMessage); err != nil {
+        Log.Err(err.Error())
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    if err := json.NewEncoder(w).Encode(replayMessage); err != nil {
+		Log.Err(err.Error())
+    }
+}
+
+/*
+
+    ANCHOR MAIN #####################################################
+
 */
 
 func main() {
@@ -298,7 +363,7 @@ func main() {
 
     Settings.Internal_Communication_Address = "tcp://127.0.0.1:7982"
     Settings.Server_Host_Address = ":8080"
-    Settings.Resource_Path = "server/resources"
+    Settings.Resource_Path = "../server/resources"
 
     for i := 0; i < len(args); i++ {
         if args[i] == "-col" {
@@ -353,7 +418,10 @@ func main() {
     http.HandleFunc("/radio/api/audio/next", nextHandler)
     http.HandleFunc("/radio/api/audio/prev", prevHandler)
     http.HandleFunc("/radio/api/audio/state", stateHandler)
+    http.HandleFunc("/radio/api/volume/get", volumeGetHandler)
+    http.HandleFunc("/radio/api/volume/set", volumeSetHandler)
     http.HandleFunc("/radio", viewHandler)
+    http.HandleFunc("/radio/", redirectView)
 
     Log.Info("Host running...")
     errServe := http.ListenAndServe(Settings.Server_Host_Address, nil)

@@ -32,8 +32,13 @@ namespace radio {
         void setState(std::string state);
         bool canSetState(std::string state);
         
+        void setVolume(int volume);
+        int getVolume();
+
         static std::string stateToString(audio::STATE state);
         static audio::STATE stringToState(std::string state);
+
+        
 
     };
 

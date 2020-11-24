@@ -1,0 +1,27 @@
+.btnLarge {
+    padding: 0;
+    margin: 0;
+    width: 32pt;
+    height: 32pt;
+}
+
+.btnMedium {
+    padding: 0;
+    margin: 0;
+    width: 26pt;
+    height: 26pt;
+}
+
+.btnSmall {
+    padding: 0;
+    margin: 0;
+    width: 20pt;
+    height: 20pt;
+}
+
+.btnXSmall {
+    padding: 0;
+    margin: 0;
+    width: 16pt;
+    height: 16pt;
+}

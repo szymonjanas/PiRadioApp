@@ -1,0 +1,55 @@
+#HeaderContainer {
+    width: 100%;
+    max-width: 400pt;
+    margin: auto;
+    border: none;
+}
+
+#HeaderTitle {
+    margin: auto;
+    margin-top: 8pt;
+    margin-left: 10pt;
+    background-color: transparent;
+    text-align: left;
+    width: 70pt;
+    float: left;
+}
+
+#HeaderTitleNameText {
+    font-weight: bold;
+    font-size: x-large;
+    margin: 0;
+}
+
+#HeaderTitleVersionText{
+    font-weight: lighter;
+    font-size: small;
+    text-align: right;
+    margin: 0;
+}
+
+#HeaderButtons {
+    float: right;
+    width: 60%;
+    background-color: transparent;
+    text-align: right;
+    margin-top: 14pt;
+    margin-right: 4%;
+}
+
+#HeaderDelete {
+    padding: 0;
+    margin: 0;
+    margin-right: 6%;
+}
+
+#HeaderNew {
+    padding: 0;
+    margin: 0;
+}
+
+#HeaderView {
+    padding: 0;
+    margin: 0;
+    margin-right: 6%;
+}

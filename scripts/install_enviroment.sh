@@ -19,14 +19,16 @@ echo ""
 
 echo "Golang"
 apt-get install -y golang
-go get github.com/pebbe/zmq4
+echo ""
+echo "go get zmq4"
+sudo -u $USER go get github.com/pebbe/zmq4
 echo ""
 echo ""
 
 echo "Python3"
 echo ""
 apt-get install -y python3 python3-pip
-pip3 install termcolor pyzmq
+sudo -u $USER pip3 install termcolor pyzmq
 echo ""
 echo ""
 
