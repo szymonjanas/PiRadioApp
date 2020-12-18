@@ -94,7 +94,7 @@ namespace radio {
         char path[2048];
         while (fgets(path, sizeof(path), file) != NULL) {
             printf("%s", path);
-    }
+        }
     }
 
     void Radio::show_help(std::string)
@@ -181,6 +181,11 @@ namespace radio {
     {
         serverArgs.push_back("-res");
         serverArgs.push_back(path);
+    }
+
+    void Radio::set_test_mode(std::string)
+    {
+        db::StationsJson::testMode = true;
     }
 
 } // namespace radio

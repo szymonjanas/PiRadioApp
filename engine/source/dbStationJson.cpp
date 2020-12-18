@@ -2,6 +2,8 @@
 
 namespace db {
 
+    bool StationsJson::testMode = false; 
+
     StationsJson::StationsJson(std::string filePath) : filePath(filePath) 
     {}
 
@@ -42,6 +44,7 @@ namespace db {
 
      void StationsJson::save()
      {
+        if (testMode) return;
         if (!filePath.size()){
             Log::err("Database file path is empty!");
             throw std::string("Database file path is empty!");

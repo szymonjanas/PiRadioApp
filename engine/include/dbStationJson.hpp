@@ -18,6 +18,8 @@ namespace db {
         std::string filePath;
         
     public:
+        static bool testMode; // prevent from save to file
+        
         StationsJson(std::string filePath);
         ~StationsJson();
 

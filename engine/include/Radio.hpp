@@ -53,7 +53,7 @@ namespace radio {
         ~Radio();
         void start();
         void getOutput(FILE *file);
-
+        static bool isTestModeOn();
         // EXEC ARGS FUNCS
         void all();
         void show_help(std::string);
@@ -67,6 +67,7 @@ namespace radio {
         void no_audio(std::string);
         void set_run_server_cmd(std::string cmd);
         void set_resource_path(std::string path);
+        void set_test_mode(std::string);
     };
 
     void Radio::all()
@@ -90,6 +91,7 @@ namespace radio {
         this->add("-rsc", &Radio::set_run_server_cmd);
         this->add("--resource", &Radio::set_resource_path);
         this->add("-res", &Radio::set_resource_path);
+        this->add("--test", &Radio::set_test_mode);
     }
 
 } // namespace radio

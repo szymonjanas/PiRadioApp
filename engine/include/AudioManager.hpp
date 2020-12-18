@@ -36,9 +36,7 @@ namespace radio {
         int getVolume();
 
         static std::string stateToString(audio::STATE state);
-        static audio::STATE stringToState(std::string state);
-
-        
+        static audio::STATE stringToState(std::string state);      
 
     };
 

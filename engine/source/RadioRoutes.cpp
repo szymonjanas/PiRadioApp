@@ -76,6 +76,7 @@ namespace radio
             audio->setStation(
                 database->getPrev(audio->getStation())
                 );
+            audio->setState(audio::STATE::PLAY);
             reply.setCode(200);
             reply.setMessage("Station switch: previous");
             Log::debug("Station switch: previous");
@@ -96,6 +97,7 @@ namespace radio
                 audio->getStation()->setPlaying(false);
             audio->setStation(
                 database->getNext(audio->getStation()));
+            audio->setState(audio::STATE::PLAY);
             reply.setCode(200);
             reply.setMessage("Station switch: next");
             Log::debug("Station switch: next");
@@ -181,9 +183,16 @@ namespace radio
 
     void Routes::audio_volume_set(ipc::message::IPCRecived &recive, ipc::message::IPCReply &reply)
     {
+        if (audio->getState() == audio::STATE::STOP) {
+            reply.setCode(200);
+            reply.setMessage("NOK, station must be setted first!");
+            nlohmann::json data;
+            data["volume"] = audio->getVolume();
+            reply.setValue(data);
+            return;
+        }
         int volume = recive.getValue()["volume"].get<int>();
         Log::debug("volume set: " + std::to_string(volume));
-        audio->setVolume(volume);
         reply.setCode(200);
         reply.setMessage("OK");
         nlohmann::json data;
