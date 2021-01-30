@@ -11,6 +11,7 @@ if __name__ == "__main__":
     runServerFlag = True
     debugFlag = False
     testsFlag = True
+    runningTestFlag = False
     for arg in sys.argv:
         if arg == "--debug":
             debugFlag = True
@@ -33,6 +34,9 @@ if __name__ == "__main__":
         if arg == "--help" or arg == "-h":
             print("Help: [--debug] [--ipc-debug] [--help] [--basic] [--test_engine] [-te] [--test_server] [-ts] [--off_server] [-offs] [--off_engine] [-offe] [--off]")
             testsFlag = False
+        if arg == '--test-when-running':
+            testsFlag = False
+            runningTestFlag = True
 
     if testsFlag:
         pidEngine = None
@@ -64,3 +68,8 @@ if __name__ == "__main__":
             pidServer.terminate()
         if pidEngine != None:
             pidEngine.terminate()
+
+    if runningTestFlag:
+        time.sleep(4)
+        test_server_api.URL = "http://localhost:8081/radio/api/"
+        test_server_api.start()

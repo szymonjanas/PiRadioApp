@@ -62,3 +62,7 @@ script:
   - sudo sh uninstall.sh
   - cd /home/travis/build/szymonjanas/PiRadioApp/scripts
   - sh clean.sh
+  
+  - cd ..
+  - python3 tests/ --test-when-running
+

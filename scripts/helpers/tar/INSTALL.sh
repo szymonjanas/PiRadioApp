@@ -20,4 +20,7 @@ apt install -y gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-p
 # Installing app folder in /opt (optional) directory, due to linux directory assignments.
 mv -v PiRadioApp /opt
 
+# Run piradio.service
+systemctl start piradio.service
+
 echo "Done. If everythink went good, you can remove this folder!"
