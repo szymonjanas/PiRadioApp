@@ -21,6 +21,6 @@ apt install -y gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-p
 mv -v PiRadioApp /opt
 
 # Run piradio.service
+systemctl enable piradio.service
 systemctl start piradio.service
-
 echo "Done. If everythink went good, you can remove this folder!"
