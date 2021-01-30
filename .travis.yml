@@ -58,11 +58,11 @@ script:
   - cd ..
   - cd deploy/tar/piradio/
   - sudo sh INSTALL.sh
+  
+  - cd /home/travis/build/szymonjanas/PiRadioApp/scripts
+  - python3 tests/ --test-when-running
+
   - cd /opt/PiRadioApp
   - sudo sh uninstall.sh
   - cd /home/travis/build/szymonjanas/PiRadioApp/scripts
   - sh clean.sh
-  
-  - cd ..
-  - python3 tests/ --test-when-running
-
