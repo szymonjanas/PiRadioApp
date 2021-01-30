@@ -43,7 +43,7 @@ script:
   - cd /usr/src/gtest
   - sudo cmake CMakeLists.txt
   - sudo make
-  - cd /home/travis/build/PiRadioApp/PiRadioApp
+  - cd /home/travis/build/szymonjanas/PiRadioApp
 
   # COMPILE AND RUN
   - cd scripts
@@ -57,8 +57,8 @@ script:
   - sh deploy-tar.sh
   - cd ..
   - cd deploy/tar/piradio/
-  - sh INSTALL.sh
+  - sudo sh INSTALL.sh
   - cd /opt/PiRadioApp
-  - sh uninstall.sh
-  - cd /home/travis/build/PiRadioApp/PiRadioApp/scripts
+  - sudo sh uninstall.sh
+  - cd /home/travis/build/szymonjanas/PiRadioApp/scripts
   - sh clean.sh

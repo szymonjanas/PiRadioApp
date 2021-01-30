@@ -1,6 +1,6 @@
 
 # <img src="server/resources/favicon.png" width="32">  PiRadio
-[![Build Status](https://travis-ci.com/PiRadioApp/PiRadioApp.svg?branch=master)](https://travis-ci.com/PiRadioApp/PiRadioApp)
+[![Build Status](https://travis-ci.com/szymonjanas/PiRadioApp.svg?branch=master)](https://travis-ci.com/szymonjanas/PiRadioApp)
 ## Description
 ```
 Simple embedded radio player.
