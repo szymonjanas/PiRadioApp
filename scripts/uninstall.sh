@@ -3,6 +3,7 @@ echo "sudo required!"
 
 echo "INFO stopping piradio.service!"
 systemctl stop piradio.service
+systemctl disable piradio.service
 
 echo "INFO remove piradio.service"
 rm -fv /etc/systemd/system/piradio.service
