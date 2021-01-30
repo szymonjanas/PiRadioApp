@@ -59,7 +59,7 @@ script:
   - cd deploy/tar/piradio/
   - sudo sh INSTALL.sh
   
-  - cd /home/travis/build/szymonjanas/PiRadioApp/scripts
+  - cd /home/travis/build/szymonjanas/PiRadioApp/
   - python3 tests/ --test-when-running
 
   - cd /opt/PiRadioApp
