@@ -21,6 +21,7 @@ cp -v PiRadioApp ../deploy/deb/piradio/opt/PiRadioApp
 cp -v libPiRadioAppEngineLib.so ../deploy/deb/piradio/opt/PiRadioApp
 cp -v server ../deploy/deb/piradio/opt/PiRadioApp
 cd ..
+cp -v scripts/uninstall.sh deploy/deb/piradio/opt/PiRadioApp
 
 mkdir -v -p deploy/deb/piradio/etc/systemd/system
 cp -v scripts/helpers/piradio.service deploy/deb/piradio/etc/systemd/system

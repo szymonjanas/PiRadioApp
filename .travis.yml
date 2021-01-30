@@ -52,3 +52,13 @@ script:
   - ./build/PiRadioApp-engine-utests
 
   - python3 tests/
+
+  - cd scripts/
+  - sh deploy-tar.sh
+  - cd ..
+  - cd deploy/tar/piradio/
+  - sh INSTALL.sh
+  - cd /opt/PiRadioApp
+  - sh uninstall.sh
+  - cd /home/travis/build/PiRadioApp/PiRadioApp/scripts
+  - sh clean.sh
