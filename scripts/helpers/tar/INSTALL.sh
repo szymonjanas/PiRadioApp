@@ -9,15 +9,15 @@ echo ""
 # can be daemon reload required: sudo systemctl daemon-reload
 # more: systemctl --help
 
-mv -f PiRadioApp/piradio.service /etc/systemd/system
+mv -fv PiRadioApp/piradio.service /etc/systemd/system
 
 # To link library
-mv -f PiRadioApp/piradio.conf /etc/ld.so.conf.d
+mv -fv PiRadioApp/piradio.conf /etc/ld.so.conf.d
 
 # Addictional gst plugins for service all streams
-apt install gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-ugly
+apt install -y gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-ugly
 
 # Installing app folder in /opt (optional) directory, due to linux directory assignments.
-mv PiRadioApp /opt
+mv -v PiRadioApp /opt
 
 echo "Done. If everythink went good, you can remove this folder!"
