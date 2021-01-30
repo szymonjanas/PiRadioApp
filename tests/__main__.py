@@ -70,6 +70,6 @@ if __name__ == "__main__":
             pidEngine.terminate()
 
     if runningTestFlag:
-        time.sleep(4)
-        test_server_api.URL = "http://localhost:8081/radio/api/"
+        time.sleep(10)
+        test_server_api.URL = "http://127.0.0.1:8081/radio/api/"
         test_server_api.test.start()
