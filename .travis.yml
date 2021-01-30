@@ -60,6 +60,8 @@ script:
   - sudo sh INSTALL.sh
   
   - cd /home/travis/build/szymonjanas/PiRadioApp/
+  - sudo cp test-database.json /opt/PiRadioApp/database.json
+  - sudo systemctl reload piradio.service
   - python3 tests/ --test-when-running
 
   - cd /opt/PiRadioApp
