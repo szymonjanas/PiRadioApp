@@ -1,18 +1,14 @@
 echo "Uninstall application"
 echo "sudo required!"
 
-
-echo "Stopping piradio.service!"
+echo "INFO stopping piradio.service!"
 systemctl stop piradio.service
 
-echo "Remove piradio.service"
+echo "INFO remove piradio.service"
 rm -fv /etc/systemd/system/piradio.service
 
-echo "remove piradio.conf"
+echo "INFO remove piradio.conf"
 rm -fv /etc/ld.so.conf.d/piradio.conf
 
-echo "remove PiRadioApp"
+echo "INFO remove PiRadioApp"
 rm -rfv /opt/PiRadioApp
-
-echo "Please restart daemon with command: sudo systemctl daemon-reload"
-echo "or stop service with"
